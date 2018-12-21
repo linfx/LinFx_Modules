@@ -13,7 +13,7 @@ using ShopFx.Catalog.Api.ViewModel;
 
 namespace ShopFx.Catalog.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/catalog")]
     [ApiController]
     public class CatalogController : ControllerBase
     {
@@ -130,9 +130,68 @@ namespace ShopFx.Catalog.Api.Controllers
             return Ok(model);
         }
 
+        // GET api/v1/[controller]/items/type/1/brand[?pageSize=3&pageIndex=10]
+        [HttpGet]
+        [Route("items/type/{catalogTypeId}/brand/{catalogBrandId:int?}")]
+        [ProducesResponseType(typeof(PaginatedItemsViewModel<CatalogItem>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Items(int catalogTypeId, int? catalogBrandId, [FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0)
+        {
+            var root = (IQueryable<CatalogItem>)_catalogContext.CatalogItems;
+
+            root = root.Where(ci => ci.CatalogTypeId == catalogTypeId);
+
+            if (catalogBrandId.HasValue)
+            {
+                root = root.Where(ci => ci.CatalogBrandId == catalogBrandId);
+            }
+
+            var totalItems = await root
+                .LongCountAsync();
+
+            var itemsOnPage = await root
+                .Skip(pageSize * pageIndex)
+                .Take(pageSize)
+                .ToListAsync();
+
+            //itemsOnPage = ChangeUriPlaceholder(itemsOnPage);
+
+            var model = new PaginatedItemsViewModel<CatalogItem>(
+                pageIndex, pageSize, totalItems, itemsOnPage);
+
+            return Ok(model);
+        }
+        // GET api/v1/[controller]/items/type/all/brand[?pageSize=3&pageIndex=10]
+        [HttpGet]
+        [Route("items/type/all/brand/{catalogBrandId:int?}")]
+        [ProducesResponseType(typeof(PaginatedItemsViewModel<CatalogItem>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Items(int? catalogBrandId, [FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0)
+        {
+            var root = (IQueryable<CatalogItem>)_catalogContext.CatalogItems;
+
+            if (catalogBrandId.HasValue)
+            {
+                root = root.Where(ci => ci.CatalogBrandId == catalogBrandId);
+            }
+
+            var totalItems = await root
+                .LongCountAsync();
+
+            var itemsOnPage = await root
+                .Skip(pageSize * pageIndex)
+                .Take(pageSize)
+                .ToListAsync();
+
+            //itemsOnPage = ChangeUriPlaceholder(itemsOnPage);
+
+            var model = new PaginatedItemsViewModel<CatalogItem>(
+                pageIndex, pageSize, totalItems, itemsOnPage);
+
+            return Ok(model);
+        }
+
         // GET api/v1/[controller]/CatalogTypes
         [HttpGet]
-        [Route("[action]")]
+        [Route("catalogTypes")]
         [ProducesResponseType(typeof(List<CatalogItem>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> CatalogTypes()
         {
@@ -142,7 +201,7 @@ namespace ShopFx.Catalog.Api.Controllers
 
         // GET api/v1/[controller]/CatalogBrands
         [HttpGet]
-        [Route("[action]")]
+        [Route("catalogBrands")]
         [ProducesResponseType(typeof(List<CatalogItem>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> CatalogBrands()
         {

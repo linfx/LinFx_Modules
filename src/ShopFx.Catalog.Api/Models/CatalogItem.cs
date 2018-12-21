@@ -1,8 +1,9 @@
-﻿using System;
+﻿using LinFx.Domain.Entities;
+using System;
 
 namespace ShopFx.Catalog.Api.Models
 {
-    public class CatalogItem
+    public class CatalogItem : IEntity<int>
     {
         public int Id { get; set; }
 
@@ -24,23 +25,25 @@ namespace ShopFx.Catalog.Api.Models
 
         public CatalogBrand CatalogBrand { get; set; }
 
-        // Quantity in stock
+        /// <summary>
+        /// 库存数量 Quantity in stock
+        /// </summary>
         public int AvailableStock { get; set; }
 
-        // Available stock at which we should reorder
+        /// <summary>
+        /// Available stock at which we should reorder
+        /// </summary>
         public int RestockThreshold { get; set; }
 
-
-        // Maximum number of units that can be in-stock at any time (due to physicial/logistical constraints in warehouses)
+        /// <summary>
+        /// 最大库存数 Maximum number of units that can be in-stock at any time (due to physicial/logistical constraints in warehouses)
+        /// </summary>
         public int MaxStockThreshold { get; set; }
 
         /// <summary>
         /// True if item is on reorder
         /// </summary>
         public bool OnReorder { get; set; }
-
-        public CatalogItem() { }
-
 
         /// <summary>
         /// Decrements the quantity of a particular item in inventory and ensures the restockThreshold hasn't
@@ -66,9 +69,9 @@ namespace ShopFx.Catalog.Api.Models
             //    throw new CatalogDomainException($"Item units desired should be greater than cero");
             //}
 
-            int removed = Math.Min(quantityDesired, this.AvailableStock);
+            int removed = Math.Min(quantityDesired, AvailableStock);
 
-            this.AvailableStock -= removed;
+            AvailableStock -= removed;
 
             return removed;
         }
@@ -80,23 +83,23 @@ namespace ShopFx.Catalog.Api.Models
         /// </summary>
         public int AddStock(int quantity)
         {
-            int original = this.AvailableStock;
+            int original = AvailableStock;
 
             // The quantity that the client is trying to add to stock is greater than what can be physically accommodated in the Warehouse
-            if ((this.AvailableStock + quantity) > this.MaxStockThreshold)
+            if ((AvailableStock + quantity) > MaxStockThreshold)
             {
                 // For now, this method only adds new units up maximum stock threshold. In an expanded version of this application, we
                 //could include tracking for the remaining units and store information about overstock elsewhere. 
-                this.AvailableStock += (this.MaxStockThreshold - this.AvailableStock);
+                AvailableStock += MaxStockThreshold - AvailableStock;
             }
             else
             {
-                this.AvailableStock += quantity;
+                AvailableStock += quantity;
             }
 
-            this.OnReorder = false;
+            OnReorder = false;
 
-            return this.AvailableStock - original;
+            return AvailableStock - original;
         }
     }
 }
