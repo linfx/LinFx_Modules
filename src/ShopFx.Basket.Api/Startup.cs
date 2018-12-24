@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +25,11 @@ namespace ShopFx.Basket
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services
+                .AddCustomMVC(Configuration)
+                .AddCustomDbContext(Configuration)
+                .AddCustomOptions(Configuration)
+                .AddSwagger();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,7 +40,97 @@ namespace ShopFx.Basket
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
+            app.UseMvcWithDefaultRoute();
+
+            app.UseSwagger()
+              .UseSwaggerUI(c =>
+              {
+                  c.SwaggerEndpoint($"http://localhost:5103/swagger/v1/swagger.json", "Basket.API v1");
+              });
+        }
+    }
+
+    public static class CustomExtensionMethods
+    {
+        public static IServiceCollection AddCustomMVC(this IServiceCollection services, IConfiguration configuration)
+        {
+            //services.AddHealthChecks(checks =>
+            //{
+            //    var minutes = 1;
+            //    if (int.TryParse(configuration["HealthCheck:Timeout"], out var minutesParsed))
+            //    {
+            //        minutes = minutesParsed;
+            //    }
+            //    checks.AddSqlCheck("CatalogDb", configuration["ConnectionString"], TimeSpan.FromMinutes(minutes));
+
+            //    var accountName = configuration.GetValue<string>("AzureStorageAccountName");
+            //    var accountKey = configuration.GetValue<string>("AzureStorageAccountKey");
+            //    if (!string.IsNullOrEmpty(accountName) && !string.IsNullOrEmpty(accountKey))
+            //    {
+            //        checks.AddAzureBlobStorageCheck(accountName, accountKey);
+            //    }
+            //});
+
+            services.AddMvc(options =>
+            {
+                //options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+            }).AddControllersAsServices();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
+        {
+            return services;
+        }
+
+        public static IServiceCollection AddCustomOptions(this IServiceCollection services, IConfiguration configuration)
+        {
+            //services.Configure<CatalogSettings>(configuration);
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var problemDetails = new ValidationProblemDetails(context.ModelState)
+                    {
+                        Instance = context.HttpContext.Request.Path,
+                        Status = StatusCodes.Status400BadRequest,
+                        Detail = "Please refer to the errors property for additional details."
+                    };
+
+                    return new BadRequestObjectResult(problemDetails)
+                    {
+                        ContentTypes = { "application/problem+json", "application/problem+xml" }
+                    };
+                };
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(options =>
+            {
+                options.DescribeAllEnumsAsStrings();
+                options.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
+                {
+                    Title = "ShopFx - Basket HTTP API",
+                    Version = "v1",
+                    Description = "The Basket Microservice HTTP API.",
+                    TermsOfService = "Terms Of Service"
+                });
+            });
+            return services;
         }
     }
 }

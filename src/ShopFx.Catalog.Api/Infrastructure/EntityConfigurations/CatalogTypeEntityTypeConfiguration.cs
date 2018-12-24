@@ -14,7 +14,7 @@ namespace ShopFx.Catalog.Api.Infrastructure.EntityConfigurations
             builder.HasKey(ci => ci.Id);
 
             builder.Property(ci => ci.Id)
-               .ForSqlServerUseSequenceHiLo("catalog_type_hilo")
+               //.ForSqlServerUseSequenceHiLo("catalog_type_hilo")
                .IsRequired();
 
             builder.Property(cb => cb.Type)

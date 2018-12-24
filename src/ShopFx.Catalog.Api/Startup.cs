@@ -1,7 +1,15 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ShopFx.Catalog.Api;
+using ShopFx.Catalog.Api.Infrastructure;
+using System;
+using System.Reflection;
 
 namespace ShopFx.Catalog
 {
@@ -19,6 +27,8 @@ namespace ShopFx.Catalog
         {
             services
                 .AddCustomMVC(Configuration)
+                .AddCustomDbContext(Configuration)
+                .AddCustomOptions(Configuration)
                 .AddSwagger();
         }
 
@@ -35,7 +45,7 @@ namespace ShopFx.Catalog
             app.UseSwagger()
               .UseSwaggerUI(c =>
               {
-                  c.SwaggerEndpoint($"http://localhost:5101/swagger/v1/swagger.json", "Catalog.API V1");
+                  c.SwaggerEndpoint($"http://localhost:5101/swagger/v1/swagger.json", "Catalog.API v1");
               });
         }
     }
@@ -78,6 +88,62 @@ namespace ShopFx.Catalog
             return services;
         }
 
+        public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<CatalogContext>(options =>
+            {
+                options.UseMySql(configuration.GetConnectionString("DefaultConnection"),
+                                     sqlOptions =>
+                                     {
+                                         sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                                         //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
+                                         sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                                     });
+
+                // Changing default behavior when client evaluation occurs to throw. 
+                // Default in EF Core would be to log a warning when client evaluation is performed.
+                options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
+                //Check Client vs. Server evaluation: https://docs.microsoft.com/en-us/ef/core/querying/client-eval
+            });
+
+            //services.AddDbContext<IntegrationEventLogContext>(options =>
+            //{
+            //    options.UseSqlServer(configuration["ConnectionString"],
+            //                         sqlServerOptionsAction: sqlOptions =>
+            //                         {
+            //                             sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+            //                             //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
+            //                             sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+            //                         });
+            //});
+
+            return services;
+        }
+
+        public static IServiceCollection AddCustomOptions(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<CatalogSettings>(configuration);
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var problemDetails = new ValidationProblemDetails(context.ModelState)
+                    {
+                        Instance = context.HttpContext.Request.Path,
+                        Status = StatusCodes.Status400BadRequest,
+                        Detail = "Please refer to the errors property for additional details."
+                    };
+
+                    return new BadRequestObjectResult(problemDetails)
+                    {
+                        ContentTypes = { "application/problem+json", "application/problem+xml" }
+                    };
+                };
+            });
+
+            return services;
+        }
+
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(options =>
@@ -87,12 +153,11 @@ namespace ShopFx.Catalog
                 {
                     Title = "ShopFx - Catalog HTTP API",
                     Version = "v1",
-                    Description = "The Catalog Microservice HTTP API. This is a Data-Driven/CRUD microservice sample",
+                    Description = "The Catalog Microservice HTTP API.",
                     TermsOfService = "Terms Of Service"
                 });
             });
             return services;
-
         }
     }
 }
