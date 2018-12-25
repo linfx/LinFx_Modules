@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Identity.Api.Data;
+using Identity.Api.Infrastructure;
 using Identity.Api.Models;
 using Identity.Api.Services;
 using IdentityServer4.Services;

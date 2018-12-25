@@ -1,6 +1,6 @@
-﻿using ShopFx.Catalog.Api.Models;
+﻿using Catalog.Api.Models;
 
-namespace ShopFx.Catalog.Api.Extensions
+namespace Catalog.Api.Extensions
 {
     public static class CatalogItemExtensions
     {

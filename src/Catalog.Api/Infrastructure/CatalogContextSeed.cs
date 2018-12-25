@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
-using ShopFx.Catalog.Api.Extensions;
-using ShopFx.Catalog.Api.Models;
+using Catalog.Api.Extensions;
+using Catalog.Api.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace ShopFx.Catalog.Api.Infrastructure
+namespace Catalog.Api.Infrastructure
 {
     public class CatalogContextSeed
     {

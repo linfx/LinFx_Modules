@@ -1,8 +1,8 @@
-﻿using IdentityServer4.EntityFramework.DbContexts;
+﻿using Identity.Api.Infrastructure;
+using IdentityServer4.EntityFramework.DbContexts;
 using LinFx.Web.Extensions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Identity.Api.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

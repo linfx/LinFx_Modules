@@ -1,12 +1,9 @@
-﻿using LinFx.Domain.Entities;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
 
-namespace ShopFx.Catalog.Api.Models
+namespace Catalog.Api.Models
 {
-    public class CatalogItem : IEntity<int>
+    public class CatalogItem
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public string Name { get; set; }

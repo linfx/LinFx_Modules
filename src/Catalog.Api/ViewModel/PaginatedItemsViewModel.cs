@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ShopFx.Catalog.Api.ViewModel
+namespace Catalog.Api.ViewModel
 {
     public class PaginatedItemsViewModel<TEntity> where TEntity : class
     {

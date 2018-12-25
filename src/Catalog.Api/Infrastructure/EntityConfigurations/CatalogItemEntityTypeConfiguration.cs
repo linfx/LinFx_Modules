@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ShopFx.Catalog.Api.Models;
+using Catalog.Api.Models;
 
-namespace ShopFx.Catalog.Api.Infrastructure.EntityConfigurations
+namespace Catalog.Api.Infrastructure.EntityConfigurations
 {
     class CatalogItemEntityTypeConfiguration : IEntityTypeConfiguration<CatalogItem>
     {

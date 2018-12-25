@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ShopFx.Catalog.Api.Extensions
+namespace Catalog.Api.Extensions
 {
     public static class LinqSelectExtensions
     {

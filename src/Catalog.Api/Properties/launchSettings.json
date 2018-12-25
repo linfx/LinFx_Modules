@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "ShopFx.Catalog": {
+    "Catalog.Api": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

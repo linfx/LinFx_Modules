@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ShopFx.Catalog.Api
+﻿namespace Catalog.Api
 {
     public class CatalogSettings
     {

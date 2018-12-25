@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ShopFx.Catalog.Api.Models;
+using Catalog.Api.Models;
 
-namespace ShopFx.Catalog.Api.Infrastructure.EntityConfigurations
+namespace Catalog.Api.Infrastructure.EntityConfigurations
 {
-    class CatalogTypeEntityTypeConfiguration
-        : IEntityTypeConfiguration<CatalogType>
+    class CatalogTypeEntityTypeConfiguration : IEntityTypeConfiguration<CatalogType>
     {
         public void Configure(EntityTypeBuilder<CatalogType> builder)
         {

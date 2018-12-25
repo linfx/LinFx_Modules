@@ -4,10 +4,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using ShopFx.Catalog.Api;
-using ShopFx.Catalog.Api.Infrastructure;
+using Catalog.Api.Infrastructure;
 
-namespace ShopFx.Catalog
+namespace Catalog.Api
 {
     public class Program
     {
@@ -20,15 +19,17 @@ namespace ShopFx.Catalog
                     var settings = services.GetService<IOptions<CatalogSettings>>();
                     var logger = services.GetService<ILogger<CatalogContextSeed>>();
 
-                    //new CatalogContextSeed()
-                    //    .SeedAsync(context, env, settings, logger)
-                    //    .Wait();
+                    new CatalogContextSeed()
+                        .SeedAsync(context, env, settings, logger)
+                        .Wait();
                 })
                 .Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                //.UseContentRoot(Directory.GetCurrentDirectory())
+                .UseWebRoot("Pics")
                 .UseStartup<Startup>();
     }
 }

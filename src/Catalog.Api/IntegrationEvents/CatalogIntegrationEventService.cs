@@ -1,13 +1,13 @@
 ﻿using LinFx.Extensions.EventBus.Abstractions;
 using LinFx.Extensions.EventBus.Events;
-using ShopFx.Catalog.Api.Infrastructure;
+using Catalog.Api.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ShopFx.Catalog.Api.IntegrationEvents
+namespace Catalog.Api.IntegrationEvents
 {
     public class CatalogIntegrationEventService : ICatalogIntegrationEventService
     {

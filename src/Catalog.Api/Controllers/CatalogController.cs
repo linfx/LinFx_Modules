@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using ShopFx.Catalog.Api.Infrastructure;
-using ShopFx.Catalog.Api.IntegrationEvents;
-using ShopFx.Catalog.Api.Models;
-using ShopFx.Catalog.Api.ViewModel;
+using Catalog.Api.Infrastructure;
+using Catalog.Api.IntegrationEvents;
+using Catalog.Api.Models;
+using Catalog.Api.ViewModel;
+using Catalog.Api.Extensions;
 
-namespace ShopFx.Catalog.Api.Controllers
+namespace Catalog.Api.Controllers
 {
     [ApiController]
-    //[ApiVersion("v1")]
+    [ApiVersion("1.0")]
     [Route("api/v1/catalog")]
     public class CatalogController : ControllerBase
     {
@@ -54,32 +55,12 @@ namespace ShopFx.Catalog.Api.Controllers
                 .Take(pageSize)
                 .ToListAsync();
 
-            //itemsOnPage = ChangeUriPlaceholder(itemsOnPage);
+            itemsOnPage = ChangeUriPlaceholder(itemsOnPage);
 
             var model = new PaginatedItemsViewModel<CatalogItem>(
                 pageIndex, pageSize, totalItems, itemsOnPage);
 
             return Ok(model);
-        }
-
-        private IActionResult GetItemsByIds(string ids)
-        {
-            var numIds = ids.Split(',')
-                .Select(id => (Ok: int.TryParse(id, out int x), Value: x));
-
-            if (!numIds.All(nid => nid.Ok))
-            {
-                return BadRequest("ids value invalid. Must be comma-separated list of numbers");
-            }
-
-            var idsToSelect = numIds
-                .Select(id => id.Value);
-
-            var items = _catalogContext.CatalogItems.Where(ci => idsToSelect.Contains(ci.Id)).ToList();
-
-            //items = ChangeUriPlaceholder(items);
-
-            return Ok(items);
         }
 
         [HttpGet]
@@ -123,7 +104,7 @@ namespace ShopFx.Catalog.Api.Controllers
                 .Take(pageSize)
                 .ToListAsync();
 
-            //itemsOnPage = ChangeUriPlaceholder(itemsOnPage);
+            itemsOnPage = ChangeUriPlaceholder(itemsOnPage);
 
             var model = new PaginatedItemsViewModel<CatalogItem>(
                 pageIndex, pageSize, totalItems, itemsOnPage);
@@ -154,7 +135,7 @@ namespace ShopFx.Catalog.Api.Controllers
                 .Take(pageSize)
                 .ToListAsync();
 
-            //itemsOnPage = ChangeUriPlaceholder(itemsOnPage);
+            itemsOnPage = ChangeUriPlaceholder(itemsOnPage);
 
             var model = new PaginatedItemsViewModel<CatalogItem>(
                 pageIndex, pageSize, totalItems, itemsOnPage);
@@ -182,7 +163,7 @@ namespace ShopFx.Catalog.Api.Controllers
                 .Take(pageSize)
                 .ToListAsync();
 
-            //itemsOnPage = ChangeUriPlaceholder(itemsOnPage);
+            itemsOnPage = ChangeUriPlaceholder(itemsOnPage);
 
             var model = new PaginatedItemsViewModel<CatalogItem>(
                 pageIndex, pageSize, totalItems, itemsOnPage);
@@ -286,6 +267,39 @@ namespace ShopFx.Catalog.Api.Controllers
             _catalogContext.CatalogItems.Remove(product);
             await _catalogContext.SaveChangesAsync();
             return NoContent();
+        }
+
+        private IActionResult GetItemsByIds(string ids)
+        {
+            var numIds = ids.Split(',')
+                .Select(id => (Ok: int.TryParse(id, out int x), Value: x));
+
+            if (!numIds.All(nid => nid.Ok))
+            {
+                return BadRequest("ids value invalid. Must be comma-separated list of numbers");
+            }
+
+            var idsToSelect = numIds
+                .Select(id => id.Value);
+
+            var items = _catalogContext.CatalogItems.Where(ci => idsToSelect.Contains(ci.Id)).ToList();
+
+            items = ChangeUriPlaceholder(items);
+
+            return Ok(items);
+        }
+
+        private List<CatalogItem> ChangeUriPlaceholder(List<CatalogItem> items)
+        {
+            var baseUri = _settings.PicBaseUrl;
+            var azureStorageEnabled = _settings.AzureStorageEnabled;
+
+            foreach (var item in items)
+            {
+                item.FillProductUrl(baseUri, azureStorageEnabled: azureStorageEnabled);
+            }
+
+            return items;
         }
     }
 }

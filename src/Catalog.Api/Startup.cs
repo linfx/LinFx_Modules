@@ -6,12 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ShopFx.Catalog.Api;
-using ShopFx.Catalog.Api.Infrastructure;
+using Catalog.Api.Infrastructure;
 using System;
 using System.Reflection;
+using LinFx.Extensions.EventBus.RabbitMQ;
+using Catalog.Api.IntegrationEvents;
 
-namespace ShopFx.Catalog
+namespace Catalog.Api
 {
     public class Startup
     {
@@ -25,10 +26,26 @@ namespace ShopFx.Catalog
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLinFx()
+                .AddEventBus(options =>
+                {
+                    options.Durable = true;
+                    options.BrokerName = "shopfx_event_bus";
+                    options.QueueName = "shopfx_process_queue";
+                    options.ConfigureEventBus = (fx, builder) => builder.UseRabbitMQ(fx, x =>
+                    {
+                        x.Host = "14.21.34.85";
+                        x.UserName = "admin";
+                        x.Password = "admin.123456";
+                    });
+                });
+
             services
                 .AddCustomMVC(Configuration)
                 .AddCustomDbContext(Configuration)
                 .AddCustomOptions(Configuration)
+                .AddIntegrationServices(Configuration)
+                .AddEventBus(Configuration)
                 .AddSwagger();
         }
 
@@ -144,12 +161,28 @@ namespace ShopFx.Catalog
             return services;
         }
 
+        public static IServiceCollection AddIntegrationServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddTransient<ICatalogIntegrationEventService, CatalogIntegrationEventService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddEventBus(this IServiceCollection services, IConfiguration configuration)
+        {
+            //services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
+            //services.AddTransient<OrderStatusChangedToAwaitingValidationIntegrationEventHandler>();
+            //services.AddTransient<OrderStatusChangedToPaidIntegrationEventHandler>();
+
+            return services;
+        }
+
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
             services.AddApiVersioning(options =>
             {
                 options.AssumeDefaultVersionWhenUnspecified = true;
-                options.ReportApiVersions = false;
+                options.DefaultApiVersion = ApiVersion.Default;
             });
 
             services.AddSwaggerGen(options =>
@@ -160,7 +193,6 @@ namespace ShopFx.Catalog
                     Title = "ShopFx - Catalog HTTP API",
                     Version = "v1",
                     Description = "The Catalog Microservice HTTP API.",
-                    TermsOfService = "Terms Of Service"
                 });
             });
             return services;
