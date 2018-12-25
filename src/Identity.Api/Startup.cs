@@ -80,7 +80,7 @@ namespace Identity.Api
                 x.Authentication.CookieLifetime = TimeSpan.FromHours(2);
             })
             //.AddSigningCredential(Certificate.Get())
-            //.AddDeveloperSigningCredential()
+            .AddDeveloperSigningCredential()
             //.AddInMemoryIdentityResources(Clients.GetIdentityResources())
             //.AddInMemoryApiResources(Clients.GetApiResources())
             //.AddInMemoryClients(Clients.Get())
