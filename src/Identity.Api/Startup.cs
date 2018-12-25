@@ -1,14 +1,14 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Identity.Api.Data;
+using Identity.Api.Models;
+using Identity.Api.Services;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.eShopOnContainers.Services.Identity.API.Data;
-using Microsoft.eShopOnContainers.Services.Identity.API.Models;
-using Microsoft.eShopOnContainers.Services.Identity.API.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -33,7 +33,7 @@ namespace Identity.Api
 
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
-             options.UseMySql(Configuration["ConnectionString"],
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
                         sqlOptions =>
                         {
                             sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
@@ -71,7 +71,7 @@ namespace Identity.Api
             services.AddTransient<ILoginService<ApplicationUser>, EFLoginService>();
             services.AddTransient<IRedirectService, RedirectService>();
 
-            var connectionString = Configuration["ConnectionString"];
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
             // Adds IdentityServer
@@ -81,7 +81,7 @@ namespace Identity.Api
                 x.Authentication.CookieLifetime = TimeSpan.FromHours(2);
             })
             //.AddSigningCredential(Certificate.Get())
-            .AddDeveloperSigningCredential()
+            //.AddDeveloperSigningCredential()
             //.AddInMemoryIdentityResources(Clients.GetIdentityResources())
             //.AddInMemoryApiResources(Clients.GetApiResources())
             //.AddInMemoryClients(Clients.Get())
@@ -91,37 +91,33 @@ namespace Identity.Api
             .AddConfigurationStore(options =>
             {
                 options.ConfigureDbContext = builder => builder.UseMySql(connectionString,
-                                    sqlOptions =>
-                                    {
-                                        sqlOptions.MigrationsAssembly(migrationsAssembly);
-                                        //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-                                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-                                    });
+                    sqlOptions =>
+                    {
+                        sqlOptions.MigrationsAssembly(migrationsAssembly);
+                        //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
+                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                    });
             })
             .AddOperationalStore(options =>
                 {
                     options.ConfigureDbContext = builder => builder.UseMySql(connectionString,
-                                    sqlOptions =>
-                                    {
-                                        sqlOptions.MigrationsAssembly(migrationsAssembly);
-                                        //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-                                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-                                    });
+                        sqlOptions =>
+                        {
+                            sqlOptions.MigrationsAssembly(migrationsAssembly);
+                            //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
+                            sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                        });
                 })
             .Services.AddTransient<IProfileService, ProfileService>();
 
             var container = new ContainerBuilder();
             container.Populate(services);
-
             return new AutofacServiceProvider(container.Build());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            //loggerFactory.AddAzureWebAppDiagnostics();
-            //loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Trace);
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -146,7 +142,6 @@ namespace Identity.Api
 
             app.UseStaticFiles();
 
-
             // Make work identity server redirections in Edge and lastest versions of browers. WARN: Not valid in a production environment.
             app.Use(async (context, next) =>
             {
@@ -155,15 +150,8 @@ namespace Identity.Api
             });
 
             app.UseForwardedHeaders();
-            // Adds IdentityServer
             app.UseIdentityServer();
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvcWithDefaultRoute();
         }
 
         private void RegisterAppInsights(IServiceCollection services)

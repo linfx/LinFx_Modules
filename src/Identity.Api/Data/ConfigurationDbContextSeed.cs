@@ -13,7 +13,7 @@ namespace Identity.Api.Data
 {
     public class ConfigurationDbContextSeed
     {
-        public async Task SeedAsync(ConfigurationDbContext context,IConfiguration configuration)
+        public async Task SeedAsync(ConfigurationDbContext context, IConfiguration configuration)
         {
             //callbacks urls from config:
             var clientUrls = new Dictionary<string, string>

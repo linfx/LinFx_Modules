@@ -1,5 +1,4 @@
-﻿using IdentityModel;
-using IdentityServer4;
+﻿using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
 
@@ -31,68 +30,6 @@ namespace Identity.Api.Configuration
                 new ApiResource("webshoppingagg", "Web Shopping Aggregator"),
                 new ApiResource("orders", "Orders Service"),
                 new ApiResource("orders.signalrhub", "Ordering Signalr Hub"),
-
-                //Tc.Park.Api
-                new ApiResource
-                {
-                    Name = "api3",
-                    Description = "iot.park.api",
-                    UserClaims =
-                    {
-                        JwtClaimTypes.ClientId,
-                    },
-                    Scopes =
-                    {
-                        new Scope
-                        {
-                            Name = "api3",
-                            DisplayName = "iot.park.api"
-                        },
-                        new Scope
-                        {
-                            Name = "api3.device",
-                            DisplayName = "device"
-                        },
-                        new Scope
-                        {
-                            Name = "api3.application",
-                            DisplayName = "application"
-                        },
-                    }
-                },
-
-                //Tc.ParkWeb
-                new ApiResource
-                {
-                    Name = "api4",
-                    Description = "iot.park.web",
-                    UserClaims =
-                    {
-                        JwtClaimTypes.Name,
-                        JwtClaimTypes.Role,
-                    },
-                    Scopes =
-                    {
-                        new Scope
-                        {
-                            Name = "api4",
-                            DisplayName = "iot.park.web"
-                        },
-                        new Scope
-                        {
-                            Name = "api4.admin",
-                            DisplayName = "admin"
-                        },
-                        new Scope
-                        {
-                            Name = "api3.develop",
-                            DisplayName = "develop"
-                        },
-                    }
-                },
-
-
-
             };
         }
 
@@ -101,107 +38,6 @@ namespace Identity.Api.Configuration
         {
             return new List<Client>
             {
-                //iot.park client
-                new Client
-                {
-                    ClientId = "iot.park.web",
-                    ClientName = "Tc.Park.Web",
-                    ClientSecrets = { new Secret("0a02d87e50304ef8b6cb9af942638769") },
-                    ClientUri = $"{clientsUrl["ParkWebClient"]}",
-                    AllowedGrantTypes = GrantTypes.Hybrid,
-                    AllowAccessTokensViaBrowser = false,
-                    RequireConsent = false,
-                    AllowOfflineAccess = true,
-                    AlwaysIncludeUserClaimsInIdToken = true,
-                    RedirectUris =
-                    {
-                        $"{clientsUrl["ParkWebClient"]}/signin-oidc"
-                    },
-                    PostLogoutRedirectUris =
-                    {
-                        $"{clientsUrl["ParkWebClient"]}/signout-callback-oidc"
-                    },
-                    AllowedScopes = new List<string>
-                    {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                        IdentityServerConstants.StandardScopes.OfflineAccess,
-                        "api3",
-                        "api3.application"
-                    },
-                    AccessTokenLifetime = 60*60*2, // 2 hours
-                    IdentityTokenLifetime= 60*60*2 // 2 hours
-                },
-
-                new Client
-                {
-                    ClientId = "iot.park.web2",
-                    ClientName = "Tc.Park.Web",
-                    ClientSecrets = new List<Secret>
-                    {
-                        new Secret("123456".Sha256())
-                    },
-                    ClientUri = $"{clientsUrl["Mvc"]}",                             // public uri of the client
-                    AllowedGrantTypes = GrantTypes.Hybrid,
-                    AllowAccessTokensViaBrowser = false,
-                    RequireConsent = false,
-                    AllowOfflineAccess = true,
-                    AlwaysIncludeUserClaimsInIdToken = true,
-                    RedirectUris = new List<string>
-                    {
-                        $"{clientsUrl["Mvc"]}/signin-oidc"
-                    },
-                    PostLogoutRedirectUris = new List<string>
-                    {
-                        $"{clientsUrl["Mvc"]}/signout-callback-oidc"
-                    },
-                    AllowedScopes = new List<string>
-                    {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                        IdentityServerConstants.StandardScopes.OfflineAccess,
-                        "api3",
-                        "api3.application"
-                    },
-                    AccessTokenLifetime = 60*60*2, // 2 hours
-                    IdentityTokenLifetime= 60*60*2 // 2 hours
-                },
-
-                //iot.park application
-                new Client
-                {
-                    ClientId = "6930275040256000",
-                    ClientName = "太川云停车开发者",
-                    ClientSecrets = { new Secret("443b6e164669466684f18573f6f33ec5") },
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = { "api3.application" },
-                    AllowOfflineAccess = true,
-                    AccessTokenLifetime = 7200,
-                },
-
-                //iot.park device
-                new Client
-                {
-                    ClientId = "6930272661962752",
-                    ClientName = "测试车场1",
-                    ClientSecrets = { new Secret("d44997505a5c4c3f9f107d69b6995a14") },
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = { "api3", "api3.device" },
-                    AllowOfflineAccess = true,
-                    AccessTokenLifetime = 7200,
-                },
-                new Client
-                {
-                    ClientId = "6984920813264896",
-                    ClientName = "测试车场2",
-                    ClientSecrets = { new Secret("0a02d87e50304ef8b6cb9af942638769") },
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = { "api3", "api3.device" },
-                    AllowOfflineAccess = true,
-                    AccessTokenLifetime = 7200,
-                },
-
-
                 new Client
                 {
                     ClientId = "roclient",
