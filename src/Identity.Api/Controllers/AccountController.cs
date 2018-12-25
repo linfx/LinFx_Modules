@@ -5,7 +5,6 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Identity.Api.Models;
 using Identity.Api.Models.AccountViewModels;
-using Identity.Api.Services;
 using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
@@ -17,7 +16,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.eShopOnContainers.Services.Identity.API.Controllers
+namespace Identity.Api.Controllers
 {
     /// <summary>
     /// This sample controller implements a typical login/logout/provision workflow for local and external accounts.
@@ -26,26 +25,24 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API.Controllers
     /// </summary>
     public class AccountController : Controller
     {
-        //private readonly InMemoryUserLoginService _loginService;
-        private readonly ILoginService<ApplicationUser> _loginService;
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
         private readonly ILogger<AccountController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
+        private SignInManager<ApplicationUser> _signInManager;
 
         public AccountController(
-            //InMemoryUserLoginService loginService,
-            ILoginService<ApplicationUser> loginService,
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             ILogger<AccountController> logger,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
-            _loginService = loginService;
             _interaction = interaction;
             _clientStore = clientStore;
             _logger = logger;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         /// <summary>
@@ -62,9 +59,7 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API.Controllers
             }
 
             var vm = await BuildLoginViewModelAsync(returnUrl, context);
-
             ViewData["ReturnUrl"] = returnUrl;
-
             return View(vm);
         }
 
@@ -77,9 +72,9 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _loginService.FindByUsername(model.Email);
+                var user = await _userManager.FindByEmailAsync(model.Email);
 
-                if (await _loginService.ValidateCredentials(user, model.Password))
+                if (await _userManager.CheckPasswordAsync(user, model.Password))
                 {
                     var props = new AuthenticationProperties
                     {
@@ -97,7 +92,7 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API.Controllers
                         };
                     };
 
-                    await _loginService.SignInAsync(user, props);
+                    await _signInManager.SignInAsync(user, props);
 
                     // make sure the returnUrl is still valid, and if yes - redirect back to authorize endpoint
                     if (_interaction.IsValidReturnUrl(model.ReturnUrl))
@@ -113,9 +108,7 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API.Controllers
 
             // something went wrong, show form with error
             var vm = await BuildLoginViewModelAsync(model);
-
             ViewData["ReturnUrl"] = model.ReturnUrl;
-
             return View(vm);
         }
 
@@ -317,7 +310,7 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API.Controllers
                     return View(model);
             }
 
-            return RedirectToAction("index", "home");
+            return View(model);
         }
 
         [HttpGet]

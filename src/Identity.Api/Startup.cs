@@ -51,10 +51,10 @@ namespace Identity.Api
 
             if (Configuration.GetValue<string>("IsClusterEnv") == bool.TrueString)
             {
-                //services.AddDataProtection(opts =>
-                //{
-                //    opts.ApplicationDiscriminator = "identity.api";
-                //})
+                services.AddDataProtection(opts =>
+                {
+                    opts.ApplicationDiscriminator = "identity.api";
+                });
                 //.PersistKeysToRedis(ConnectionMultiplexer.Connect(Configuration["DPConnectionString"]), "DataProtection-Keys");
             }
 
@@ -68,7 +68,6 @@ namespace Identity.Api
             //    //checks.AddSqlCheck("Identity_Db", Configuration["ConnectionString"], TimeSpan.FromMinutes(minutes));
             //});
 
-            services.AddTransient<ILoginService<ApplicationUser>, EFLoginService>();
             services.AddTransient<IRedirectService, RedirectService>();
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -87,7 +86,7 @@ namespace Identity.Api
             //.AddInMemoryClients(Clients.Get())
             //.AddTestUsers(TestUsers.Users)
             .AddSecretValidator<PlainTextSharedSecretValidator>()
-            //.AddAspNetIdentity<ApplicationUser>()
+            .AddAspNetIdentity<ApplicationUser>()
             .AddConfigurationStore(options =>
             {
                 options.ConfigureDbContext = builder => builder.UseMySql(connectionString,

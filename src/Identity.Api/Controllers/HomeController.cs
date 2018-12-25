@@ -1,9 +1,8 @@
-﻿
-using IdentityServer4.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Identity.Api.Services;
 using Identity.Api.Models;
-using Identity.Api.Services;
+using IdentityServer4.Services;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Identity.Api.Controllers
@@ -12,13 +11,13 @@ namespace Identity.Api.Controllers
     {
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IOptionsSnapshot<AppSettings> _settings;
-        private readonly IRedirectService _redirectSvc;
+        private readonly IRedirectService _redirectService;
 
-        public HomeController(IIdentityServerInteractionService interaction, IOptionsSnapshot<AppSettings> settings,IRedirectService redirectSvc)
+        public HomeController(IIdentityServerInteractionService interaction, IOptionsSnapshot<AppSettings> settings, IRedirectService redirectSvc)
         {
             _interaction = interaction;
             _settings = settings;
-            _redirectSvc = redirectSvc;
+            _redirectService = redirectSvc;
         }
 
         public IActionResult Index(string returnUrl)
@@ -29,7 +28,7 @@ namespace Identity.Api.Controllers
         public IActionResult ReturnToOriginalApplication(string returnUrl)
         {
             if (returnUrl != null)
-                return Redirect(_redirectSvc.ExtractRedirectUriFromReturnUrl(returnUrl));
+                return Redirect(_redirectService.ExtractRedirectUriFromReturnUrl(returnUrl));
             else
                 return RedirectToAction("Index", "Home");
         }
