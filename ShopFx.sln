@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.Api", "src\Payment.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Api", "src\Identity.Api\Identity.Api.csproj", "{F7439CE2-1488-4890-868D-00A74B09F3C1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebMVC", "src\WebMVC\WebMVC.csproj", "{4F783922-23DD-42DF-90D3-B780EE453538}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebMvc", "src\WebMVC\WebMvc.csproj", "{4F783922-23DD-42DF-90D3-B780EE453538}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
