@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.eShopOnContainers.WebMVC.Services;
 using Microsoft.eShopOnContainers.WebMVC.ViewModels;
 using Polly.CircuitBreaker;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,14 +11,14 @@ namespace Microsoft.eShopOnContainers.WebMVC.Controllers
     [Authorize]
     public class CartController : Controller
     {
-        private readonly IBasketService _basketSvc;
-        private readonly ICatalogService _catalogSvc;
+        private readonly IBasketService _basketService;
+        private readonly ICatalogService _catalogService;
         private readonly IIdentityParser<ApplicationUser> _appUserParser;
 
-        public CartController(IBasketService basketSvc, ICatalogService catalogSvc, IIdentityParser<ApplicationUser> appUserParser)
+        public CartController(IBasketService basketService, ICatalogService catalogService, IIdentityParser<ApplicationUser> appUserParser)
         {
-            _basketSvc = basketSvc;
-            _catalogSvc = catalogSvc;
+            _basketService = basketService;
+            _catalogService = catalogService;
             _appUserParser = appUserParser;
         }
 
@@ -28,8 +27,7 @@ namespace Microsoft.eShopOnContainers.WebMVC.Controllers
             try
             {
                 var user = _appUserParser.Parse(HttpContext.User);
-                var vm = await _basketSvc.GetBasket(user);
-
+                var vm = await _basketService.GetBasket(user);
                 return View(vm);
             }
             catch (BrokenCircuitException)
@@ -37,7 +35,6 @@ namespace Microsoft.eShopOnContainers.WebMVC.Controllers
                 // Catch error when Basket.api is in circuit-opened mode                 
                 HandleBrokenCircuitException();
             }
-
             return View();
         }
 
@@ -48,7 +45,7 @@ namespace Microsoft.eShopOnContainers.WebMVC.Controllers
             try
             {
                 var user = _appUserParser.Parse(HttpContext.User);
-                var basket = await _basketSvc.SetQuantities(user, quantities);
+                var basket = await _basketService.SetQuantities(user, quantities);
                 if (action == "[ Checkout ]")
                 {
                     return RedirectToAction("Create", "Order");
@@ -59,7 +56,6 @@ namespace Microsoft.eShopOnContainers.WebMVC.Controllers
                 // Catch error when Basket.api is in circuit-opened mode                 
                 HandleBrokenCircuitException();
             }
-
             return View();
         }
 
@@ -70,7 +66,7 @@ namespace Microsoft.eShopOnContainers.WebMVC.Controllers
                 if (productDetails?.Id != null)
                 {
                     var user = _appUserParser.Parse(HttpContext.User);
-                    await _basketSvc.AddItemToBasket(user, productDetails.Id);
+                    await _basketService.AddItemToBasket(user, productDetails.Id);
                 }
                 return RedirectToAction("Index", "Catalog");            
             }

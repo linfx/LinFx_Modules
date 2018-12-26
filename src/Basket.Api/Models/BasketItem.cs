@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ShopFx.Basket.Api.Models
+namespace Basket.Api.Models
 {
     public class BasketItem : IValidatableObject
     {

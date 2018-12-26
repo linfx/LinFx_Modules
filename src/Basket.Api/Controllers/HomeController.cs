@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace ShopFx.Basket.Api.Controllers
+namespace Basket.Api.Controllers
 {
     public class HomeController : Controller
     {

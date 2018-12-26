@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ShopFx.Basket.Api.Models
+namespace Basket.Api.Models
 {
     public class BasketCheckout
     {

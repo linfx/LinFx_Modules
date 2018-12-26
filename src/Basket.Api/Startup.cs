@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using LinFx.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Basket.Api.Services;
+using LinFx.Extensions.EventBus.RabbitMQ;
 
-namespace ShopFx.Basket
+namespace Basket
 {
     public class Startup
     {
@@ -25,10 +22,30 @@ namespace ShopFx.Basket
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLinFx()
+                .AddDistributedRedisCache(options =>
+                {
+                    options.InstanceName = "shopfx_basket:";
+                    options.Configuration = Configuration.GetConnectionString("ReidsConnection");
+                })
+                .AddEventBus(options =>
+                {
+                    options.Durable = true;
+                    options.BrokerName = "shopfx_event_bus";
+                    options.QueueName = "shopfx_process_queue";
+                    options.ConfigureEventBus = (fx, builder) => builder.UseRabbitMQ(fx, x =>
+                    {
+                        x.Host = "14.21.34.85";
+                        x.UserName = "admin";
+                        x.Password = "admin.123456";
+                    });
+                });
+
             services
                 .AddCustomMVC(Configuration)
                 .AddCustomDbContext(Configuration)
                 .AddCustomOptions(Configuration)
+                .AddIntegrationServices(Configuration)
                 .AddSwagger();
         }
 
@@ -117,6 +134,15 @@ namespace ShopFx.Basket
             return services;
         }
 
+        public static IServiceCollection AddIntegrationServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IBasketRepository, RedisBasketRepository>();
+            services.AddTransient<IIdentityService, IdentityService>();
+
+            return services;
+        }
+
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(options =>
@@ -127,7 +153,6 @@ namespace ShopFx.Basket
                     Title = "ShopFx - Basket HTTP API",
                     Version = "v1",
                     Description = "The Basket Microservice HTTP API.",
-                    TermsOfService = "Terms Of Service"
                 });
             });
             return services;

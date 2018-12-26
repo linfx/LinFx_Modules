@@ -1,16 +1,17 @@
 ﻿using LinFx.Extensions.EventBus.Abstractions;
 using LinFx.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using ShopFx.Basket.Api.Models;
-using ShopFx.Basket.Api.Services;
+using Basket.Api.Models;
+using Basket.Api.Services;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using System.Linq;
 
-namespace ShopFx.Basket.Api.Controllers
+namespace Basket.Api.Controllers
 {
-    [Route("api/basket")]
     [ApiController]
+    [Route("api/v1/basket")]
     public class BasketController : ControllerBase
     {
         private readonly IBasketRepository _repository;
@@ -26,7 +27,6 @@ namespace ShopFx.Basket.Api.Controllers
             _eventBus = eventBus;
         }
 
-        // GET /id
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(CustomerBasket), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get(string id)
@@ -39,14 +39,45 @@ namespace ShopFx.Basket.Api.Controllers
             return Ok(basket);
         }
 
-        // POST /value
+        [HttpPut]
+        [ProducesResponseType(typeof(CustomerBasket), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Put([FromBody]CustomerBasket value)
+        {
+            var basket = await _repository.UpdateBasketAsync(value);
+            return Ok(basket);
+        }
+
         [HttpPost]
         [ProducesResponseType(typeof(CustomerBasket), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Post([FromBody]CustomerBasket value)
         {
-            var basket = await _repository.UpdateBasketAsync(value);
+            var basket = await _repository.GetBasketAsync(value.BuyerId);
+            if (basket == null)
+            {
+                basket = new CustomerBasket(value.BuyerId);
+            }
 
+            foreach (var item in value.Items)
+            {
+                var tmp = basket.Items.FirstOrDefault(p => p.ProductId == item.ProductId);
+                if(tmp == null)
+                {
+                    basket.Items.Add(item);
+                }
+                else
+                {
+                    tmp.Quantity++;
+                }
+            }
+
+            await _repository.UpdateBasketAsync(basket);
             return Ok(basket);
+        }
+
+        [HttpDelete("{id}")]
+        public void Delete(string id)
+        {
+            _repository.DeleteBasketAsync(id);
         }
 
         [Route("checkout")]
@@ -80,13 +111,6 @@ namespace ShopFx.Basket.Api.Controllers
             //await _eventBus.PublishAsync(eventMessage);
 
             return Accepted();
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(string id)
-        {
-            _repository.DeleteBasketAsync(id);
         }
     }
 }

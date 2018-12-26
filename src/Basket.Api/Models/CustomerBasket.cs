@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ShopFx.Basket.Api.Models
+namespace Basket.Api.Models
 {
     public class CustomerBasket
     {
