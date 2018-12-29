@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LinFx" Version="3.3.3" />
-    <PackageReference Include="LinFx.Web" Version="0.1.0" />
+    <PackageReference Include="LinFx" Version="3.3.4" />
   </ItemGroup>
 
   <ItemGroup>

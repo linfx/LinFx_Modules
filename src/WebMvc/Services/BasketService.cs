@@ -92,13 +92,15 @@ namespace WebMvc.Services
         {
             var uri = API.Basket.GetBasket(_basketByPassUrl, basketId);
             var basketString = await _httpClient.GetStringAsync(uri);
-
             var basketContent = new StringContent(basketString, System.Text.Encoding.UTF8, "application/json");
 
-            //var uri2 = API.Purchase.GetOrderDraft(_purchaseUrl, basketId);
-            //var responseString = await _httpClient.PostAsync(uri2, basketContent);
-            //var response = responseString.ToObject<Order>();
-            return new Order();
+            var uri2 = API.Purchase.GetOrderDraft("http://localhost:5102/api/v1");
+            var response = await _httpClient.PostAsync(uri2, basketContent);
+            response.EnsureSuccessStatusCode();
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            var result = responseString.ToObject<Order>();
+            return result;
         }
 
         public async Task AddItemToBasket(ApplicationUser user, int productId)

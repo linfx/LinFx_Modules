@@ -7,8 +7,7 @@
         {
             public static string AddItemToBasket(string baseUri) => $"{baseUri}/basket/";
             public static string UpdateBasketItem(string baseUri) => $"{baseUri}/basket/";
-
-            public static string GetOrderDraft(string baseUri, string basketId) => $"{baseUri}/order/draft/{basketId}";
+            public static string GetOrderDraft(string baseUri) => $"{baseUri}/orders/draft";
         }
 
         public static class Basket

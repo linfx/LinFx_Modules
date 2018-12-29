@@ -3,7 +3,6 @@
     using global::Ordering.Domain.Models;
     using global::Ordering.API.Application.IntegrationEvents;
     using global::Ordering.API.Application.IntegrationEvents.Events;
-    using LinFx.Web.Services;
     using MediatR;
     using System;
     using System.Threading;
@@ -15,18 +14,15 @@
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, bool>
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly IIdentityService _identityService;
         private readonly IMediator _mediator;
         private readonly IOrderingIntegrationEventService _orderingIntegrationEventService;
 
         // Using DI to inject infrastructure persistence Repositories
         public CreateOrderCommandHandler(IMediator mediator,
             IOrderingIntegrationEventService orderingIntegrationEventService,
-            IOrderRepository orderRepository, 
-            IIdentityService identityService)
+            IOrderRepository orderRepository)
         {
             _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
-            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _orderingIntegrationEventService = orderingIntegrationEventService ?? throw new ArgumentNullException(nameof(orderingIntegrationEventService));
         }

@@ -42,9 +42,7 @@ namespace Catalog.Api.Controllers
         public async Task<IActionResult> Items([FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0, [FromQuery] string ids = null)
         {
             if (!string.IsNullOrEmpty(ids))
-            {
                 return GetItemsByIds(ids);
-            }
 
             var totalItems = await _catalogContext.CatalogItems
                 .LongCountAsync();
@@ -70,9 +68,7 @@ namespace Catalog.Api.Controllers
         public async Task<IActionResult> GetItemById(int id)
         {
             if (id <= 0)
-            {
                 return BadRequest();
-            }
 
             var item = await _catalogContext.CatalogItems.SingleOrDefaultAsync(ci => ci.Id == id);
 
@@ -81,9 +77,7 @@ namespace Catalog.Api.Controllers
             item.FillProductUrl(baseUri, azureStorageEnabled: azureStorageEnabled);
 
             if (item != null)
-            {
                 return Ok(item);
-            }
 
             return NotFound();
         }
@@ -123,9 +117,7 @@ namespace Catalog.Api.Controllers
             root = root.Where(ci => ci.CatalogTypeId == catalogTypeId);
 
             if (catalogBrandId.HasValue)
-            {
                 root = root.Where(ci => ci.CatalogBrandId == catalogBrandId);
-            }
 
             var totalItems = await root
                 .LongCountAsync();
@@ -151,9 +143,7 @@ namespace Catalog.Api.Controllers
             var root = (IQueryable<CatalogItem>)_catalogContext.CatalogItems;
 
             if (catalogBrandId.HasValue)
-            {
                 root = root.Where(ci => ci.CatalogBrandId == catalogBrandId);
-            }
 
             var totalItems = await root
                 .LongCountAsync();
@@ -202,9 +192,7 @@ namespace Catalog.Api.Controllers
                 .SingleOrDefaultAsync(i => i.Id == productToUpdate.Id);
 
             if (catalogItem == null)
-            {
                 return NotFound(new { Message = $"Item with id {productToUpdate.Id} not found." });
-            }
 
             var oldPrice = catalogItem.Price;
             var raiseProductPriceChangedEvent = oldPrice != productToUpdate.Price;

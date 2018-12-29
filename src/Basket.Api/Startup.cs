@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Basket.Api.Services;
 using LinFx.Extensions.EventBus.RabbitMQ;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Basket
 {
@@ -26,6 +28,7 @@ namespace Basket
                 .AddCustomMVC(Configuration)
                 .AddCustomDbContext(Configuration)
                 .AddCustomOptions(Configuration)
+                .AddCustomAuthentication(Configuration)
                 .AddIntegrationServices(Configuration)
                 .AddCustomSwagger();
 
@@ -56,6 +59,10 @@ namespace Basket
             {
                 app.UseDeveloperExceptionPage();
             }
+
+
+            //ConfigureAuth
+            app.UseAuthentication();
 
             app.UseMvcWithDefaultRoute();
 
@@ -129,6 +136,28 @@ namespace Basket
                         ContentTypes = { "application/problem+json", "application/problem+xml" }
                     };
                 };
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            // prevent from mapping "sub" claim to nameidentifier.
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
+
+            var identityUrl = configuration.GetValue<string>("IdentityUrl");
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = "http://localhost:5105";
+                options.RequireHttpsMetadata = false;
+                options.Audience = "basket";
             });
 
             return services;

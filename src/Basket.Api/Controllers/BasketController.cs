@@ -8,6 +8,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Linq;
 using Basket.API.Application.IntegrationEvents.Events;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Basket.Api.Controllers
 {
@@ -87,6 +88,7 @@ namespace Basket.Api.Controllers
         /// <param name="basketCheckout"></param>
         /// <param name="requestId"></param>
         /// <returns></returns>
+        [Authorize]
         [Route("checkout")]
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
@@ -103,7 +105,7 @@ namespace Basket.Api.Controllers
             if (basket == null)
                 return BadRequest();
 
-            var userName = User.FindFirst(x => x.Type == "unique_name").Value;
+            var userName = User.Identity.Name;
 
             var eventMessage = new UserCheckoutAcceptedIntegrationEvent(userId, userName, basketCheckout.City, basketCheckout.Street,
                 basketCheckout.State, basketCheckout.Country, basketCheckout.ZipCode, basketCheckout.CardNumber, basketCheckout.CardHolderName,

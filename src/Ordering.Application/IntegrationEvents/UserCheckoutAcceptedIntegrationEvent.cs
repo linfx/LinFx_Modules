@@ -2,7 +2,7 @@
 using Ordering.Domain.Models;
 using System;
 
-namespace Ordering.API.Application.IntegrationEvents.Events
+namespace Ordering.API.Application.IntegrationEvents
 {
     public class UserCheckoutAcceptedIntegrationEvent : IntegrationEvent
     {

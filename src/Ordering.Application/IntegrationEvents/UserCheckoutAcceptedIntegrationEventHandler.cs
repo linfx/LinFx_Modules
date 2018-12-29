@@ -2,11 +2,10 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Ordering.API.Application.IntegrationEvents.Events;
 using LinFx.Extensions.EventBus.Abstractions;
 using Ordering.Domain.Commands;
 
-namespace Ordering.API.Application.IntegrationEvents.EventHandling
+namespace Ordering.API.Application.IntegrationEvents
 {
     /// <summary>
     /// 用户结算

@@ -1,9 +1,9 @@
-@using WebMvc.Services
+锘緻using WebMvc.Services
 @model WebMvc.ViewModels.Order
 @inject IIdentityParser<ApplicationUser> UserManager
 
 @{
-    ViewData["Title"] = "New Order";
+    ViewData["Title"] = "濉啓璁㈠崟";
 }
 
 @await Html.PartialAsync("_Header", new List<Header>() { new Header() { Controller = "Cart", Text = "Back to cart" } })
@@ -18,7 +18,7 @@
                     </div>
                 }
             </div>
-            <!-- 收货地址 -->
+            <!-- 鏀惰揣鍦板潃 -->
             <h4 class="esh-orders_new-title">Shipping address</h4>
             <div class="row">
                 <div class="col-md-6">
@@ -52,8 +52,8 @@
             </div>
         </section>
 
-        <!-- 支付信息 -->
-        @*<section class="esh-orders_new-section">
+        <!-- 鏀粯淇℃伅 -->
+        <section class="esh-orders_new-section">
             <h4 class="esh-orders_new-title">Payment method</h4>
             <div class="row">
                 <div class="col-md-6">
@@ -85,7 +85,7 @@
                     </div>
                 </div>
             </div>
-        </section>*@
+        </section>
 
         @await Html.PartialAsync("_OrderItems")
 
