@@ -8,7 +8,7 @@ namespace Ordering.Domain.Commands
 {
     // Regular CommandHandler
     public class ShipOrderCommandHandler : IRequestHandler<ShipOrderCommand, bool>
-    {        
+    {
         private readonly IOrderRepository _orderRepository;
 
         public ShipOrderCommandHandler(IOrderRepository orderRepository)
@@ -25,7 +25,7 @@ namespace Ordering.Domain.Commands
         public async Task<bool> Handle(ShipOrderCommand command, CancellationToken cancellationToken)
         {
             var orderToUpdate = await _orderRepository.GetAsync(command.OrderNumber);
-            if(orderToUpdate == null)
+            if (orderToUpdate == null)
             {
                 return false;
             }
@@ -34,7 +34,6 @@ namespace Ordering.Domain.Commands
             return await _orderRepository.UnitOfWork.SaveEntitiesAsync();
         }
     }
-
 
     // Use for Idempotency in Command process
     public class ShipOrderIdentifiedCommandHandler : IdentifiedCommandHandler<ShipOrderCommand, bool>
