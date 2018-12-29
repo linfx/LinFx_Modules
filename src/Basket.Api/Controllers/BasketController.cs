@@ -7,6 +7,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using System.Linq;
+using Basket.API.Application.IntegrationEvents.Events;
 
 namespace Basket.Api.Controllers
 {
@@ -60,7 +61,7 @@ namespace Basket.Api.Controllers
             foreach (var item in value.Items)
             {
                 var tmp = basket.Items.FirstOrDefault(p => p.ProductId == item.ProductId);
-                if(tmp == null)
+                if (tmp == null)
                 {
                     basket.Items.Add(item);
                 }
@@ -80,6 +81,12 @@ namespace Basket.Api.Controllers
             _repository.DeleteBasketAsync(id);
         }
 
+        /// <summary>
+        /// 订单结算
+        /// </summary>
+        /// <param name="basketCheckout"></param>
+        /// <param name="requestId"></param>
+        /// <returns></returns>
         [Route("checkout")]
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
@@ -88,27 +95,24 @@ namespace Basket.Api.Controllers
         {
             var userId = _identitySvc.GetUserIdentity();
 
-
             basketCheckout.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
                 guid : basketCheckout.RequestId;
 
             var basket = await _repository.GetBasketAsync(userId);
 
             if (basket == null)
-            {
                 return BadRequest();
-            }
 
             var userName = User.FindFirst(x => x.Type == "unique_name").Value;
 
-            //var eventMessage = new UserCheckoutAcceptedIntegrationEvent(userId, userName, basketCheckout.City, basketCheckout.Street,
-            //    basketCheckout.State, basketCheckout.Country, basketCheckout.ZipCode, basketCheckout.CardNumber, basketCheckout.CardHolderName,
-            //    basketCheckout.CardExpiration, basketCheckout.CardSecurityNumber, basketCheckout.CardTypeId, basketCheckout.Buyer, basketCheckout.RequestId, basket);
+            var eventMessage = new UserCheckoutAcceptedIntegrationEvent(userId, userName, basketCheckout.City, basketCheckout.Street,
+                basketCheckout.State, basketCheckout.Country, basketCheckout.ZipCode, basketCheckout.CardNumber, basketCheckout.CardHolderName,
+                basketCheckout.CardExpiration, basketCheckout.CardSecurityNumber, basketCheckout.CardTypeId, basketCheckout.Buyer, basketCheckout.RequestId, basket);
 
-            //// Once basket is checkout, sends an integration event to
-            //// ordering.api to convert basket to order and proceeds with
-            //// order creation process
-            //await _eventBus.PublishAsync(eventMessage);
+            // Once basket is checkout, sends an integration event to
+            // ordering.api to convert basket to order and proceeds with
+            // order creation process
+            await _eventBus.PublishAsync(eventMessage);
 
             return Accepted();
         }

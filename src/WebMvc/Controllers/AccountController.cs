@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
-namespace Microsoft.eShopOnContainers.WebMVC.Controllers
+namespace WebMvc.Controllers
 {
     [Authorize]
     public class AccountController : Controller
@@ -36,8 +36,7 @@ namespace Microsoft.eShopOnContainers.WebMVC.Controllers
             // "Catalog" because UrlHelper doesn't support nameof() for controllers
             // https://github.com/aspnet/Mvc/issues/5853
             var homeUrl = Url.Action(nameof(CatalogController.Index), "Catalog");
-            return new SignOutResult(OpenIdConnectDefaults.AuthenticationScheme, 
-                new AspNetCore.Authentication.AuthenticationProperties { RedirectUri = homeUrl });
+            return new SignOutResult(OpenIdConnectDefaults.AuthenticationScheme,  new AuthenticationProperties { RedirectUri = homeUrl });
         }
     }
 }

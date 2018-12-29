@@ -1,20 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using LinFx.Web.Extensions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Ordering.Infrastructure;
 
-namespace ShopFx.Ordering
+namespace Ordering.Api
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            CreateWebHostBuilder(args).Build()
+                .MigrateDbContext<OrderingContext>((context, services) =>
+                {
+                    var env = services.GetService<IHostingEnvironment>();
+                    var settings = services.GetService<IOptions<OrderingSettings>>();
+                    var logger = services.GetService<ILogger<OrderingContextSeed>>();
+
+                    new OrderingContextSeed()
+                        .SeedAsync(context, env, settings, logger)
+                        .Wait();
+                })
+                .Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

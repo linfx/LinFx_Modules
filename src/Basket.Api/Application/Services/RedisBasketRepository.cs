@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Basket.Api.Models;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
@@ -38,16 +37,22 @@ namespace Basket.Api.Services
 
         public async Task<CustomerBasket> UpdateBasketAsync(CustomerBasket basket)
         {
-            await _cache.SetStringAsync(basket.BuyerId, JsonConvert.SerializeObject(basket));
-            //var created = await _database.StringSetAsync(basket.BuyerId, JsonConvert.SerializeObject(basket));
-            //if (!created)
+            var cache = await GetBasketAsync(basket.BuyerId);
+
+            //basket.Items.ForEach(p =>
             //{
-            //    _logger.LogInformation("Problem occur persisting the item.");
-            //    return null;
-            //}
+            //    var tmp = cache.Items.FirstOrDefault(x => x.ProductId == p.ProductId && x.Quantity != p.Quantity);
+            //    if (tmp != null)
+            //    {
+            //        tmp.Quantity = p.Quantity;
+            //    }
+            //});
+
+            await _cache.SetStringAsync(basket.BuyerId, basket.ToJson());
+
             _logger.LogInformation("Basket item persisted succesfully.");
 
-            return await GetBasketAsync(basket.BuyerId);
+            return cache;
         }
     }
 }

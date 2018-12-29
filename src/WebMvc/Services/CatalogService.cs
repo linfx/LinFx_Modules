@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.eShopOnContainers.WebMVC.ViewModels;
+using WebMvc.ViewModels;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -7,9 +7,9 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using WebMVC.Infrastructure;
+using WebMvc.Infrastructure;
 
-namespace Microsoft.eShopOnContainers.WebMVC.Services
+namespace WebMvc.Services
 {
     public class CatalogService : ICatalogService
     {
@@ -28,6 +28,16 @@ namespace Microsoft.eShopOnContainers.WebMVC.Services
             _remoteServiceBaseUrl = $"http://localhost:5101/api/v1/catalog/";
         }
 
+        public async Task<CatalogItem> GetCatalogItem(int id)
+        {
+            var uri = API.Catalog.GetCatalogItem(_remoteServiceBaseUrl, id);
+
+            var responseString = await _httpClient.GetStringAsync(uri);
+            var catalog = JsonConvert.DeserializeObject<CatalogItem>(responseString);
+            return catalog;
+        }
+
+
         public async Task<Catalog> GetCatalogItems(int page, int take, int? brand, int? type)
         {
             var uri = API.Catalog.GetAllCatalogItems(_remoteServiceBaseUrl, page, take, brand, type);
@@ -45,9 +55,10 @@ namespace Microsoft.eShopOnContainers.WebMVC.Services
 
             var responseString = await _httpClient.GetStringAsync(uri);
 
-            var items = new List<SelectListItem>();
-
-            items.Add(new SelectListItem() { Value = null, Text = "All", Selected = true });
+            var items = new List<SelectListItem>
+            {
+                new SelectListItem() { Value = null, Text = "All", Selected = true }
+            };
 
             var brands = JArray.Parse(responseString);
 

@@ -22,6 +22,13 @@ namespace Basket
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services
+                .AddCustomMVC(Configuration)
+                .AddCustomDbContext(Configuration)
+                .AddCustomOptions(Configuration)
+                .AddIntegrationServices(Configuration)
+                .AddCustomSwagger();
+
             services.AddLinFx()
                 .AddDistributedRedisCache(options =>
                 {
@@ -40,13 +47,6 @@ namespace Basket
                         x.Password = "admin.123456";
                     });
                 });
-
-            services
-                .AddCustomMVC(Configuration)
-                .AddCustomDbContext(Configuration)
-                .AddCustomOptions(Configuration)
-                .AddIntegrationServices(Configuration)
-                .AddSwagger();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -143,7 +143,7 @@ namespace Basket
             return services;
         }
 
-        public static IServiceCollection AddSwagger(this IServiceCollection services)
+        public static IServiceCollection AddCustomSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(options =>
             {

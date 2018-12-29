@@ -11,6 +11,7 @@ using System;
 using System.Reflection;
 using LinFx.Extensions.EventBus.RabbitMQ;
 using Catalog.Api.IntegrationEvents;
+using System.Linq;
 
 namespace Catalog.Api
 {
@@ -26,6 +27,14 @@ namespace Catalog.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services
+                .AddCustomMvc(Configuration)
+                .AddCustomDbContext(Configuration)
+                .AddCustomOptions(Configuration)
+                .AddCustomIntegrations(Configuration)
+                .AddEventBus(Configuration)
+                .AddCustomSwagger();
+
             services.AddLinFx()
                 .AddEventBus(options =>
                 {
@@ -39,14 +48,6 @@ namespace Catalog.Api
                         x.Password = "admin.123456";
                     });
                 });
-
-            services
-                .AddCustomMVC(Configuration)
-                .AddCustomDbContext(Configuration)
-                .AddCustomOptions(Configuration)
-                .AddIntegrationServices(Configuration)
-                .AddEventBus(Configuration)
-                .AddSwagger();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,14 +63,14 @@ namespace Catalog.Api
             app.UseSwagger()
               .UseSwaggerUI(c =>
               {
-                  c.SwaggerEndpoint($"http://localhost:5101/swagger/v1/swagger.json", "Catalog.API v1");
+                  c.SwaggerEndpoint($"/swagger/v1/swagger.json", "Catalog.API v1");
               });
         }
     }
 
     public static class CustomExtensionMethods
     {
-        public static IServiceCollection AddCustomMVC(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCustomMvc(this IServiceCollection services, IConfiguration configuration)
         {
             //services.AddHealthChecks(checks =>
             //{
@@ -161,7 +162,7 @@ namespace Catalog.Api
             return services;
         }
 
-        public static IServiceCollection AddIntegrationServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCustomIntegrations(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient<ICatalogIntegrationEventService, CatalogIntegrationEventService>();
 
@@ -177,13 +178,14 @@ namespace Catalog.Api
             return services;
         }
 
-        public static IServiceCollection AddSwagger(this IServiceCollection services)
+        public static IServiceCollection AddCustomSwagger(this IServiceCollection services)
         {
-            services.AddApiVersioning(options =>
-            {
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = ApiVersion.Default;
-            });
+            //services.AddApiVersioning(options =>
+            //{
+            //    //options.ReportApiVersions = true;
+            //    options.AssumeDefaultVersionWhenUnspecified = true;
+            //    options.DefaultApiVersion = ApiVersion.Default;
+            //});
 
             services.AddSwaggerGen(options =>
             {
@@ -194,6 +196,16 @@ namespace Catalog.Api
                     Version = "v1",
                     Description = "The Catalog Microservice HTTP API.",
                 });
+                //options.DocInclusionPredicate((version, apiDescription) =>
+                //{
+                //    var values = apiDescription.RelativePath
+                //        .Split('/')
+                //        .Select(v => v.Replace("v{version}", version));
+
+                //    apiDescription.RelativePath = string.Join("/", values);
+
+                //    return true;
+                //});
             });
             return services;
         }

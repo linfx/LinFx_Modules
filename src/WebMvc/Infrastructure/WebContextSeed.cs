@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.eShopOnContainers.WebMVC;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -9,7 +8,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 
-namespace WebMVC.Infrastructure
+namespace WebMvc.Infrastructure
 {
     public class WebContextSeed
     {
@@ -48,7 +47,7 @@ namespace WebMVC.Infrastructure
             }
             catch (Exception ex)
             {
-                log.LogError($"Exception in method GetPreconfiguredCSS WebMVC. Exception Message={ex.Message}");
+                log.LogError($"Exception in method GetPreconfiguredCSS WebMvc.. Exception Message={ex.Message}");
             }
         }
 
@@ -88,7 +87,7 @@ namespace WebMVC.Infrastructure
             }
             catch ( Exception ex )
             {
-                log.LogError($"Exception in method GetPreconfiguredImages WebMVC. Exception Message={ex.Message}");
+                log.LogError($"Exception in method GetPreconfiguredImages WebMvc.. Exception Message={ex.Message}");
             }
         }
 

@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace WebMVC.Infrastructure
+namespace WebMvc.Infrastructure
 {
     public class HttpClientAuthorizationDelegatingHandler
         : DelegatingHandler

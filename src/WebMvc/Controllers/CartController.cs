@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.eShopOnContainers.WebMVC.Services;
-using Microsoft.eShopOnContainers.WebMVC.ViewModels;
+using WebMvc.Services;
+using WebMvc.ViewModels;
 using Polly.CircuitBreaker;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Microsoft.eShopOnContainers.WebMVC.Controllers
+namespace WebMvc.Controllers
 {
     [Authorize]
     public class CartController : Controller
@@ -22,6 +22,10 @@ namespace Microsoft.eShopOnContainers.WebMVC.Controllers
             _appUserParser = appUserParser;
         }
 
+        /// <summary>
+        /// 购物车首页
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Index()
         {
             try
@@ -38,14 +42,19 @@ namespace Microsoft.eShopOnContainers.WebMVC.Controllers
             return View();
         }
 
-        
+        /// <summary>
+        /// 修改购物车
+        /// </summary>
+        /// <param name="quantities"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Index(Dictionary<string, int> quantities, string action)
         {
             try
             {
-                var user = _appUserParser.Parse(HttpContext.User);
-                var basket = await _basketService.SetQuantities(user, quantities);
+                //var user = _appUserParser.Parse(HttpContext.User);
+                //var basket = await _basketService.SetQuantities(user, quantities);
                 if (action == "[ Checkout ]")
                 {
                     return RedirectToAction("Create", "Order");

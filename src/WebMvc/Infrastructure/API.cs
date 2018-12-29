@@ -1,4 +1,4 @@
-﻿namespace WebMVC.Infrastructure
+﻿namespace WebMvc.Infrastructure
 {
     public static class API
     {
@@ -49,6 +49,11 @@
 
         public static class Catalog
         {
+            public static string GetCatalogItem(string baseUri, int id)
+            {
+                return $"{baseUri}items/{id}";
+            }
+
             public static string GetAllCatalogItems(string baseUri, int page, int take, int? brand, int? type)
             {
                 var filterQs = "";

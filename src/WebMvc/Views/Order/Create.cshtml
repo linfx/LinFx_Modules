@@ -1,88 +1,91 @@
-@using Microsoft.eShopOnContainers.WebMVC.Services
-@model Microsoft.eShopOnContainers.WebMVC.ViewModels.Order
+@using WebMvc.Services
+@model WebMvc.ViewModels.Order
 @inject IIdentityParser<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "New Order";
 }
 
-@Html.Partial("_Header", new List<Header>() {
-        new Header() { Controller = "Cart", Text = "Back to cart" } })
+@await Html.PartialAsync("_Header", new List<Header>() { new Header() { Controller = "Cart", Text = "Back to cart" } })
 <div class="container">
     <form method="post" asp-controller="Order" asp-action="Checkout">
         <section class="esh-orders_new-section">
             <div class="row">
-                @foreach (var error in ViewData.ModelState.Values.SelectMany(err => err.Errors)) {
-                    <div class="alert alert-warning" role="alert">                    
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(err => err.Errors))
+                {
+                    <div class="alert alert-warning" role="alert">
                         &nbsp;@error.ErrorMessage
                     </div>
                 }
             </div>
+            <!-- 收货地址 -->
             <h4 class="esh-orders_new-title">Shipping address</h4>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="Street" class="esh-orders_new-title">Address</label>
-                        <input asp-for="Street" class="form-control form-input" type="text" placeholder="Street"/>
+                        <input asp-for="Street" class="form-control form-input" type="text" placeholder="Street" />
                         <span asp-validation-for="Street" class="alert alert-danger" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="City" class="esh-orders_new-title">City</label>
-                        <input asp-for="City" class="form-control form-input" type="text" placeholder="City"/>
+                        <input asp-for="City" class="form-control form-input" type="text" placeholder="City" />
                         <span asp-validation-for="City" class="alert alert-danger" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="State" class="esh-orders_new-title">State</label>
-                        <input asp-for="State" class="form-control form-input" type="text" placeholder="State"/>
+                        <input asp-for="State" class="form-control form-input" type="text" placeholder="State" />
                         <span asp-validation-for="State" class="alert alert-danger" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="Country" class="esh-orders_new-title">Country</label>
-                        <input asp-for="Country" class="form-control form-input" type="text" placeholder="Country"/>
+                        <input asp-for="Country" class="form-control form-input" type="text" placeholder="Country" />
                         <span asp-validation-for="Country" class="alert alert-danger" />
                     </div>
                 </div>
             </div>
         </section>
-        <section class="esh-orders_new-section">
+
+        <!-- 支付信息 -->
+        @*<section class="esh-orders_new-section">
             <h4 class="esh-orders_new-title">Payment method</h4>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="CardNumber" class="esh-orders_new-title">Card number</label>
-                        <input asp-for="CardNumber" class="form-control form-input" type="text" placeholder="000000000000000"/>
+                        <input asp-for="CardNumber" class="form-control form-input" type="text" placeholder="000000000000000" />
                         <span asp-validation-for="CardNumber" class="alert alert-danger" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="CardHolderName" class="esh-orders_new-title">Cardholder name</label>
-                        <input asp-for="CardHolderName" class="form-control form-input" type="text" placeholder="Cardholder"/>
+                        <input asp-for="CardHolderName" class="form-control form-input" type="text" placeholder="Cardholder" />
                         <span asp-validation-for="CardHolderName" class="alert alert-danger" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="CardExpirationShort" class="esh-orders_new-title">Expiration date</label>
-                        <input asp-for="CardExpirationShort" class="form-control form-input form-input-medium" type="text" placeholder="MM/YY"/>
+                        <input asp-for="CardExpirationShort" class="form-control form-input form-input-medium" type="text" placeholder="MM/YY" />
                         <span asp-validation-for="CardExpirationShort" class="alert alert-danger" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="CardSecurityNumber" class="esh-orders_new-title">Security code</label>
-                        <input asp-for="CardSecurityNumber" class="form-control form-input form-input-small" type="text" placeholder="000"/>
+                        <input asp-for="CardSecurityNumber" class="form-control form-input form-input-small" type="text" placeholder="000" />
                         <span asp-validation-for="CardSecurityNumber" class="alert alert-danger" />
                     </div>
                 </div>
             </div>
-        </section>
+        </section>*@
 
         @await Html.PartialAsync("_OrderItems")
 
@@ -96,7 +99,7 @@
             </div>
         </section>
         <input asp-for="ZipCode" type="hidden" />
-        <input asp-for="RequestId" type="hidden" value="@Guid.NewGuid().ToString()"/>
+        <input asp-for="RequestId" type="hidden" value="@Guid.NewGuid().ToString()" />
     </form>
 </div>
 

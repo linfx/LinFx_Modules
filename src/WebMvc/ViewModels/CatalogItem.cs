@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Microsoft.eShopOnContainers.WebMVC.ViewModels
+namespace WebMvc.ViewModels
 {
     public class CatalogItem
     {
@@ -13,6 +13,5 @@ namespace Microsoft.eShopOnContainers.WebMVC.ViewModels
         public string CatalogBrand { get; set; }
         public int CatalogTypeId { get; set; }
         public string CatalogType { get; set; }
-
     }
 }

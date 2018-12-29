@@ -1,11 +1,11 @@
-﻿using Microsoft.eShopOnContainers.WebMVC.ViewModels;
+﻿using WebMvc.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebMVC.Models;
+using WebMvc.Models;
 
-namespace Microsoft.eShopOnContainers.WebMVC.Services
+namespace WebMvc.Services
 {
     public interface IOrderingService
     {

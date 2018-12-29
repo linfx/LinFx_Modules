@@ -7,7 +7,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microsoft.eShopOnContainers.WebMVC.Extensions
+namespace WebMvc.Extensions
 {
     public static class HttpClientExtensions
     {

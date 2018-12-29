@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.eShopOnContainers.WebMVC.ViewModels.Pagination;
+using WebMvc.ViewModels.Pagination;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Microsoft.eShopOnContainers.WebMVC.ViewModels.CatalogViewModels
+namespace WebMvc.ViewModels.CatalogViewModels
 {
     public class IndexViewModel
     {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.eShopOnContainers.WebMVC.ViewModels.Annotations;
+using WebMvc.ViewModels.Annotations;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,9 +7,9 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using WebMVC.Models;
+using WebMvc.Models;
 
-namespace Microsoft.eShopOnContainers.WebMVC.ViewModels
+namespace WebMvc.ViewModels
 {
     public class Order
     {
@@ -53,8 +53,7 @@ namespace Microsoft.eShopOnContainers.WebMVC.ViewModels
 
         public string Buyer { get; set; }
 
-        public List<SelectListItem> ActionCodeSelectList =>
-           GetActionCodesByCurrentState();
+        public List<SelectListItem> ActionCodeSelectList => GetActionCodesByCurrentState();
 
         // See the property initializer syntax below. This
         // initializes the compiler generated field for this

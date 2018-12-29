@@ -1,15 +1,13 @@
-namespace Microsoft.eShopOnContainers.WebMVC.Controllers
+namespace WebMvc.Controllers
 {
-    using AspNetCore.Authorization;
-    using AspNetCore.Mvc;
-    using global::WebMVC.Models;
-    using global::WebMVC.Services;
-    using global::WebMVC.ViewModels;
+    using global::WebMvc.Models;
+    using global::WebMvc.Services;
+    using global::WebMvc.ViewModels;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Options;
-    using Services;
     using System;
     using System.Threading.Tasks;
-    using ViewModels;
     using ViewModels.Pagination;
 
     [Authorize]

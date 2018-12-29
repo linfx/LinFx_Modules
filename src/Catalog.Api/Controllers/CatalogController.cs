@@ -78,7 +78,7 @@ namespace Catalog.Api.Controllers
 
             var baseUri = _settings.PicBaseUrl;
             var azureStorageEnabled = _settings.AzureStorageEnabled;
-            //item.FillProductUrl(baseUri, azureStorageEnabled: azureStorageEnabled);
+            item.FillProductUrl(baseUri, azureStorageEnabled: azureStorageEnabled);
 
             if (item != null)
             {

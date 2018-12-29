@@ -1,6 +1,6 @@
-﻿namespace Microsoft.eShopOnContainers.WebMVC.Services
+﻿namespace WebMvc.Services
 {
-    using global::WebMVC.Infrastructure;
+    using global::WebMvc.Infrastructure;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using Newtonsoft.Json;

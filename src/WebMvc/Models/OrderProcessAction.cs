@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebMVC.Models
+namespace WebMvc.Models
 {
     public class OrderProcessAction
     {

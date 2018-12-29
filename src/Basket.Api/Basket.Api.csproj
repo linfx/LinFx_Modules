@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="LinFx" Version="3.3.3" />
     <PackageReference Include="LinFx.Web" Version="0.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
@@ -14,7 +15,6 @@
 
   <ItemGroup>
     <Folder Include="Infrastructure\Filters\" />
-    <Folder Include="IntegrationEvents\" />
   </ItemGroup>
 
 </Project>

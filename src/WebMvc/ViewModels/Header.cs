@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Microsoft.eShopOnContainers.WebMVC.ViewModels
+namespace WebMvc.ViewModels
 {
     public class Header
     {

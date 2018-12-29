@@ -12,5 +12,6 @@
     <div class="esh-catalog-price">
         <span>@Model.Price.ToString("N2")</span>
     </div>
-    <input type="hidden" asp-for="@Model.Id" name="id" />
+
+    @Html.HiddenFor(p => p.Id)
 </form>

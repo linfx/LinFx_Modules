@@ -1,4 +1,4 @@
-@model Microsoft.eShopOnContainers.WebMVC.ViewModels.Basket
+@model WebMvc.ViewModels.Basket
 
 @{
     ViewData["Title"] = "My Cart";
@@ -34,18 +34,18 @@
         {
             var item = Model.Items[i];
 
-        <article class="esh-basket-items  row">
-            <section class="esh-basket-item esh-basket-item--middle col-lg-3 hidden-lg-down">
-                <img class="esh-basket-image" src="@item.PictureUrl" />
-            </section>
-            <section class="esh-basket-item esh-basket-item--middle col-3">@item.ProductName</section>
-            <section class="esh-basket-item esh-basket-item--middle col-2">$ @item.UnitPrice.ToString("N2")</section>
-            <section class="esh-basket-item esh-basket-item--middle col-2">
-                <input type="hidden" name="@("quantities[" + i +"].Key")" value="@item.Id" />
-                <input type="number" class="esh-basket-input" min="1" name="@("quantities[" + i +"].Value")" value="@item.Quantity" />
-            </section>
-            <section class="esh-basket-item esh-basket-item--middle esh-basket-item--mark col-2">$ @Math.Round(item.Quantity * item.UnitPrice, 2).ToString("N2")</section>
-        </article>
+            <article class="esh-basket-items  row">
+                <section class="esh-basket-item esh-basket-item--middle col-lg-3 hidden-lg-down">
+                    <img class="esh-basket-image" src="@item.PictureUrl" />
+                </section>
+                <section class="esh-basket-item esh-basket-item--middle col-3">@item.ProductName</section>
+                <section class="esh-basket-item esh-basket-item--middle col-2">$ @item.UnitPrice.ToString("N2")</section>
+                <section class="esh-basket-item esh-basket-item--middle col-2">
+                    <input type="hidden" name="@("quantities[" + i +"].Key")" value="@item.ProductId" />
+                    <input type="number" name="@("quantities[" + i +"].Value")" value="@item.Quantity" class="esh-basket-input" min="1"  />
+                </section>
+                <section class="esh-basket-item esh-basket-item--middle esh-basket-item--mark col-2">$ @Math.Round(item.Quantity * item.UnitPrice, 2).ToString("N2")</section>
+            </article>
 
             <div class="esh-basket-items--border row">
                 @if (item.OldUnitPrice != 0)
@@ -80,7 +80,7 @@
             </article>
         </div>
     }
-    
+
 </div>
 
-    
+

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebMVC.ViewModels.Annotations
+namespace WebMvc.ViewModels.Annotations
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
     public class LongitudeCoordinate : ValidationAttribute

@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using System.IO;
 
-namespace Microsoft.eShopOnContainers.WebMVC
+namespace WebMvc
 {
     public class Program
     {

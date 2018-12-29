@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.eShopOnContainers.WebMVC.Services;
-using Microsoft.eShopOnContainers.WebMVC.ViewModels;
+using WebMvc.Services;
+using WebMvc.ViewModels;
 using Polly.CircuitBreaker;
 using System.Threading.Tasks;
 
-namespace Microsoft.eShopOnContainers.WebMVC.Controllers
+namespace WebMvc.Controllers
 {
     [Authorize]
     public class OrderController : Controller
@@ -13,6 +13,7 @@ namespace Microsoft.eShopOnContainers.WebMVC.Controllers
         private IOrderingService _orderSvc;
         private IBasketService _basketSvc;
         private readonly IIdentityParser<ApplicationUser> _appUserParser;
+
         public OrderController(IOrderingService orderSvc, IBasketService basketSvc, IIdentityParser<ApplicationUser> appUserParser)
         {
             _appUserParser = appUserParser;
@@ -20,47 +21,21 @@ namespace Microsoft.eShopOnContainers.WebMVC.Controllers
             _basketSvc = basketSvc;
         }
 
+        public async Task<IActionResult> Index(Order item)
+        {
+            var user = _appUserParser.Parse(HttpContext.User);
+            var vm = await _orderSvc.GetMyOrders(user);
+            return View(vm);
+        }
+
         public async Task<IActionResult> Create()
         {
-
             var user = _appUserParser.Parse(HttpContext.User);
             var order = await _basketSvc.GetOrderDraft(user.Id);
             var vm = _orderSvc.MapUserInfoIntoOrder(user, order);
             vm.CardExpirationShortFormat();
 
             return View(vm);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Checkout(Order model)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var user = _appUserParser.Parse(HttpContext.User);
-                    var basket = _orderSvc.MapOrderToBasket(model);
-
-                    await _basketSvc.Checkout(basket);
-
-                    //Redirect to historic list.
-                    return RedirectToAction("Index");
-                }
-            }
-            catch (BrokenCircuitException)
-            {
-                ModelState.AddModelError("Error", "It was not possible to create a new order, please try later on. (Business Msg Due to Circuit-Breaker)");
-            }
-
-            return View("Create", model);
-        }
-
-        public async Task<IActionResult> Cancel(string orderId)
-        {
-            await _orderSvc.CancelOrder(orderId);
-
-            //Redirect to historic list.
-            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Detail(string orderId)
@@ -71,11 +46,39 @@ namespace Microsoft.eShopOnContainers.WebMVC.Controllers
             return View(order);
         }
 
-        public async Task<IActionResult> Index(Order item)
+        public async Task<IActionResult> Cancel(string orderId)
         {
-            var user = _appUserParser.Parse(HttpContext.User);
-            var vm = await _orderSvc.GetMyOrders(user);
-            return View(vm);
+            await _orderSvc.CancelOrder(orderId);
+
+            //Redirect to historic list.
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Ã·Ωª∂©µ•
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> Checkout(Order model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var user = _appUserParser.Parse(HttpContext.User);
+                    var basket = _orderSvc.MapOrderToBasket(model);
+                    await _basketSvc.Checkout(basket);
+
+                    //Redirect to historic list.
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (BrokenCircuitException)
+            {
+                ModelState.AddModelError("Error", "It was not possible to create a new order, please try later on. (Business Msg Due to Circuit-Breaker)");
+            }
+            return View("Create", model);
         }
     }
 }

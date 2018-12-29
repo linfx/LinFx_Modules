@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.eShopOnContainers.WebMVC.Services;
-using Microsoft.eShopOnContainers.WebMVC.ViewModels;
+using WebMvc.Services;
+using WebMvc.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -17,11 +17,11 @@ using StackExchange.Redis;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
-using WebMVC.Infrastructure;
-using WebMVC.Infrastructure.Middlewares;
-using WebMVC.Services;
+using WebMvc.Infrastructure;
+using WebMvc.Infrastructure.Middlewares;
+using WebMvc.Services;
 
-namespace Microsoft.eShopOnContainers.WebMVC
+namespace WebMvc
 {
     public class Startup
     {
@@ -48,7 +48,7 @@ namespace Microsoft.eShopOnContainers.WebMVC
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            loggerFactory.AddAzureWebAppDiagnostics();
+            //loggerFactory.AddAzureWebAppDiagnostics();
             loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Trace);
 
             if (env.IsDevelopment())

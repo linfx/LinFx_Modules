@@ -1,9 +1,9 @@
-﻿namespace WebMVC.ViewModels
+﻿namespace WebMvc.ViewModels
 {
     using System.Collections.Generic;
-    using Microsoft.eShopOnContainers.WebMVC.ViewModels;
-    using Microsoft.eShopOnContainers.WebMVC.ViewModels.Pagination;
-    using WebMVC.ViewModels.Annotations;
+    using WebMvc.ViewModels;
+    using WebMvc.ViewModels.Pagination;
+    using WebMvc.ViewModels.Annotations;
     using Newtonsoft.Json;
     using System.ComponentModel.DataAnnotations;
 

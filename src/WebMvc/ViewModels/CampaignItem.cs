@@ -1,4 +1,4 @@
-﻿namespace Microsoft.eShopOnContainers.WebMVC.ViewModels
+﻿namespace WebMvc.ViewModels
 {
     using System;
 

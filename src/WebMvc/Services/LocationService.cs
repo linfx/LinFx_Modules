@@ -1,14 +1,12 @@
-﻿using Microsoft.eShopOnContainers.WebMVC;
-using Microsoft.eShopOnContainers.WebMVC.Services;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
-using WebMVC.Infrastructure;
-using WebMVC.Models;
+using WebMvc.Infrastructure;
+using WebMvc.Models;
 
-namespace WebMVC.Services
+namespace WebMvc.Services
 {
     public class LocationService : ILocationService
     {

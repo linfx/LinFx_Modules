@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.eShopOnContainers.WebMVC.ViewModels;
-using Microsoft.eShopOnContainers.WebMVC.ViewModels.CartViewModels;
-using Microsoft.eShopOnContainers.WebMVC.Services;
+using WebMvc.ViewModels;
+using WebMvc.ViewModels.CartViewModels;
+using WebMvc.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Polly.CircuitBreaker;
 
-namespace Microsoft.eShopOnContainers.WebMVC.ViewComponents
+namespace WebMvc.ViewComponents
 {
     public class Cart : ViewComponent
     {

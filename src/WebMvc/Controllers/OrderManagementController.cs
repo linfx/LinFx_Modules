@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using WebMVC.Models;
-using Microsoft.eShopOnContainers.WebMVC.Services;
-using Microsoft.eShopOnContainers.WebMVC.ViewModels;
+using WebMvc.Models;
+using WebMvc.Services;
+using WebMvc.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 
-namespace WebMVC.Controllers
+namespace WebMvc.Controllers
 {
     [Authorize]
     public class OrderManagementController : Controller

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace WebMVC.Infrastructure.Middlewares
+namespace WebMvc.Infrastructure.Middlewares
 {
     class ByPassAuthMiddleware
     {

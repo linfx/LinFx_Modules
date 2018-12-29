@@ -1,14 +1,14 @@
-﻿using Microsoft.eShopOnContainers.WebMVC.ViewModels;
+﻿using WebMvc.ViewModels;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using WebMVC.Infrastructure;
-using WebMVC.Models;
+using WebMvc.Infrastructure;
+using WebMvc.Models;
 
-namespace Microsoft.eShopOnContainers.WebMVC.Services
+namespace WebMvc.Services
 {
     public class OrderingService : IOrderingService
     {
@@ -22,7 +22,7 @@ namespace Microsoft.eShopOnContainers.WebMVC.Services
             _httpClient = httpClient;
             _settings = settings;
 
-            _remoteServiceBaseUrl = $"{settings.Value.PurchaseUrl}/api/v1/o/orders";
+            _remoteServiceBaseUrl = $"http://localhost:5102/api/v1/orders";
         }
 
         async public Task<Order> GetOrder(ApplicationUser user, string id)
@@ -39,11 +39,8 @@ namespace Microsoft.eShopOnContainers.WebMVC.Services
         async public Task<List<Order>> GetMyOrders(ApplicationUser user)
         {
             var uri = API.Order.GetAllMyOrders(_remoteServiceBaseUrl);
-
             var responseString = await _httpClient.GetStringAsync(uri);
-
             var response = JsonConvert.DeserializeObject<List<Order>>(responseString);
-
             return response;
         }
 
@@ -113,7 +110,7 @@ namespace Microsoft.eShopOnContainers.WebMVC.Services
 
             order.CardNumber = user.CardNumber;
             order.CardHolderName = user.CardHolderName;
-            order.CardExpiration = new DateTime(int.Parse("20" + user.Expiration.Split('/')[1]), int.Parse(user.Expiration.Split('/')[0]), 1);
+            //order.CardExpiration = new DateTime(int.Parse("20" + user.Expiration.Split('/')[1]), int.Parse(user.Expiration.Split('/')[0]), 1);
             order.CardSecurityNumber = user.SecurityNumber;
 
             return order;

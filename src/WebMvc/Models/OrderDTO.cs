@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebMVC.Models
+namespace WebMvc.Models
 {
     public class OrderDTO
     {
