@@ -23,8 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ordering", "Ordering", "{BC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.Application", "src\Ordering.Application\Ordering.Application.csproj", "{365AC83D-24CD-4A87-A421-43B39655E26A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx", "..\LinFx\src\LinFx\LinFx.csproj", "{83A44B1B-303E-4BA0-AAC1-002AE4F6F32F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,10 +65,6 @@ Global
 		{365AC83D-24CD-4A87-A421-43B39655E26A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{365AC83D-24CD-4A87-A421-43B39655E26A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{365AC83D-24CD-4A87-A421-43B39655E26A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{83A44B1B-303E-4BA0-AAC1-002AE4F6F32F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{83A44B1B-303E-4BA0-AAC1-002AE4F6F32F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{83A44B1B-303E-4BA0-AAC1-002AE4F6F32F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{83A44B1B-303E-4BA0-AAC1-002AE4F6F32F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,7 +74,6 @@ Global
 		{95824F62-9890-48BB-A834-4EF8BA540C03} = {BC030A3A-8747-43E6-A744-D7E6C25F28B4}
 		{E8184F7D-4927-4ECC-8381-C072D0BDD618} = {BC030A3A-8747-43E6-A744-D7E6C25F28B4}
 		{365AC83D-24CD-4A87-A421-43B39655E26A} = {BC030A3A-8747-43E6-A744-D7E6C25F28B4}
-		{83A44B1B-303E-4BA0-AAC1-002AE4F6F32F} = {BC030A3A-8747-43E6-A744-D7E6C25F28B4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {41A27AA3-4F60-4CE7-96E2-303CCDA52EDD}
