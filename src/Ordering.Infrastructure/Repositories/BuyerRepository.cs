@@ -11,6 +11,7 @@ namespace Ordering.Infrastructure.Repositories
     public class BuyerRepository : IBuyerRepository
     {
         private readonly OrderingContext _context;
+
         public IUnitOfWork UnitOfWork
         {
             get { return _context; }

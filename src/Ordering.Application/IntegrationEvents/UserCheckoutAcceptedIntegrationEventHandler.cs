@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using LinFx.Extensions.EventBus.Abstractions;
 using Ordering.Domain.Commands;
 
-namespace Ordering.API.Application.IntegrationEvents
+namespace Ordering.Application.IntegrationEvents
 {
     /// <summary>
     /// 用户结算

@@ -17,8 +17,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Ordering.Api.Infrastructure;
-using Ordering.API.Application.IntegrationEvents;
 using Ordering.API.Application.IntegrationEvents.Events;
+using Ordering.Application.IntegrationEvents;
 using Ordering.Application.Services;
 using Ordering.Infrastructure;
 using Swashbuckle.AspNetCore.Swagger;
@@ -106,7 +106,7 @@ namespace Ordering.Api
         private void ConfigureEventBus(IApplicationBuilder app)
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-            eventBus.Subscribe<UserCheckoutAcceptedIntegrationEvent, UserCheckoutAcceptedIntegrationEventHandler>();
+            eventBus.Subscribe<UserCheckoutAcceptedIntegrationEvent, IIntegrationEventHandler<UserCheckoutAcceptedIntegrationEvent>>();
             eventBus.Subscribe<GracePeriodConfirmedIntegrationEvent, IIntegrationEventHandler<GracePeriodConfirmedIntegrationEvent>>();
             eventBus.Subscribe<OrderStockConfirmedIntegrationEvent, IIntegrationEventHandler<OrderStockConfirmedIntegrationEvent>>();
             eventBus.Subscribe<OrderStockRejectedIntegrationEvent, IIntegrationEventHandler<OrderStockRejectedIntegrationEvent>>();
@@ -271,6 +271,7 @@ namespace Ordering.Api
 
         public static IServiceCollection AddEventBus(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddTransient<UserCheckoutAcceptedIntegrationEventHandler>();
 
             return services;
         }

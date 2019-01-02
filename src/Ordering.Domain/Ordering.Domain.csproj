@@ -5,11 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="8.1.2" />
     <PackageReference Include="LinFx" Version="3.3.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Validations\" />
   </ItemGroup>
 
 </Project>

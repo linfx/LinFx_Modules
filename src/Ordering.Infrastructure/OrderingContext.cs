@@ -28,7 +28,6 @@ namespace Ordering.Infrastructure
 
         public OrderingContext(DbContextOptions<OrderingContext> options) : base (options) { }
 
-
         public OrderingContext(DbContextOptions<OrderingContext> options, IMediator mediator) : base(options)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
