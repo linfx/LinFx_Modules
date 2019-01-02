@@ -6,7 +6,10 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="8.1.2" />
-    <PackageReference Include="LinFx" Version="3.3.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\LinFx\src\LinFx\LinFx.csproj" />
   </ItemGroup>
 
 </Project>

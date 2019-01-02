@@ -17,10 +17,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Ordering.Api.Infrastructure;
-using Ordering.API.Application.IntegrationEvents.Events;
+using Ordering.API.Application.IntegrationEvents;
 using Ordering.Application.IntegrationEvents;
 using Ordering.Application.Services;
+using Ordering.Domain.Interfaces;
 using Ordering.Infrastructure;
+using Ordering.Infrastructure.Repositories;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Ordering.Api
@@ -106,12 +108,12 @@ namespace Ordering.Api
         private void ConfigureEventBus(IApplicationBuilder app)
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-            eventBus.Subscribe<UserCheckoutAcceptedIntegrationEvent, IIntegrationEventHandler<UserCheckoutAcceptedIntegrationEvent>>();
-            eventBus.Subscribe<GracePeriodConfirmedIntegrationEvent, IIntegrationEventHandler<GracePeriodConfirmedIntegrationEvent>>();
-            eventBus.Subscribe<OrderStockConfirmedIntegrationEvent, IIntegrationEventHandler<OrderStockConfirmedIntegrationEvent>>();
-            eventBus.Subscribe<OrderStockRejectedIntegrationEvent, IIntegrationEventHandler<OrderStockRejectedIntegrationEvent>>();
-            eventBus.Subscribe<OrderPaymentFailedIntegrationEvent, IIntegrationEventHandler<OrderPaymentFailedIntegrationEvent>>();
-            eventBus.Subscribe<OrderPaymentSuccededIntegrationEvent, IIntegrationEventHandler<OrderPaymentSuccededIntegrationEvent>>();
+            eventBus.Subscribe<UserCheckoutAcceptedIntegrationEvent, UserCheckoutAcceptedIntegrationEventHandler>();
+            //eventBus.Subscribe<GracePeriodConfirmedIntegrationEvent, IIntegrationEventHandler<GracePeriodConfirmedIntegrationEvent>>();
+            //eventBus.Subscribe<OrderStockConfirmedIntegrationEvent, IIntegrationEventHandler<OrderStockConfirmedIntegrationEvent>>();
+            //eventBus.Subscribe<OrderStockRejectedIntegrationEvent, IIntegrationEventHandler<OrderStockRejectedIntegrationEvent>>();
+            //eventBus.Subscribe<OrderPaymentFailedIntegrationEvent, IIntegrationEventHandler<OrderPaymentFailedIntegrationEvent>>();
+            //eventBus.Subscribe<OrderPaymentSuccededIntegrationEvent, IIntegrationEventHandler<OrderPaymentSuccededIntegrationEvent>>();
         }
     }
 
@@ -239,7 +241,17 @@ namespace Ordering.Api
             services.AddTransient<IIdentityService, IdentityService>();
             //services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
             //    sp => (DbConnection c) => new IntegrationEventLogService(c));
+            services.AddTransient<IRequestManager, RequestManager>();
             services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IOrderingIntegrationEventService, OrderingIntegrationEventService>();
+
+            return services;
+        }
+        
+        public static IServiceCollection AddEventBus(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddTransient<UserCheckoutAcceptedIntegrationEventHandler>();
 
             return services;
         }
@@ -265,13 +277,6 @@ namespace Ordering.Api
                     };
                 };
             });
-
-            return services;
-        }
-
-        public static IServiceCollection AddEventBus(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddTransient<UserCheckoutAcceptedIntegrationEventHandler>();
 
             return services;
         }
