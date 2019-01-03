@@ -18,7 +18,7 @@ namespace Ordering.Api.Infrastructure
                 .AsClosedTypesOf(typeof(IRequestHandler<,>));
 
             // Register the DomainEventHandler classes (they implement INotificationHandler<>) in assembly holding the Domain Events
-            builder.RegisterAssemblyTypes(typeof(ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler).GetTypeInfo().Assembly)
+            builder.RegisterAssemblyTypes(typeof(ValidateOrAddBuyerWhenOrderStartedDomainEventHandler).GetTypeInfo().Assembly)
                 .AsClosedTypesOf(typeof(INotificationHandler<>));
 
             // Register the Command's Validators (Validators based on FluentValidation library)

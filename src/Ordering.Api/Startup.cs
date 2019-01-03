@@ -6,6 +6,7 @@ using Autofac.Extensions.DependencyInjection;
 using LinFx.Extensions.EventBus.Abstractions;
 using LinFx.Extensions.EventBus.RabbitMQ;
 using LinFx.Web.Services;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,8 +19,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Ordering.Api.Infrastructure;
 using Ordering.API.Application.IntegrationEvents;
-using Ordering.Application.IntegrationEvents;
 using Ordering.Application.Services;
+using Ordering.Domain.EventHandlers;
+using Ordering.Domain.Events;
 using Ordering.Domain.Interfaces;
 using Ordering.Infrastructure;
 using Ordering.Infrastructure.Repositories;
@@ -237,13 +239,15 @@ namespace Ordering.Api
 
         public static IServiceCollection AddCustomIntegrations(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddMediatR();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IIdentityService, IdentityService>();
             //services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
             //    sp => (DbConnection c) => new IntegrationEventLogService(c));
             services.AddTransient<IRequestManager, RequestManager>();
-            services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IBuyerRepository, BuyerRepository>();
+            services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IOrderingIntegrationEventService, OrderingIntegrationEventService>();
 
             return services;

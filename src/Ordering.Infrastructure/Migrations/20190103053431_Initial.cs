@@ -16,9 +16,10 @@ namespace Ordering.Infrastructure.Migrations
                 schema: "shopfx.services.orderingdb",
                 columns: table => new
                 {
-                    Id = table.Column<int>(maxLength: 200, nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Identity = table.Column<string>(maxLength: 200, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -168,6 +169,13 @@ namespace Ordering.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_buyers_Identity",
+                schema: "shopfx.services.orderingdb",
+                table: "buyers",
+                column: "Identity",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_orderItems_OrderId",

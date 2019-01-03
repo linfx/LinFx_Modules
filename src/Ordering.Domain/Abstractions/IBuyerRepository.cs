@@ -1,4 +1,5 @@
 ﻿using LinFx.Domain;
+using LinFx.Domain.Abstractions;
 using Ordering.Domain.Models;
 using System.Threading.Tasks;
 

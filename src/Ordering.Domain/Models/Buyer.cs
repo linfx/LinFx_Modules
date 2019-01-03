@@ -1,5 +1,4 @@
-﻿using LinFx.Domain;
-using LinFx.Domain.Models;
+﻿using LinFx.Domain.Models;
 using Ordering.Domain.Events;
 using System;
 using System.Collections.Generic;
@@ -9,9 +8,9 @@ namespace Ordering.Domain.Models
 {
     public class Buyer : Entity, IAggregateRoot
     {
-        public string Identity { get; private set; }
-
         public string Name { get; private set; }
+
+        public string Identity { get; private set; }
 
         private List<PaymentMethod> _paymentMethods;
 

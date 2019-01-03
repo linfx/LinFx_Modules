@@ -17,9 +17,12 @@ namespace Ordering.Infrastructure.EntityConfigurations
             //buyerConfiguration.Property(b => b.Id)
             //    .ForSqlServerUseSequenceHiLo("buyerseq", OrderingContext.DEFAULT_SCHEMA);
 
-            buyerConfiguration.Property(b => b.Id)
+            buyerConfiguration.Property(b => b.Identity)
                 .HasMaxLength(200)
                 .IsRequired();
+
+            buyerConfiguration.HasIndex("Identity")
+                .IsUnique(true);
 
             buyerConfiguration.Property(b => b.Name);
 

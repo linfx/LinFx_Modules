@@ -35,12 +35,18 @@ namespace Ordering.Infrastructure.Migrations
             modelBuilder.Entity("Ordering.Domain.Models.Buyer", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Identity")
+                        .IsRequired()
                         .HasMaxLength(200);
 
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Identity")
+                        .IsUnique();
 
                     b.ToTable("buyers","shopfx.services.orderingdb");
                 });

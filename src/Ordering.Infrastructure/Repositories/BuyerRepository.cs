@@ -1,9 +1,8 @@
-﻿using LinFx.Domain.Uow;
+﻿using LinFx.Domain.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Ordering.Domain.Interfaces;
 using Ordering.Domain.Models;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Ordering.Infrastructure.Repositories
@@ -26,29 +25,24 @@ namespace Ordering.Infrastructure.Repositories
         {
             if (buyer.IsTransient())
             {
-                return _context.Buyers
-                    .Add(buyer)
-                    .Entity;
+                return _context.Buyers.Add(buyer).Entity;
             }
             else
             {
                 return buyer;
-            }           
+            }
         }
 
         public Buyer Update(Buyer buyer)
         {
-            return _context.Buyers
-                    .Update(buyer)
-                    .Entity;
+            return _context.Buyers.Update(buyer).Entity;
         }
 
         public async Task<Buyer> FindAsync(string identity)
         {
             var buyer = await _context.Buyers
                 .Include(b => b.PaymentMethods)
-                .Where(b => b.Identity == identity)
-                .SingleOrDefaultAsync();
+                .SingleOrDefaultAsync(b => b.Identity == identity);
 
             return buyer;
         }
@@ -57,8 +51,7 @@ namespace Ordering.Infrastructure.Repositories
         {
             var buyer = await _context.Buyers
                 .Include(b => b.PaymentMethods)
-                .Where(b => b.Id == id)
-                .SingleOrDefaultAsync();
+                .SingleOrDefaultAsync(b => b.Id == id);
 
             return buyer;
         }

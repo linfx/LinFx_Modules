@@ -1,11 +1,12 @@
 ﻿using System;
-using MediatR;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using LinFx.Extensions.EventBus.Abstractions;
 using Ordering.Domain.Commands;
+using Ordering.Domain.Events;
 
-namespace Ordering.Application.IntegrationEvents
+namespace Ordering.Domain.EventHandlers
 {
     /// <summary>
     /// 用户结算

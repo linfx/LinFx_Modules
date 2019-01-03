@@ -1,4 +1,4 @@
-﻿using LinFx.Domain.Uow;
+﻿using LinFx.Domain.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Ordering.Domain.Interfaces;
 using Ordering.Domain.Models;

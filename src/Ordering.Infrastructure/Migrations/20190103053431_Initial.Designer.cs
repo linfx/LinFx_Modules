@@ -9,7 +9,7 @@ using Ordering.Infrastructure;
 namespace Ordering.Infrastructure.Migrations
 {
     [DbContext(typeof(OrderingContext))]
-    [Migration("20181228075235_Initial")]
+    [Migration("20190103053431_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,12 +37,18 @@ namespace Ordering.Infrastructure.Migrations
             modelBuilder.Entity("Ordering.Domain.Models.Buyer", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Identity")
+                        .IsRequired()
                         .HasMaxLength(200);
 
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Identity")
+                        .IsUnique();
 
                     b.ToTable("buyers","shopfx.services.orderingdb");
                 });
