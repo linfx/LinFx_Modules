@@ -15,7 +15,7 @@ using Catalog.Api.Extensions;
 namespace Catalog.Api.Controllers
 {
     [ApiController]
-    [ApiVersion("1.0")]
+    //[ApiVersion("1.0")]
     [Route("api/v1/catalog")]
     public class CatalogController : ControllerBase
     {

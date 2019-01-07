@@ -9,7 +9,7 @@ using Ordering.Infrastructure;
 namespace Ordering.Infrastructure.Migrations
 {
     [DbContext(typeof(OrderingContext))]
-    [Migration("20190103053431_Initial")]
+    [Migration("20190104070054_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,9 +41,10 @@ namespace Ordering.Infrastructure.Migrations
 
                     b.Property<string>("Identity")
                         .IsRequired()
-                        .HasMaxLength(200);
+                        .HasMaxLength(32);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(200);
 
                     b.HasKey("Id");
 

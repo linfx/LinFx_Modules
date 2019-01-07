@@ -12,19 +12,17 @@ namespace Ordering.Infrastructure.EntityConfigurations
 
             buyerConfiguration.HasKey(b => b.Id);
 
-            buyerConfiguration.Ignore(b => b.DomainEvents);
-
-            //buyerConfiguration.Property(b => b.Id)
-            //    .ForSqlServerUseSequenceHiLo("buyerseq", OrderingContext.DEFAULT_SCHEMA);
+            buyerConfiguration.Property(b => b.Name)
+                .HasMaxLength(200);
 
             buyerConfiguration.Property(b => b.Identity)
-                .HasMaxLength(200)
+                .HasMaxLength(32)
                 .IsRequired();
 
             buyerConfiguration.HasIndex("Identity")
                 .IsUnique(true);
 
-            buyerConfiguration.Property(b => b.Name);
+            buyerConfiguration.Ignore(b => b.DomainEvents);
 
             buyerConfiguration.HasMany(b => b.PaymentMethods)
                .WithOne()

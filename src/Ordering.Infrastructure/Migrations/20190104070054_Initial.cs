@@ -18,8 +18,8 @@ namespace Ordering.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Identity = table.Column<string>(maxLength: 200, nullable: false)
+                    Name = table.Column<string>(maxLength: 200, nullable: true),
+                    Identity = table.Column<string>(maxLength: 32, nullable: false)
                 },
                 constraints: table =>
                 {

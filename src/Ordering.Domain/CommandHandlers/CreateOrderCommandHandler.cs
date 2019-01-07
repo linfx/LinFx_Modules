@@ -1,29 +1,29 @@
-﻿namespace Ordering.Domain.Commands
-{
-    using global::Ordering.Domain.Models;
-    using global::Ordering.API.Application.IntegrationEvents;
-    using global::Ordering.API.Application.IntegrationEvents.Events;
-    using MediatR;
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using global::Ordering.Domain.Interfaces;
-    using global::Ordering;
+﻿using MediatR;
+using Ordering.API.Application.IntegrationEvents;
+using Ordering.API.Application.IntegrationEvents.Events;
+using Ordering.Domain.Interfaces;
+using Ordering.Domain.Models;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
+namespace Ordering.Domain.Commands
+{
     // Regular CommandHandler
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, bool>
     {
-        private readonly IOrderRepository _orderRepository;
         private readonly IMediator _mediator;
+        private readonly IOrderRepository _orderRepository;
         private readonly IOrderingIntegrationEventService _orderingIntegrationEventService;
 
         // Using DI to inject infrastructure persistence Repositories
-        public CreateOrderCommandHandler(IMediator mediator,
-            IOrderingIntegrationEventService orderingIntegrationEventService,
-            IOrderRepository orderRepository)
+        public CreateOrderCommandHandler(
+            IMediator mediator,
+            IOrderRepository orderRepository,
+            IOrderingIntegrationEventService orderingIntegrationEventService)
         {
-            _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
             _orderingIntegrationEventService = orderingIntegrationEventService ?? throw new ArgumentNullException(nameof(orderingIntegrationEventService));
         }
 

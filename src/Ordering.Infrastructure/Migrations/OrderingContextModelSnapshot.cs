@@ -39,9 +39,10 @@ namespace Ordering.Infrastructure.Migrations
 
                     b.Property<string>("Identity")
                         .IsRequired()
-                        .HasMaxLength(200);
+                        .HasMaxLength(32);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(200);
 
                     b.HasKey("Id");
 
