@@ -1,6 +1,9 @@
-﻿namespace Ordering.Domain.Models
+﻿using LinFx.Domain.Values;
+using System.Collections.Generic;
+
+namespace Ordering.Domain.Models
 {
-    public class Address 
+    public class Address : ValueObject
     {
         public string Street { get; private set; }
         public string City { get; private set; }
@@ -19,14 +22,14 @@
             ZipCode = zipcode;
         }
 
-        //protected override IEnumerable<object> GetAtomicValues()
-        //{
-        //    // Using a yield return statement to return each element one at a time
-        //    yield return Street;
-        //    yield return City;
-        //    yield return State;
-        //    yield return Country;
-        //    yield return ZipCode;
-        //}
+        protected override IEnumerable<object> GetAtomicValues()
+        {
+            // Using a yield return statement to return each element one at a time
+            yield return Street;
+            yield return City;
+            yield return State;
+            yield return Country;
+            yield return ZipCode;
+        }
     }
 }

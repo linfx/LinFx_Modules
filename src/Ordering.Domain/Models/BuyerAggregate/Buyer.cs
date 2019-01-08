@@ -13,7 +13,6 @@ namespace Ordering.Domain.Models
         public string Identity { get; private set; }
 
         private List<PaymentMethod> _paymentMethods;
-
         public IEnumerable<PaymentMethod> PaymentMethods => _paymentMethods.AsReadOnly();
 
         protected Buyer()
@@ -43,7 +42,7 @@ namespace Ordering.Domain.Models
             {
                 var payment = new PaymentMethod(cardTypeId, alias, cardNumber, securityNumber, cardHolderName, expiration);
                 _paymentMethods.Add(payment);
-                //AddDomainEvent(new BuyerAndPaymentMethodVerifiedDomainEvent(this, payment, orderId));
+                AddDomainEvent(new BuyerAndPaymentMethodVerifiedDomainEvent(this, payment, orderId));
                 return payment;
             }
         }

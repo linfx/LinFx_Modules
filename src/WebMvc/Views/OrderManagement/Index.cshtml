@@ -3,12 +3,11 @@
 @model IEnumerable<WebMvc.ViewModels.Order>
 
 @{
-    ViewData["Title"] = "My Orders";
+    ViewData["Title"] = "我的订单";
 }
 
 <div class="esh-orders">
-    @Html.Partial("_Header", new List<Header>() {
-            new Header() { Controller = "Catalog", Text = "Back to catalog" } })
+    @await Html.PartialAsync("_Header", new List<Header>() { new Header() { Controller = "Catalog", Text = "Back to catalog" } })
 
     <div class="container">
         <article class="esh-orders-titles row">

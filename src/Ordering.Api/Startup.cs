@@ -68,7 +68,6 @@ namespace Ordering.Api
             var container = new ContainerBuilder();
             container.Populate(services);
             container.RegisterModule(new MediatorModule());
-            //container.RegisterModule(new ApplicationModule(Configuration["ConnectionString"]));
             return new AutofacServiceProvider(container.Build());
         }
 

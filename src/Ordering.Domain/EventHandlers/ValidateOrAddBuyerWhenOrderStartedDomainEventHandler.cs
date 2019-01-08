@@ -49,11 +49,11 @@ namespace Ordering.API.Application.DomainEventHandlers.OrderStartedEvent
                                            orderStartedEvent.CardExpiration,
                                            orderStartedEvent.Order.Id);
 
-            var buyerUpdated = buyerOriginallyExisted ? 
+            var buyerUpdated = buyerOriginallyExisted ?
                 _buyerRepository.Update(buyer) : 
                 _buyerRepository.Add(buyer);
 
-            await _buyerRepository.UnitOfWork.SaveEntitiesAsync();
+            await _buyerRepository.UnitOfWork.SaveChangesAsync();
 
             var orderStatusChangedTosubmittedIntegrationEvent = new OrderStatusChangedToSubmittedIntegrationEvent(orderStartedEvent.Order.Id, orderStartedEvent.Order.OrderStatus.Name, buyer.Name);
             await _orderingIntegrationEventService.AddAndSaveEventAsync(orderStatusChangedTosubmittedIntegrationEvent);

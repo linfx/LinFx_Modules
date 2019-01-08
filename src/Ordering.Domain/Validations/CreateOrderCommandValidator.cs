@@ -29,7 +29,7 @@ namespace Ordering.Domain.Validations
             return dateTime >= DateTime.UtcNow;
         }
 
-        private bool ContainOrderItems(IEnumerable<OrderItemDTO> orderItems)
+        private bool ContainOrderItems(IEnumerable<OrderItemDto> orderItems)
         {
             return orderItems.Any();
         }

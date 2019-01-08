@@ -22,7 +22,7 @@ namespace Ordering.Domain.Commands
     public class CreateOrderCommand : IRequest<bool>
     {
         [DataMember]
-        private readonly List<OrderItemDTO> _orderItems;
+        private readonly List<OrderItemDto> _orderItems;
 
         [DataMember]
         public string UserId { get; private set; }
@@ -61,11 +61,11 @@ namespace Ordering.Domain.Commands
         public int CardTypeId { get; private set; }
 
         [DataMember]
-        public IEnumerable<OrderItemDTO> OrderItems => _orderItems;
+        public IEnumerable<OrderItemDto> OrderItems => _orderItems;
 
         public CreateOrderCommand()
         {
-            _orderItems = new List<OrderItemDTO>();
+            _orderItems = new List<OrderItemDto>();
         }
 
         public CreateOrderCommand(List<BasketItem> basketItems, string userId, string userName, string city, string street, string state, string country, string zipcode,
@@ -88,18 +88,13 @@ namespace Ordering.Domain.Commands
             CardExpiration = cardExpiration;
         }
 
-        public class OrderItemDTO
+        public class OrderItemDto
         {
             public int ProductId { get; set; }
-
             public string ProductName { get; set; }
-
             public decimal UnitPrice { get; set; }
-
             public decimal Discount { get; set; }
-
             public int Units { get; set; }
-
             public string PictureUrl { get; set; }
         }
     }

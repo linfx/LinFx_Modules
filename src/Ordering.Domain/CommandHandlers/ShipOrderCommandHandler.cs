@@ -30,7 +30,8 @@ namespace Ordering.Domain.Commands
             }
 
             orderToUpdate.SetShippedStatus();
-            return await _orderRepository.UnitOfWork.SaveEntitiesAsync();
+            await _orderRepository.UnitOfWork.SaveChangesAsync();
+            return true;
         }
     }
 

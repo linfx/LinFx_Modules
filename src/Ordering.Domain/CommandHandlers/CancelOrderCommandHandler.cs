@@ -30,7 +30,8 @@ namespace Ordering.Domain.Commands
                 return false;
             }
             orderToUpdate.SetCancelledStatus();
-            return await _orderRepository.UnitOfWork.SaveEntitiesAsync();
+            await _orderRepository.UnitOfWork.SaveChangesAsync();
+            return true;
         }
     }
 

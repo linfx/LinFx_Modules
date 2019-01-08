@@ -38,7 +38,7 @@ namespace Ordering.Application.Services
             return MapOrderItems(result);
         }
 
-        public async Task<IEnumerable<OrderSummary>> GetOrdersFromUserAsync(string userId)
+        public async Task<IEnumerable<OrderSummary>> GetOrdersFromUserAsync(string identity)
         {
             var connection = _context.Database.GetDbConnection();
 
@@ -54,13 +54,13 @@ namespace Ordering.Application.Services
                      LEFT JOIN orderstatus os ON o.OrderStatusId = os.Id
                      LEFT JOIN buyers ob ON o.BuyerId = ob.Id 
                     WHERE
-                     ob.Id = @userId
+                     ob.Identity = @identity
                     GROUP BY
                      o.Id,
                      o.OrderDate,
                      os.NAME 
                     ORDER BY
-                     o.Id", new { userId });
+                     o.Id", new { identity });
 
             return result;
         }

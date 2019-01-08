@@ -1,5 +1,4 @@
-﻿using LinFx.Domain;
-using LinFx.Domain.Models;
+﻿using LinFx.Domain.Models;
 using Ordering.Domain.Events;
 using Ordering.Domain.Exceptions;
 using System;
@@ -18,8 +17,8 @@ namespace Ordering.Domain.Models
         // Address is a Value Object pattern example persisted as EF Core 2.0 owned entity
         public Address Address { get; private set; }
 
-        public int? GetBuyerId => _buyerId;
         private int? _buyerId;
+        public int? GetBuyerId => _buyerId;
 
         public OrderStatus OrderStatus { get; private set; }
         private int _orderStatusId;
@@ -176,6 +175,11 @@ namespace Ordering.Domain.Models
             }
         }
 
+        public decimal GetTotal()
+        {
+            return _orderItems.Sum(o => o.GetUnits() * o.GetUnitPrice());
+        }
+
         private void AddOrderStartedDomainEvent(string userId, string userName, int cardTypeId, string cardNumber,
                 string cardSecurityNumber, string cardHolderName, DateTime cardExpiration)
         {
@@ -189,11 +193,6 @@ namespace Ordering.Domain.Models
         private void StatusChangeException(OrderStatus orderStatusToChange)
         {
             throw new OrderingDomainException($"Is not possible to change the order status from {OrderStatus.Name} to {orderStatusToChange.Name}.");
-        }
-
-        public decimal GetTotal()
-        {
-            return _orderItems.Sum(o => o.GetUnits() * o.GetUnitPrice());
         }
     }
 }

@@ -11,15 +11,12 @@ namespace Ordering.Infrastructure.Repositories
     {
         private readonly OrderingContext _context;
 
-        public IUnitOfWork UnitOfWork
-        {
-            get { return _context; }
-        }
-
         public OrderRepository(OrderingContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
+
+        public IUnitOfWork UnitOfWork { get { return _context; } }
 
         public Order Add(Order order)
         {

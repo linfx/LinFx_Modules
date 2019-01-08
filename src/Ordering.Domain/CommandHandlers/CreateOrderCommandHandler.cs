@@ -47,7 +47,8 @@ namespace Ordering.Domain.Commands
 
              _orderRepository.Add(order);
 
-            return await _orderRepository.UnitOfWork.SaveEntitiesAsync();
+            await _orderRepository.UnitOfWork.SaveChangesAsync();
+            return true;
         }
     }
 

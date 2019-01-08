@@ -8,4 +8,11 @@
 
         public OrderPaymentSuccededIntegrationEvent(int orderId) => OrderId = orderId;
     }
+
+    public class OrderPaymentFailedIntegrationEvent : IntegrationEvent
+    {
+        public int OrderId { get; }
+
+        public OrderPaymentFailedIntegrationEvent(int orderId) => OrderId = orderId;
+    }
 }

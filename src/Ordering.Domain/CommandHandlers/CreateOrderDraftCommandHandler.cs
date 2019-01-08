@@ -36,14 +36,14 @@
 
     public class OrderDraftDTO
     {
-        public IEnumerable<OrderItemDTO> OrderItems { get; set; }
+        public IEnumerable<OrderItemDto> OrderItems { get; set; }
         public decimal Total { get; set; }
 
         public static OrderDraftDTO FromOrder(Order order)
         {
             return new OrderDraftDTO()
             {
-                OrderItems = order.OrderItems.Select(oi => new OrderItemDTO
+                OrderItems = order.OrderItems.Select(oi => new OrderItemDto
                 {
                     Discount = oi.GetCurrentDiscount(),
                     ProductId = oi.ProductId,

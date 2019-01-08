@@ -34,7 +34,8 @@ namespace Ordering.Domain.Commands
             }
 
             orderToUpdate.SetAwaitingValidationStatus();
-            return await _orderRepository.UnitOfWork.SaveEntitiesAsync();
+            await _orderRepository.UnitOfWork.SaveChangesAsync();
+            return true;
         }
 
         /// <summary>
@@ -55,7 +56,9 @@ namespace Ordering.Domain.Commands
             }
 
             orderToUpdate.SetPaidStatus();
-            return await _orderRepository.UnitOfWork.SaveEntitiesAsync();
+
+            await _orderRepository.UnitOfWork.SaveChangesAsync();
+            return true;
         }
 
         /// <summary>
@@ -76,7 +79,8 @@ namespace Ordering.Domain.Commands
             }
 
             orderToUpdate.SetStockConfirmedStatus();
-            return await _orderRepository.UnitOfWork.SaveEntitiesAsync();
+            await _orderRepository.UnitOfWork.SaveChangesAsync();
+            return true;
         }
 
         /// <summary>
@@ -97,8 +101,8 @@ namespace Ordering.Domain.Commands
             }
 
             orderToUpdate.SetCancelledStatusWhenStockIsRejected(command.OrderStockItems);
-
-            return await _orderRepository.UnitOfWork.SaveEntitiesAsync();
+            await _orderRepository.UnitOfWork.SaveChangesAsync();
+            return true;
         }
 
         /// <summary>
@@ -116,7 +120,8 @@ namespace Ordering.Domain.Commands
             }
 
             orderToUpdate.SetShippedStatus();
-            return await _orderRepository.UnitOfWork.SaveEntitiesAsync();
+            await _orderRepository.UnitOfWork.SaveChangesAsync();
+            return true;
         }
     }
 
