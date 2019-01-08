@@ -13,19 +13,19 @@ namespace Ordering.API.Application.DomainEventHandlers.OrderCancelled
 {
     public class OrderCancelledDomainEventHandler : INotificationHandler<OrderCancelledDomainEvent>
     {
+        private readonly ILoggerFactory _logger;
         private readonly IOrderRepository _orderRepository;
         private readonly IBuyerRepository _buyerRepository;
-        private readonly ILoggerFactory _logger;
         private readonly IOrderingIntegrationEventService _orderingIntegrationEventService;
 
         public OrderCancelledDomainEventHandler(
-            IOrderRepository orderRepository,
             ILoggerFactory logger,
+            IOrderRepository orderRepository,
             IBuyerRepository buyerRepository,
             IOrderingIntegrationEventService orderingIntegrationEventService)
         {
-            _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
             _buyerRepository = buyerRepository ?? throw new ArgumentNullException(nameof(buyerRepository));
             _orderingIntegrationEventService = orderingIntegrationEventService;
         }

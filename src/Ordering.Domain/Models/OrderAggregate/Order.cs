@@ -12,37 +12,28 @@ namespace Ordering.Domain.Models
         // DDD Patterns comment
         // Using private fields, allowed since EF Core 1.1, is a much better encapsulation
         // aligned with DDD Aggregates and Domain Entities (Instead of properties and property collections)
+        private int _orderStatusId;
+        private int? _buyerId;
+        private int? _paymentMethodId;
+        private string _description;
         private DateTime _orderDate;
+        // Draft orders have this set to true. Currently we don't check anywhere the draft status of an Order, but we could do it if needed
+        private bool _isDraft;
+
+        public int? GetBuyerId => _buyerId;
 
         // Address is a Value Object pattern example persisted as EF Core 2.0 owned entity
         public Address Address { get; private set; }
-
-        private int? _buyerId;
-        public int? GetBuyerId => _buyerId;
-
         public OrderStatus OrderStatus { get; private set; }
-        private int _orderStatusId;
-        private string _description;
-        // Draft orders have this set to true. Currently we don't check anywhere the draft status of an Order, but we could do it if needed
-        private bool _isDraft;
 
         // DDD Patterns comment
         // Using a private collection field, better for DDD Aggregate's encapsulation
         // so OrderItems cannot be added from "outside the AggregateRoot" directly to the collection,
         // but only through the method OrderAggrergateRoot.AddOrderItem() which includes behaviour.
         private readonly List<OrderItem> _orderItems;
+
         public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
 
-        private int? _paymentMethodId;
-
-        public static Order NewDraft()
-        {
-            var order = new Order
-            {
-                _isDraft = true
-            };
-            return order;
-        }
 
         protected Order()
         {
@@ -62,6 +53,15 @@ namespace Ordering.Domain.Models
             // Add the OrderStarterDomainEvent to the domain events collection 
             // to be raised/dispatched when comitting changes into the Database [ After DbContext.SaveChanges() ]
             AddOrderStartedDomainEvent(userId, userName, cardTypeId, cardNumber, cardSecurityNumber, cardHolderName, cardExpiration);
+        }
+
+        public static Order NewDraft()
+        {
+            var order = new Order
+            {
+                _isDraft = true
+            };
+            return order;
         }
 
         // DDD Patterns comment

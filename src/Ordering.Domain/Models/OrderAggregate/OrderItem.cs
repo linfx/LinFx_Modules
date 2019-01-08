@@ -13,7 +13,6 @@ namespace Ordering.Domain.Models
         private decimal _unitPrice;
         private decimal _discount;
         private int _units;
-
         public int ProductId { get; private set; }
 
         protected OrderItem() { }

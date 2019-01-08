@@ -1,13 +1,13 @@
-@using WebMvc.ViewModels
+﻿@using WebMvc.ViewModels
 
 @model IEnumerable<WebMvc.ViewModels.Order>
 
 @{
-    ViewData["Title"] = "My Orders";
+    ViewData["Title"] = "我的订单";
 }
 
 <div class="esh-orders">
-    @Html.Partial("_Header", new List<Header>() {
+    @await Html.PartialAsync("_Header", new List<Header>() {
 new Header() { Controller = "Catalog", Text = "Back to catalog" },
 new Header() { Text = " / " },
 new Header() { Controller = "OrderManagement", Text = "Orders Management" } })

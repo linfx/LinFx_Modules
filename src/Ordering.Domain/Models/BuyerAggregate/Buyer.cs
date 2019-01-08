@@ -8,11 +8,11 @@ namespace Ordering.Domain.Models
 {
     public class Buyer : Entity, IAggregateRoot
     {
-        public string Name { get; private set; }
+        private List<PaymentMethod> _paymentMethods;
 
+        public string Name { get; private set; }
         public string Identity { get; private set; }
 
-        private List<PaymentMethod> _paymentMethods;
         public IEnumerable<PaymentMethod> PaymentMethods => _paymentMethods.AsReadOnly();
 
         protected Buyer()
