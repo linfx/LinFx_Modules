@@ -12,17 +12,17 @@ namespace Ordering.Domain.Models
         // DDD Patterns comment
         // Using private fields, allowed since EF Core 1.1, is a much better encapsulation
         // aligned with DDD Aggregates and Domain Entities (Instead of properties and property collections)
-        private int _orderStatusId;
         private int? _buyerId;
         private int? _paymentMethodId;
         private string _description;
+        private int _orderStatusId;
         private DateTime _orderDate;
         // Draft orders have this set to true. Currently we don't check anywhere the draft status of an Order, but we could do it if needed
         private bool _isDraft;
 
         public int? GetBuyerId => _buyerId;
 
-        // Address is a Value Object pattern example persisted as EF Core 2.0 owned entity
+        // Value Object pattern example persisted as EF Core 2.0 owned entity
         public Address Address { get; private set; }
         public OrderStatus OrderStatus { get; private set; }
 

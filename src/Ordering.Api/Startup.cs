@@ -239,7 +239,7 @@ namespace Ordering.Api
         public static IServiceCollection AddCustomIntegrations(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMediatR();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHttpContextAccessor();
             services.AddTransient<IIdentityService, IdentityService>();
             //services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
             //    sp => (DbConnection c) => new IntegrationEventLogService(c));

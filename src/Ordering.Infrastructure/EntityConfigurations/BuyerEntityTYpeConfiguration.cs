@@ -6,30 +6,30 @@ namespace Ordering.Infrastructure.EntityConfigurations
 {
     class BuyerEntityTypeConfiguration : IEntityTypeConfiguration<Buyer>
     {
-        public void Configure(EntityTypeBuilder<Buyer> buyerConfiguration)
+        public void Configure(EntityTypeBuilder<Buyer> builder)
         {
-            buyerConfiguration.ToTable("buyers", OrderingContext.DEFAULT_SCHEMA);
+            builder.ToTable("buyers", OrderingContext.DEFAULT_SCHEMA);
 
-            buyerConfiguration.HasKey(b => b.Id);
+            builder.HasKey(b => b.Id);
 
-            buyerConfiguration.Property(b => b.Name)
+            builder.Property(b => b.Name)
                 .HasMaxLength(200);
 
-            buyerConfiguration.Property(b => b.Identity)
+            builder.Property(b => b.Identity)
                 .HasMaxLength(32)
                 .IsRequired();
 
-            buyerConfiguration.HasIndex("Identity")
+            builder.HasIndex("Identity")
                 .IsUnique(true);
 
-            buyerConfiguration.Ignore(b => b.DomainEvents);
+            builder.Ignore(b => b.DomainEvents);
 
-            buyerConfiguration.HasMany(b => b.PaymentMethods)
+            builder.HasMany(b => b.PaymentMethods)
                .WithOne()
                .HasForeignKey("BuyerId")
                .OnDelete(DeleteBehavior.Cascade);
 
-            var navigation = buyerConfiguration.Metadata.FindNavigation(nameof(Buyer.PaymentMethods));
+            var navigation = builder.Metadata.FindNavigation(nameof(Buyer.PaymentMethods));
 
             navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
         }

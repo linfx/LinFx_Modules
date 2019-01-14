@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Ordering.Domain.Commands;
 using Ordering.Domain.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;

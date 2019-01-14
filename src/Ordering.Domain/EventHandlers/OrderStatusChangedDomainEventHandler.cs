@@ -17,24 +17,25 @@ namespace Ordering.Domain.EventHandlers
         INotificationHandler<OrderStatusChangedToPaidDomainEvent>,
         INotificationHandler<OrderStatusChangedToStockConfirmedDomainEvent>
     {
-        private readonly IOrderRepository _orderRepository;
         private readonly ILoggerFactory _logger;
+        private readonly IOrderRepository _orderRepository;
         private readonly IBuyerRepository _buyerRepository;
         private readonly IOrderingIntegrationEventService _orderingIntegrationEventService;
 
         public OrderStatusChangedDomainEventHandler(
-            IOrderRepository orderRepository, ILoggerFactory logger,
+            ILoggerFactory logger,
+            IOrderRepository orderRepository, 
             IBuyerRepository buyerRepository,
             IOrderingIntegrationEventService orderingIntegrationEventService)
         {
-            _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
             _buyerRepository = buyerRepository;
             _orderingIntegrationEventService = orderingIntegrationEventService;
         }
 
         /// <summary>
-        /// OrderStatusChangedToAwaitingValidationDomainEventHandle
+        /// 等待验证
         /// </summary>
         /// <param name="orderStatusChangedToAwaitingValidationDomainEvent"></param>
         /// <param name="cancellationToken"></param>
@@ -46,14 +47,17 @@ namespace Ordering.Domain.EventHandlers
                             $"a status order id: {OrderStatus.AwaitingValidation.Id}");
 
             var order = await _orderRepository.GetAsync(orderStatusChangedToAwaitingValidationDomainEvent.OrderId);
-
             var buyer = await _buyerRepository.FindByIdAsync(order.GetBuyerId.Value);
 
             var orderStockList = orderStatusChangedToAwaitingValidationDomainEvent.OrderItems
                 .Select(orderItem => new OrderStockItem(orderItem.ProductId, orderItem.GetUnits()));
 
             var orderStatusChangedToAwaitingValidationIntegrationEvent = new OrderStatusChangedToAwaitingValidationIntegrationEvent(
-                order.Id, order.OrderStatus.Name, buyer.Name, orderStockList);
+                order.Id, 
+                order.OrderStatus.Name, 
+                buyer.Name, 
+                orderStockList);
+
             await _orderingIntegrationEventService.AddAndSaveEventAsync(orderStatusChangedToAwaitingValidationIntegrationEvent);
         }
 
@@ -99,7 +103,11 @@ namespace Ordering.Domain.EventHandlers
             var order = await _orderRepository.GetAsync(orderStatusChangedToStockConfirmedDomainEvent.OrderId);
             var buyer = await _buyerRepository.FindByIdAsync(order.GetBuyerId.Value);
 
-            var orderStatusChangedToStockConfirmedIntegrationEvent = new OrderStatusChangedToStockConfirmedIntegrationEvent(order.Id, order.OrderStatus.Name, buyer.Name);
+            var orderStatusChangedToStockConfirmedIntegrationEvent = new OrderStatusChangedToStockConfirmedIntegrationEvent(
+                order.Id, 
+                order.OrderStatus.Name, 
+                buyer.Name);
+
             await _orderingIntegrationEventService.AddAndSaveEventAsync(orderStatusChangedToStockConfirmedIntegrationEvent);
         }
     }

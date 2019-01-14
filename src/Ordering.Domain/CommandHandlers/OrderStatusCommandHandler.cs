@@ -32,7 +32,7 @@ namespace Ordering.Domain.Commands
             {
                 return false;
             }
-
+            
             orderToUpdate.SetAwaitingValidationStatus();
             await _orderRepository.UnitOfWork.SaveChangesAsync();
             return true;
@@ -56,7 +56,6 @@ namespace Ordering.Domain.Commands
             }
 
             orderToUpdate.SetPaidStatus();
-
             await _orderRepository.UnitOfWork.SaveChangesAsync();
             return true;
         }

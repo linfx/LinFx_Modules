@@ -23,6 +23,11 @@ namespace Ordering.Infrastructure.Repositories
             return _context.Orders.Add(order).Entity;
         }
 
+        public void Update(Order order)
+        {
+            _context.Entry(order).State = EntityState.Modified;
+        }
+
         public async Task<Order> GetAsync(int orderId)
         {
             var order = await _context.Orders.FindAsync(orderId);
@@ -33,11 +38,6 @@ namespace Ordering.Infrastructure.Repositories
                 await _context.Entry(order).Reference(i => i.Address).LoadAsync();
             }
             return order;
-        }
-
-        public void Update(Order order)
-        {
-            _context.Entry(order).State = EntityState.Modified;
         }
     }
 }
