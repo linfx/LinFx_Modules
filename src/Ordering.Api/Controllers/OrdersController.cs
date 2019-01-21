@@ -1,4 +1,4 @@
-﻿using LinFx.Web.Services;
+﻿using LinFx;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

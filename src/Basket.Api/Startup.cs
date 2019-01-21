@@ -1,5 +1,4 @@
-﻿using LinFx.Web.Services;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +8,7 @@ using Basket.Api.Services;
 using LinFx.Extensions.EventBus.RabbitMQ;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using LinFx;
 
 namespace Basket
 {
@@ -40,15 +40,15 @@ namespace Basket
                 })
                 .AddEventBus(options =>
                 {
-                    options.Durable = true;
-                    options.BrokerName = "shopfx_event_bus";
-                    options.QueueName = "shopfx_process_queue";
-                    options.ConfigureEventBus = (fx, builder) => builder.UseRabbitMQ(fx, x =>
-                    {
-                        x.Host = "14.21.34.85";
-                        x.UserName = "admin";
-                        x.Password = "admin.123456";
-                    });
+                    //options.Durable = true;
+                    //options.BrokerName = "shopfx_event_bus";
+                    //options.QueueName = "shopfx_process_queue";
+                    //options.ConfigureEventBus = (fx, builder) => builder.UseRabbitMQ(fx, x =>
+                    //{
+                    //    x.Host = "14.21.34.85";
+                    //    x.UserName = "admin";
+                    //    x.Password = "admin.123456";
+                    //});
                 });
         }
 

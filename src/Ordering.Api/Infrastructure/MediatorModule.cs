@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using FluentValidation;
-using LinFx.Infrastructure.Behaviors;
 using MediatR;
 using Ordering.API.Application.DomainEventHandlers.OrderStartedEvent;
 using Ordering.Domain.Commands;

@@ -1,6 +1,6 @@
 ﻿using Basket.Api.Models;
 using Basket.Api.Services;
-using LinFx.Extensions.EventBus.Abstractions;
+using LinFx.Extensions.EventBus;
 using Microsoft.eShopOnContainers.Services.Basket.API.IntegrationEvents.Events;
 using System;
 using System.Linq;
@@ -20,7 +20,6 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API.IntegrationEvents.Even
         public Task Handle(ProductPriceChangedIntegrationEvent @event)
         {
             //var userIds = _repository.GetUsers();
-
             //foreach (var id in userIds)
             //{
             //    var basket = await _repository.GetBasketAsync(id);

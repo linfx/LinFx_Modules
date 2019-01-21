@@ -1,6 +1,6 @@
 ﻿namespace Ordering.API.Application.IntegrationEvents.Events
 {
-    using LinFx.Extensions.EventBus.Events;
+    using LinFx.Extensions.EventBus;
     using System.Collections.Generic;
 
     public class OrderStockRejectedIntegrationEvent : IntegrationEvent

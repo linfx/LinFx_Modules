@@ -21,17 +21,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\LinFx\src\LinFx\LinFx.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Setup\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\LinFx\src\LinFx\LinFx.csproj" />
   </ItemGroup>
 
 </Project>

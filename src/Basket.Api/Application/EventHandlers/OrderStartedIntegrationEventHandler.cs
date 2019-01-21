@@ -1,6 +1,6 @@
 ﻿using Basket.Api.Services;
 using Basket.API.IntegrationEvents.Events;
-using LinFx.Extensions.EventBus.Abstractions;
+using LinFx.Extensions.EventBus;
 using System;
 using System.Threading.Tasks;
 

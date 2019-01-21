@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using LinFx.Extensions.EventBus.Abstractions;
+using LinFx.Extensions.EventBus;
 using Ordering.Domain.Commands;
 using Ordering.Domain.Events;
 

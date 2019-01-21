@@ -7,7 +7,7 @@ namespace Ordering.Domain.Models
     /// <summary>
     /// 支付方式
     /// </summary>
-    public class PaymentMethod : Entity
+    public class PaymentMethod : Entity<int>
     {
         private string _alias;
         private string _cardNumber;

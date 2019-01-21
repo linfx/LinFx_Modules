@@ -5,7 +5,7 @@
     using MediatR;
     using System;
     using Ordering.Domain.Commands;
-    using LinFx.Extensions.EventBus.Abstractions;
+   using LinFx.Extensions.EventBus;
     using System.Linq;
 
     public class OrderStockConfirmedIntegrationEventHandler : IIntegrationEventHandler<OrderStockConfirmedIntegrationEvent>

@@ -5,7 +5,7 @@ namespace Payment.Domain.Models.OrderAggregate
     /// <summary>
     /// 订单订单
     /// </summary>
-    public class Order : AggregateRoot
+    public class Order : AggregateRoot<long>
     {
         // DDD Patterns comment
         // Using private fields, allowed since EF Core 1.1, is a much better encapsulation

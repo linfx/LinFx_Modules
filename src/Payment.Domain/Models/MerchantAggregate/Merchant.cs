@@ -8,7 +8,7 @@ namespace Payment.Domain.Models.MerchantAggregate
     /// <summary>
     /// 商户
     /// </summary>
-    public class Merchant : AggregateRoot
+    public class Merchant : AggregateRoot<int>
     {
         private List<PaymentChannel> _paymentChannels;
 

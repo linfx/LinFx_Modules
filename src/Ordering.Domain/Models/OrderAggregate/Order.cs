@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Ordering.Domain.Models
 {
-    public class Order : Entity, IAggregateRoot
+    public class Order : AggregateRoot<int>
     {
         // DDD Patterns comment
         // Using private fields, allowed since EF Core 1.1, is a much better encapsulation

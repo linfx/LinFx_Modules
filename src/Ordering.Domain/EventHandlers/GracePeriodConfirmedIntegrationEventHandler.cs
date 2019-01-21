@@ -1,8 +1,8 @@
-﻿using LinFx.Extensions.EventBus.Abstractions;
-using MediatR;
+﻿using MediatR;
 using Ordering.Domain.Commands;
 using Ordering.API.Application.IntegrationEvents.Events;
 using System.Threading.Tasks;
+using LinFx.Extensions.EventBus;
 
 namespace Ordering.API.Application.IntegrationEvents.EventHandling
 {

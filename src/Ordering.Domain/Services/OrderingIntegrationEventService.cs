@@ -1,5 +1,5 @@
-﻿using LinFx.Extensions.EventBus.Abstractions;
-using LinFx.Extensions.EventBus.Events;
+﻿using LinFx.Extensions.EventBus;
+using LinFx.Extensions.EventBus;
 using System;
 using System.Threading.Tasks;
 

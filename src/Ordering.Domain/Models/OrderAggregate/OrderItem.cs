@@ -3,7 +3,7 @@ using Ordering.Domain.Exceptions;
 
 namespace Ordering.Domain.Models
 {
-    public class OrderItem : Entity
+    public class OrderItem : Entity<int>
     {
         // DDD Patterns comment
         // Using private fields, allowed since EF Core 1.1, is a much better encapsulation

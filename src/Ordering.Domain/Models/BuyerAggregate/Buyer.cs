@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Ordering.Domain.Models
 {
-    public class Buyer : Entity, IAggregateRoot
+    public class Buyer : AggregateRoot<int>
     {
         private List<PaymentMethod> _paymentMethods;
 

@@ -38,15 +38,15 @@ namespace Catalog.Api
             services.AddLinFx()
                 .AddEventBus(options =>
                 {
-                    options.Durable = true;
-                    options.BrokerName = "shopfx_event_bus";
-                    options.QueueName = "shopfx_process_queue";
-                    options.ConfigureEventBus = (fx, builder) => builder.UseRabbitMQ(fx, x =>
-                    {
-                        x.Host = "14.21.34.85";
-                        x.UserName = "admin";
-                        x.Password = "admin.123456";
-                    });
+                    //options.Durable = true;
+                    //options.BrokerName = "shopfx_event_bus";
+                    //options.QueueName = "shopfx_process_queue";
+                    //options.ConfigureEventBus = (fx, builder) => builder.UseRabbitMQ(fx, x =>
+                    //{
+                    //    x.Host = "14.21.34.85";
+                    //    x.UserName = "admin";
+                    //    x.Password = "admin.123456";
+                    //});
                 });
         }
 

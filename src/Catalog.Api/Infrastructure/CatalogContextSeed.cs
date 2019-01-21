@@ -13,6 +13,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using LinFx;
 
 namespace Catalog.Api.Infrastructure
 {

@@ -1,7 +1,7 @@
-﻿namespace Ordering.API.Application.IntegrationEvents.Events
-{
-    using LinFx.Extensions.EventBus.Events;
+﻿using LinFx.Extensions.EventBus;
 
+namespace Ordering.API.Application.IntegrationEvents.Events
+{
     public class OrderStockConfirmedIntegrationEvent : IntegrationEvent
     {
         public int OrderId { get; }

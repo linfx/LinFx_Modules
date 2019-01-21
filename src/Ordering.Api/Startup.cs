@@ -3,9 +3,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using LinFx.Extensions.EventBus.Abstractions;
+using LinFx;
+using LinFx.Extensions.EventBus;
 using LinFx.Extensions.EventBus.RabbitMQ;
-using LinFx.Web.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -52,16 +52,19 @@ namespace Ordering.Api
                 .AddCustomSwagger(Configuration);
 
             services.AddLinFx()
-                .AddEventBus(options =>
+                .AddEventBus(builder =>
                 {
-                    options.Durable = true;
-                    options.BrokerName = "shopfx_event_bus";
-                    options.QueueName = "shopfx_process_queue";
-                    options.ConfigureEventBus = (fx, builder) => builder.UseRabbitMQ(fx, x =>
+                    builder.Configure(options =>
                     {
-                        x.Host = "14.21.34.85";
-                        x.UserName = "admin";
-                        x.Password = "admin.123456";
+                        options.RetryCount = 3;
+                    })
+                    .UseRabbitMQ(options =>
+                    {
+                        options.Host = "14.21.34.85";
+                        options.UserName = "admin";
+                        options.Password = "admin.123456";
+                        options.QueueName = "shopfx_event_queue";
+                        options.ExchangeName = "shopfx_event_bus";
                     });
                 });
 

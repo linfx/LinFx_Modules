@@ -1,7 +1,7 @@
 ﻿namespace Ordering.API.Application.IntegrationEvents.Events
 {
     using System.Collections.Generic;
-    using LinFx.Extensions.EventBus.Events;
+    using LinFx.Extensions.EventBus;
 
     public class OrderStatusChangedToAwaitingValidationIntegrationEvent : IntegrationEvent
     {

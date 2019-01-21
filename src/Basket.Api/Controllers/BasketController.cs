@@ -1,5 +1,4 @@
-﻿using LinFx.Extensions.EventBus.Abstractions;
-using LinFx.Web.Services;
+﻿using LinFx.Extensions.EventBus;
 using Microsoft.AspNetCore.Mvc;
 using Basket.Api.Models;
 using Basket.Api.Services;
@@ -9,6 +8,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Basket.API.Application.IntegrationEvents.Events;
 using Microsoft.AspNetCore.Authorization;
+using LinFx;
 
 namespace Basket.Api.Controllers
 {

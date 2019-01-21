@@ -1,10 +1,6 @@
-﻿using LinFx.Extensions.EventBus.Abstractions;
-using LinFx.Extensions.EventBus.Events;
+﻿using LinFx.Extensions.EventBus;
 using Catalog.Api.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Catalog.Api.IntegrationEvents

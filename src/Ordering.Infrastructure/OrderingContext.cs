@@ -1,5 +1,4 @@
 ﻿using LinFx.Domain.Abstractions;
-using LinFx.Infrastructure.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;

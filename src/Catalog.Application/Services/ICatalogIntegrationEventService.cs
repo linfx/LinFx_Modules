@@ -1,4 +1,4 @@
-﻿using LinFx.Extensions.EventBus.Events;
+﻿using LinFx.Extensions.EventBus;
 using System.Threading.Tasks;
 
 namespace Catalog.Api.IntegrationEvents

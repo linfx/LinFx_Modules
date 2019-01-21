@@ -1,6 +1,5 @@
 ﻿using Identity.Api.Infrastructure;
 using IdentityServer4.EntityFramework.DbContexts;
-using LinFx.Web.Extensions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

@@ -14,8 +14,6 @@ namespace Ordering.Infrastructure.EntityConfigurations
 
             paymentConfiguration.HasKey(b => b.Id);
 
-            paymentConfiguration.Ignore(b => b.DomainEvents);
-
             //paymentConfiguration.Property(b => b.Id)
             //    .ForSqlServerUseSequenceHiLo("paymentseq", OrderingContext.DEFAULT_SCHEMA);
 

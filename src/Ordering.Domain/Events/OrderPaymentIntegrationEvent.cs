@@ -1,6 +1,6 @@
 ﻿namespace Ordering.API.Application.IntegrationEvents.Events
 {
-    using LinFx.Extensions.EventBus.Events;
+    using LinFx.Extensions.EventBus;
 
     public class OrderPaymentSuccededIntegrationEvent : IntegrationEvent
     {

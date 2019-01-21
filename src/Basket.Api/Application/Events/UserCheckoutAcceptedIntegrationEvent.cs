@@ -1,5 +1,5 @@
 ﻿using Basket.Api.Models;
-using LinFx.Extensions.EventBus.Events;
+using LinFx.Extensions.EventBus;
 using System;
 
 namespace Basket.API.Application.IntegrationEvents.Events
