@@ -22,8 +22,6 @@ namespace Ordering.Infrastructure.EntityConfigurations
             builder.HasIndex("Identity")
                 .IsUnique(true);
 
-            builder.Ignore(b => b.DomainEvents);
-
             builder.HasMany(b => b.PaymentMethods)
                .WithOne()
                .HasForeignKey("BuyerId")

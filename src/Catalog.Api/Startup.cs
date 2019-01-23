@@ -12,6 +12,7 @@ using System.Reflection;
 using LinFx.Extensions.EventBus.RabbitMQ;
 using Catalog.Api.IntegrationEvents;
 using System.Linq;
+using Catalog.Infrastructure;
 
 namespace Catalog.Api
 {

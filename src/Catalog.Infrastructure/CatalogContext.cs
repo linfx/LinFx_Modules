@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Catalog.Api.Infrastructure.EntityConfigurations;
-using Catalog.Api.Models;
+﻿using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore;
+using Catalog.Domain.Models;
+using Catalog.Infrastructure.EntityConfigurations;
 
-namespace Catalog.Api.Infrastructure
+namespace Catalog.Infrastructure
 {
     public class CatalogContext : DbContext
     {

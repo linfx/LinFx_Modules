@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using Catalog.Api.Infrastructure;
+using Catalog.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

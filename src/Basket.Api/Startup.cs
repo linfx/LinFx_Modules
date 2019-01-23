@@ -33,6 +33,7 @@ namespace Basket
                 .AddCustomSwagger();
 
             services.AddLinFx()
+                .AddHttpContextPrincipalAccessor()
                 .AddDistributedRedisCache(options =>
                 {
                     options.InstanceName = "shopfx_basket:";
@@ -165,9 +166,7 @@ namespace Basket
 
         public static IServiceCollection AddIntegrationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IBasketRepository, RedisBasketRepository>();
-            services.AddTransient<IIdentityService, IdentityService>();
 
             return services;
         }

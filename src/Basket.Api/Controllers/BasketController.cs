@@ -1,5 +1,7 @@
 ﻿using LinFx.Extensions.EventBus;
+using LinFx.Security.Principal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Basket.Api.Models;
 using Basket.Api.Services;
 using System;
@@ -17,11 +19,11 @@ namespace Basket.Api.Controllers
     public class BasketController : ControllerBase
     {
         private readonly IBasketRepository _repository;
-        private readonly IIdentityService _identitySvc;
+        private readonly IHttpContextPrincipalAccessor _identitySvc;
         private readonly IEventBus _eventBus;
 
         public BasketController(IBasketRepository repository,
-            IIdentityService identityService,
+            IHttpContextPrincipalAccessor identityService,
             IEventBus eventBus)
         {
             _repository = repository;
@@ -95,7 +97,7 @@ namespace Basket.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Checkout([FromBody]BasketCheckout basketCheckout, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            var userId = _identitySvc.GetUserIdentity();
+            var userId = _identitySvc.Principal.FindUserId();
 
             basketCheckout.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
                 guid : basketCheckout.RequestId;

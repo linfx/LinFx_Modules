@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Catalog.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Catalog.Api.Models;
 
-namespace Catalog.Api.Infrastructure.EntityConfigurations
+namespace Catalog.Infrastructure.EntityConfigurations
 {
     class CatalogBrandEntityTypeConfiguration : IEntityTypeConfiguration<CatalogBrand>
     {

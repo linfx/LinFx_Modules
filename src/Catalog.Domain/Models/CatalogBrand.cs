@@ -1,4 +1,4 @@
-﻿namespace Catalog.Api.Models
+﻿namespace Catalog.Domain.Models
 {
     public class CatalogBrand
     {

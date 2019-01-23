@@ -1,6 +1,7 @@
-﻿using LinFx;
+﻿using LinFx.Security.Principal;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Ordering.Application.Models;
 using Ordering.Application.Services;
@@ -19,16 +20,16 @@ namespace Ordering.Api.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IOrderService _orderService;
-        private readonly IIdentityService _identityService;
+        private readonly IHttpContextPrincipalAccessor _httpContextPrincipalAccessor;
 
         public OrdersController(
             IMediator mediator,
             IOrderService orderService,
-            IIdentityService identityService)
+            IHttpContextPrincipalAccessor httpContextPrincipalAccessor)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _orderService = orderService ?? throw new ArgumentNullException(nameof(orderService));
-            _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
+            _httpContextPrincipalAccessor = httpContextPrincipalAccessor ?? throw new ArgumentNullException(nameof(httpContextPrincipalAccessor));
         }
 
         /// <summary>
@@ -101,7 +102,7 @@ namespace Ordering.Api.Controllers
         [ProducesResponseType(typeof(IEnumerable<OrderSummary>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetOrders()
         {
-            var userid = _identityService.GetUserIdentity();
+            var userid = _httpContextPrincipalAccessor.Principal.FindUserId();
             var orders = await _orderService.GetOrdersFromUserAsync(userid);
             return Ok(orders);
         }

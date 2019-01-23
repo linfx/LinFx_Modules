@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Catalog.Api.Infrastructure;
 using Catalog.Api.IntegrationEvents;
-using Catalog.Api.Models;
-using Catalog.Api.ViewModel;
 using Catalog.Api.Extensions;
+using Catalog.Domain.Models;
+using Catalog.Infrastructure;
+using LinFx.Application.Models;
 
 namespace Catalog.Api.Controllers
 {
@@ -37,28 +37,94 @@ namespace Catalog.Api.Controllers
         // GET api/v1/[controller]/items[?pageSize=3&pageIndex=10]
         [HttpGet]
         [Route("items")]
-        [ProducesResponseType(typeof(PaginatedItemsViewModel<CatalogItem>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(IEnumerable<CatalogItem>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(PagedResult<CatalogItem>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Items([FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0, [FromQuery] string ids = null)
         {
             if (!string.IsNullOrEmpty(ids))
                 return GetItemsByIds(ids);
 
-            var totalItems = await _catalogContext.CatalogItems
+            var count = await _catalogContext.CatalogItems
                 .LongCountAsync();
 
-            var itemsOnPage = await _catalogContext.CatalogItems
+            var items = await _catalogContext.CatalogItems
                 .OrderBy(c => c.Name)
                 .Skip(pageSize * pageIndex)
                 .Take(pageSize)
                 .ToListAsync();
 
-            itemsOnPage = ChangeUriPlaceholder(itemsOnPage);
+            items = ChangeUriPlaceholder(items);
+            var result = new PagedResult<CatalogItem>(count, items);
+            return Ok(result);
+        }
 
-            var model = new PaginatedItemsViewModel<CatalogItem>(
-                pageIndex, pageSize, totalItems, itemsOnPage);
+        // GET api/v1/[controller]/items/withname/samplename[?pageSize=3&pageIndex=10]
+        [HttpGet]
+        [Route("items/withname/{name:minlength(1)}")]
+        [ProducesResponseType(typeof(PagedResult<CatalogItem>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Items(string name, [FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0)
+        {
+            var count = await _catalogContext.CatalogItems
+                .Where(c => c.Name.StartsWith(name))
+                .LongCountAsync();
 
-            return Ok(model);
+            var items = await _catalogContext.CatalogItems
+                .Where(c => c.Name.StartsWith(name))
+                .Skip(pageSize * pageIndex)
+                .Take(pageSize)
+                .ToListAsync();
+
+            items = ChangeUriPlaceholder(items);
+            var result = new PagedResult<CatalogItem>(count, items);
+            return Ok(result);
+        }
+
+        // GET api/v1/[controller]/items/type/1/brand[?pageSize=3&pageIndex=10]
+        [HttpGet]
+        [Route("items/type/{catalogTypeId}/brand/{catalogBrandId:int?}")]
+        [ProducesResponseType(typeof(PagedResult<CatalogItem>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Items(int catalogTypeId, int? catalogBrandId, [FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0)
+        {
+            var root = (IQueryable<CatalogItem>)_catalogContext.CatalogItems;
+
+            root = root.Where(ci => ci.CatalogTypeId == catalogTypeId);
+
+            if (catalogBrandId.HasValue)
+                root = root.Where(ci => ci.CatalogBrandId == catalogBrandId);
+
+            var count = await root
+                .LongCountAsync();
+
+            var items = await root
+                .Skip(pageSize * pageIndex)
+                .Take(pageSize)
+                .ToListAsync();
+
+            items = ChangeUriPlaceholder(items);
+            var result = new PagedResult<CatalogItem>(count, items);
+            return Ok(result);
+        }
+        // GET api/v1/[controller]/items/type/all/brand[?pageSize=3&pageIndex=10]
+        [HttpGet]
+        [Route("items/type/all/brand/{catalogBrandId:int?}")]
+        [ProducesResponseType(typeof(PagedResult<CatalogItem>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Items(int? catalogBrandId, [FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0)
+        {
+            var root = (IQueryable<CatalogItem>)_catalogContext.CatalogItems;
+
+            if (catalogBrandId.HasValue)
+                root = root.Where(ci => ci.CatalogBrandId == catalogBrandId);
+
+            var count = await root
+                .LongCountAsync();
+
+            var items = await root
+                .Skip(pageSize * pageIndex)
+                .Take(pageSize)
+                .ToListAsync();
+
+            items = ChangeUriPlaceholder(items);
+            var result = new PagedResult<CatalogItem>(count, items);
+            return Ok(result);
         }
 
         [HttpGet]
@@ -80,85 +146,6 @@ namespace Catalog.Api.Controllers
                 return Ok(item);
 
             return NotFound();
-        }
-
-        // GET api/v1/[controller]/items/withname/samplename[?pageSize=3&pageIndex=10]
-        [HttpGet]
-        [Route("items/withname/{name:minlength(1)}")]
-        [ProducesResponseType(typeof(PaginatedItemsViewModel<CatalogItem>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Items(string name, [FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0)
-        {
-            var totalItems = await _catalogContext.CatalogItems
-                .Where(c => c.Name.StartsWith(name))
-                .LongCountAsync();
-
-            var itemsOnPage = await _catalogContext.CatalogItems
-                .Where(c => c.Name.StartsWith(name))
-                .Skip(pageSize * pageIndex)
-                .Take(pageSize)
-                .ToListAsync();
-
-            itemsOnPage = ChangeUriPlaceholder(itemsOnPage);
-
-            var model = new PaginatedItemsViewModel<CatalogItem>(
-                pageIndex, pageSize, totalItems, itemsOnPage);
-
-            return Ok(model);
-        }
-
-        // GET api/v1/[controller]/items/type/1/brand[?pageSize=3&pageIndex=10]
-        [HttpGet]
-        [Route("items/type/{catalogTypeId}/brand/{catalogBrandId:int?}")]
-        [ProducesResponseType(typeof(PaginatedItemsViewModel<CatalogItem>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Items(int catalogTypeId, int? catalogBrandId, [FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0)
-        {
-            var root = (IQueryable<CatalogItem>)_catalogContext.CatalogItems;
-
-            root = root.Where(ci => ci.CatalogTypeId == catalogTypeId);
-
-            if (catalogBrandId.HasValue)
-                root = root.Where(ci => ci.CatalogBrandId == catalogBrandId);
-
-            var totalItems = await root
-                .LongCountAsync();
-
-            var itemsOnPage = await root
-                .Skip(pageSize * pageIndex)
-                .Take(pageSize)
-                .ToListAsync();
-
-            itemsOnPage = ChangeUriPlaceholder(itemsOnPage);
-
-            var model = new PaginatedItemsViewModel<CatalogItem>(
-                pageIndex, pageSize, totalItems, itemsOnPage);
-
-            return Ok(model);
-        }
-        // GET api/v1/[controller]/items/type/all/brand[?pageSize=3&pageIndex=10]
-        [HttpGet]
-        [Route("items/type/all/brand/{catalogBrandId:int?}")]
-        [ProducesResponseType(typeof(PaginatedItemsViewModel<CatalogItem>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Items(int? catalogBrandId, [FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0)
-        {
-            var root = (IQueryable<CatalogItem>)_catalogContext.CatalogItems;
-
-            if (catalogBrandId.HasValue)
-                root = root.Where(ci => ci.CatalogBrandId == catalogBrandId);
-
-            var totalItems = await root
-                .LongCountAsync();
-
-            var itemsOnPage = await root
-                .Skip(pageSize * pageIndex)
-                .Take(pageSize)
-                .ToListAsync();
-
-            itemsOnPage = ChangeUriPlaceholder(itemsOnPage);
-
-            var model = new PaginatedItemsViewModel<CatalogItem>(
-                pageIndex, pageSize, totalItems, itemsOnPage);
-
-            return Ok(model);
         }
 
         // GET api/v1/[controller]/CatalogTypes

@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
-using Catalog.Api.Extensions;
-using Catalog.Api.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -13,7 +11,8 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using LinFx;
+using Catalog.Domain.Models;
+using Catalog.Infrastructure;
 
 namespace Catalog.Api.Infrastructure
 {

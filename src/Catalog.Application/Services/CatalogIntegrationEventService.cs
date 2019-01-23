@@ -1,7 +1,7 @@
 ﻿using LinFx.Extensions.EventBus;
-using Catalog.Api.Infrastructure;
 using System;
 using System.Threading.Tasks;
+using Catalog.Infrastructure;
 
 namespace Catalog.Api.IntegrationEvents
 {

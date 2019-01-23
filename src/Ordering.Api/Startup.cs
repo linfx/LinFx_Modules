@@ -52,6 +52,7 @@ namespace Ordering.Api
                 .AddCustomSwagger(Configuration);
 
             services.AddLinFx()
+                .AddHttpContextPrincipalAccessor()
                 .AddEventBus(builder =>
                 {
                     builder.Configure(options =>
@@ -242,8 +243,6 @@ namespace Ordering.Api
         public static IServiceCollection AddCustomIntegrations(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMediatR();
-            services.AddHttpContextAccessor();
-            services.AddTransient<IIdentityService, IdentityService>();
             //services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
             //    sp => (DbConnection c) => new IntegrationEventLogService(c));
             services.AddTransient<IRequestManager, RequestManager>();

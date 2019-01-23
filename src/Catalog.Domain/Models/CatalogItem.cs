@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Catalog.Domain.Exceptions;
+using LinFx.Domain.Models;
+using System;
 
-namespace Catalog.Api.Models
+namespace Catalog.Domain.Models
 {
-    public class CatalogItem
+    public class CatalogItem : AggregateRoot<int>
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -58,15 +58,15 @@ namespace Catalog.Api.Models
         /// 
         public int RemoveStock(int quantityDesired)
         {
-            //if (AvailableStock == 0)
-            //{
-            //    throw new CatalogDomainException($"Empty stock, product item {Name} is sold out");
-            //}
+            if (AvailableStock == 0)
+            {
+                throw new CatalogDomainException($"Empty stock, product item {Name} is sold out");
+            }
 
-            //if (quantityDesired <= 0)
-            //{
-            //    throw new CatalogDomainException($"Item units desired should be greater than cero");
-            //}
+            if (quantityDesired <= 0)
+            {
+                throw new CatalogDomainException($"Item units desired should be greater than cero");
+            }
 
             int removed = Math.Min(quantityDesired, AvailableStock);
 

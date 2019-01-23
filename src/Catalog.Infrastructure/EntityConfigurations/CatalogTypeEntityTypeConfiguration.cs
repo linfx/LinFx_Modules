@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Catalog.Api.Models;
+using Catalog.Domain.Models;
 
-namespace Catalog.Api.Infrastructure.EntityConfigurations
+namespace Catalog.Infrastructure.EntityConfigurations
 {
     class CatalogTypeEntityTypeConfiguration : IEntityTypeConfiguration<CatalogType>
     {

@@ -13,8 +13,6 @@ namespace Ordering.Infrastructure.EntityConfigurations
 
             orderConfiguration.HasKey(o => o.Id);
 
-            orderConfiguration.Ignore(b => b.DomainEvents);
-
             //orderConfiguration.Property(o => o.Id)
             //    .ForSqlServerUseSequenceHiLo("orderseq", OrderingContext.DEFAULT_SCHEMA);
 

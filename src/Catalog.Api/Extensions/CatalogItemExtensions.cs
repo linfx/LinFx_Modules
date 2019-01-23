@@ -1,4 +1,4 @@
-﻿using Catalog.Api.Models;
+﻿using Catalog.Domain.Models;
 
 namespace Catalog.Api.Extensions
 {
