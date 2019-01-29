@@ -65,7 +65,7 @@ namespace Ordering.Api
                         options.UserName = "admin";
                         options.Password = "admin.123456";
                         options.QueueName = "shopfx_event_queue";
-                        options.ExchangeName = "shopfx_event_bus";
+                        options.BrokerName = "shopfx_event_bus";
                     });
                 });
 

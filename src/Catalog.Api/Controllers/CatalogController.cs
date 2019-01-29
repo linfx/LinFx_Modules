@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Catalog.Api.IntegrationEvents;
-using Catalog.Api.Extensions;
 using Catalog.Domain.Models;
 using Catalog.Infrastructure;
+using Catalog.Domain.Extensions;
+using Catalog.Domain.Events;
+using Catalog.Application.Services;
 using LinFx.Application.Models;
 
 namespace Catalog.Api.Controllers
 {
     [ApiController]
-    //[ApiVersion("1.0")]
     [Route("api/v1/catalog")]
     public class CatalogController : ControllerBase
     {
@@ -38,7 +38,7 @@ namespace Catalog.Api.Controllers
         [HttpGet]
         [Route("items")]
         [ProducesResponseType(typeof(PagedResult<CatalogItem>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Items([FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0, [FromQuery] string ids = null)
+        public async Task<IActionResult> Items([FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 1, [FromQuery] string ids = null)
         {
             if (!string.IsNullOrEmpty(ids))
                 return GetItemsByIds(ids);
@@ -48,7 +48,7 @@ namespace Catalog.Api.Controllers
 
             var items = await _catalogContext.CatalogItems
                 .OrderBy(c => c.Name)
-                .Skip(pageSize * pageIndex)
+                .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
@@ -61,7 +61,7 @@ namespace Catalog.Api.Controllers
         [HttpGet]
         [Route("items/withname/{name:minlength(1)}")]
         [ProducesResponseType(typeof(PagedResult<CatalogItem>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Items(string name, [FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0)
+        public async Task<IActionResult> Items(string name, [FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 1)
         {
             var count = await _catalogContext.CatalogItems
                 .Where(c => c.Name.StartsWith(name))
@@ -69,7 +69,7 @@ namespace Catalog.Api.Controllers
 
             var items = await _catalogContext.CatalogItems
                 .Where(c => c.Name.StartsWith(name))
-                .Skip(pageSize * pageIndex)
+                .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
@@ -82,7 +82,7 @@ namespace Catalog.Api.Controllers
         [HttpGet]
         [Route("items/type/{catalogTypeId}/brand/{catalogBrandId:int?}")]
         [ProducesResponseType(typeof(PagedResult<CatalogItem>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Items(int catalogTypeId, int? catalogBrandId, [FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0)
+        public async Task<IActionResult> Items(int catalogTypeId, int? catalogBrandId, [FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 1)
         {
             var root = (IQueryable<CatalogItem>)_catalogContext.CatalogItems;
 
@@ -95,7 +95,7 @@ namespace Catalog.Api.Controllers
                 .LongCountAsync();
 
             var items = await root
-                .Skip(pageSize * pageIndex)
+                .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
@@ -103,6 +103,7 @@ namespace Catalog.Api.Controllers
             var result = new PagedResult<CatalogItem>(count, items);
             return Ok(result);
         }
+
         // GET api/v1/[controller]/items/type/all/brand[?pageSize=3&pageIndex=10]
         [HttpGet]
         [Route("items/type/all/brand/{catalogBrandId:int?}")]
@@ -184,21 +185,20 @@ namespace Catalog.Api.Controllers
             var oldPrice = catalogItem.Price;
             var raiseProductPriceChangedEvent = oldPrice != productToUpdate.Price;
 
-
             // Update current product
             catalogItem = productToUpdate;
             _catalogContext.CatalogItems.Update(catalogItem);
 
             if (raiseProductPriceChangedEvent) // Save product's data and publish integration event through the Event Bus if price has changed
             {
-                ////Create Integration Event to be published through the Event Bus
-                //var priceChangedEvent = new ProductPriceChangedIntegrationEvent(catalogItem.Id, productToUpdate.Price, oldPrice);
+                //Create Integration Event to be published through the Event Bus
+                var priceChangedEvent = new ProductPriceChangedIntegrationEvent(catalogItem.Id, productToUpdate.Price, oldPrice);
 
-                //// Achieving atomicity between original Catalog database operation and the IntegrationEventLog thanks to a local transaction
-                //await _catalogIntegrationEventService.SaveEventAndCatalogContextChangesAsync(priceChangedEvent);
+                // Achieving atomicity between original Catalog database operation and the IntegrationEventLog thanks to a local transaction
+                await _catalogIntegrationEventService.SaveEventAndCatalogContextChangesAsync(priceChangedEvent);
 
-                //// Publish through the Event Bus and mark the saved event as published
-                //await _catalogIntegrationEventService.PublishThroughEventBusAsync(priceChangedEvent);
+                // Publish through the Event Bus and mark the saved event as published
+                await _catalogIntegrationEventService.PublishThroughEventBusAsync(priceChangedEvent);
             }
             else // Just save the updated product because the Product's Price hasn't changed.
             {

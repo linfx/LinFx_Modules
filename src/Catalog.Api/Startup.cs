@@ -6,52 +6,67 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Catalog.Api.Infrastructure;
 using System;
 using System.Reflection;
-using LinFx.Extensions.EventBus.RabbitMQ;
-using Catalog.Api.IntegrationEvents;
-using System.Linq;
 using Catalog.Infrastructure;
+using Catalog.Application.Services;
 
 namespace Catalog.Api
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services
                 .AddCustomMvc(Configuration)
-                .AddCustomDbContext(Configuration)
                 .AddCustomOptions(Configuration)
                 .AddCustomIntegrations(Configuration)
                 .AddEventBus(Configuration)
                 .AddCustomSwagger();
 
             services.AddLinFx()
+                .AddHttpContextPrincipalAccessor()
                 .AddEventBus(options =>
                 {
-                    //options.Durable = true;
-                    //options.BrokerName = "shopfx_event_bus";
-                    //options.QueueName = "shopfx_process_queue";
-                    //options.ConfigureEventBus = (fx, builder) => builder.UseRabbitMQ(fx, x =>
-                    //{
-                    //    x.Host = "14.21.34.85";
-                    //    x.UserName = "admin";
-                    //    x.Password = "admin.123456";
-                    //});
+                    options.UseRabbitMQ(x =>
+                    {
+                        x.Host = Configuration.GetConnectionString("RibbitMqConnection");
+                        x.UserName = "admin";
+                        x.Password = "admin.123456";
+                        x.BrokerName = "shopfx_event_bus";
+                        x.QueueName = "shopfx_process_queue";
+                    });
+                })
+                .AddEventStores(builder =>
+                {
+                    builder.ConfigureDbContext(options =>
+                    {
+                        options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), sqlOptions =>
+                        {
+                            sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                            sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                        });
+                        options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
+                    });
+                })
+                .AddDbContext<CatalogContext>(options =>
+                {
+                    options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), sqlOptions =>
+                    {
+                        sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                    });
+                    options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
                 });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -62,10 +77,10 @@ namespace Catalog.Api
             app.UseMvcWithDefaultRoute();
 
             app.UseSwagger()
-              .UseSwaggerUI(c =>
-              {
-                  c.SwaggerEndpoint($"/swagger/v1/swagger.json", "Catalog.API v1");
-              });
+               .UseSwaggerUI(c =>
+               {
+                   c.SwaggerEndpoint($"/swagger/v1/swagger.json", "Catalog.API v1");
+               });
         }
     }
 
@@ -103,38 +118,6 @@ namespace Catalog.Api
                     .AllowAnyHeader()
                     .AllowCredentials());
             });
-
-            return services;
-        }
-
-        public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddDbContext<CatalogContext>(options =>
-            {
-                options.UseMySql(configuration.GetConnectionString("DefaultConnection"),
-                                     sqlOptions =>
-                                     {
-                                         sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                                         //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-                                         sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-                                     });
-
-                // Changing default behavior when client evaluation occurs to throw. 
-                // Default in EF Core would be to log a warning when client evaluation is performed.
-                options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
-                //Check Client vs. Server evaluation: https://docs.microsoft.com/en-us/ef/core/querying/client-eval
-            });
-
-            //services.AddDbContext<IntegrationEventLogContext>(options =>
-            //{
-            //    options.UseSqlServer(configuration["ConnectionString"],
-            //                         sqlServerOptionsAction: sqlOptions =>
-            //                         {
-            //                             sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-            //                             //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-            //                             sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-            //                         });
-            //});
 
             return services;
         }

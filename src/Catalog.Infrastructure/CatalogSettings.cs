@@ -1,4 +1,4 @@
-﻿namespace Catalog.Api
+﻿namespace Catalog.Infrastructure
 {
     public class CatalogSettings
     {

@@ -1,6 +1,6 @@
 ﻿using Catalog.Domain.Models;
 
-namespace Catalog.Api.Extensions
+namespace Catalog.Domain.Extensions
 {
     public static class CatalogItemExtensions
     {

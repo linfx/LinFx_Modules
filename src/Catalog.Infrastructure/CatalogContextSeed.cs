@@ -12,9 +12,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Catalog.Domain.Models;
-using Catalog.Infrastructure;
 
-namespace Catalog.Api.Infrastructure
+namespace Catalog.Infrastructure
 {
     public class CatalogContextSeed
     {

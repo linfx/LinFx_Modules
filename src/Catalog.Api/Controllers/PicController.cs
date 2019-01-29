@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Catalog.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,9 +28,7 @@ namespace Catalog.Api.Controllers
         public async Task<IActionResult> GetImage(int catalogItemId)
         {
             if (catalogItemId <= 0)
-            {
                 return BadRequest();
-            }
 
             var item = await _catalogContext.CatalogItems
                 .SingleOrDefaultAsync(ci => ci.Id == catalogItemId);
@@ -57,21 +56,17 @@ namespace Catalog.Api.Controllers
             switch (extension)
             {
                 case ".png":
-                    mimetype = "image/png";
-                    break;
+                    return MimeTypes.Image.Png;
                 case ".gif":
-                    mimetype = "image/gif";
-                    break;
+                    return MimeTypes.Image.Gif;
                 case ".jpg":
                 case ".jpeg":
-                    mimetype = "image/jpeg";
-                    break;
+                    return MimeTypes.Image.Jpeg;
                 case ".bmp":
-                    mimetype = "image/bmp";
-                    break;
+                    return MimeTypes.Image.Bmp;
                 case ".tiff":
                     mimetype = "image/tiff";
-                    break;
+                    return MimeTypes.Image.Tiff;
                 case ".wmf":
                     mimetype = "image/wmf";
                     break;
@@ -82,8 +77,7 @@ namespace Catalog.Api.Controllers
                     mimetype = "image/svg+xml";
                     break;
                 default:
-                    mimetype = "application/octet-stream";
-                    break;
+                    return MimeTypes.Application.OctetStream;
             }
 
             return mimetype;
