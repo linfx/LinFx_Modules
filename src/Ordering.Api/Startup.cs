@@ -3,9 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using LinFx;
 using LinFx.Extensions.EventBus;
-using LinFx.Extensions.EventBus.RabbitMQ;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -53,19 +51,15 @@ namespace Ordering.Api
 
             services.AddLinFx()
                 .AddHttpContextPrincipalAccessor()
-                .AddEventBus(builder =>
+                .AddEventBus(options =>
                 {
-                    builder.Configure(options =>
+                    options.UseRabbitMQ(x =>
                     {
-                        options.RetryCount = 3;
-                    })
-                    .UseRabbitMQ(options =>
-                    {
-                        options.Host = "14.21.34.85";
-                        options.UserName = "admin";
-                        options.Password = "admin.123456";
-                        options.QueueName = "shopfx_event_queue";
-                        options.BrokerName = "shopfx_event_bus";
+                        x.Host = "14.21.34.85";
+                        x.UserName = "admin";
+                        x.Password = "admin.123456";
+                        x.QueueName = "shopfx_event_queue";
+                        x.BrokerName = "shopfx_event_bus";
                     });
                 });
 

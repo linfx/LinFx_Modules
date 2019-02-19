@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Catalog.Api.Infrastructure;
 using Catalog.Infrastructure;
 
 namespace Catalog.Api
