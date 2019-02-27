@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "identity", "identity", "{41805373-2425-46DB-A782-796476E523D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Core", "src\Identity\Identity.Core\Identity.Core.csproj", "{FCA94B1B-04A8-41A8-9DDF-F22AC9DD160D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity", "src\Identity\Identity.Core\Identity.csproj", "{FCA94B1B-04A8-41A8-9DDF-F22AC9DD160D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Web", "src\Identity\Identity.Web\Identity.Web.csproj", "{D35B6923-92A7-4708-82DB-6BA051C2724C}"
 EndProject
