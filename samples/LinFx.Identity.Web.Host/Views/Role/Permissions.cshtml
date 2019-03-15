@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "角色权限";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div id="app" class="row">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>模块</th>
+                <th>权限</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="group in items.permissionGroups">
+                <td>{{group.displayName}}</td>
+                <td>
+                    <label v-for="item in group.permissions">
+                        <input type='checkbox' v-model="item.isGranted" />
+                        <span>{{item.displayName}}</span>
+                    </label>
+                </td>
+            </tr>
+        </tbody>
+        <tr>
+            <td colspan="2">
+                <button type="button" class="btn" v-on:click="onSave">保存</button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                items: []
+            },
+            created: function () {
+                this.onGet();
+            },
+            methods: {
+                onGet: function () {
+                    $this = this;
+                    $.getJSON('/Role/GetPermissions/@ViewBag.Id', function (data) {
+                        $this.items = data;
+                    });
+                },
+                onSave: function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Role/Permissions/@ViewBag.Id",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(this.items),
+                        dataType: "json",
+                        success: function (message) {
+                            if (message > 0) {
+                                alert("请求已提交！我们会尽快与您取得联系");
+                            }
+                        },
+                        error: function (message) {
+                            $("#request-process-patent").html("提交数据失败！");
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+}

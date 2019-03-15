@@ -1,0 +1,14 @@
+﻿@using LinFx.UI.Navigation
+@inject IMenuManager _menuManager
+@{ 
+    var mainMenu = await _menuManager.GetAsync(StandardMenus.Main);
+}
+
+<ul class="navbar-nav flex-grow-1">
+    @foreach (var menu in mainMenu.Items)
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" href="@menu.Url">@menu.DisplayName</a>
+        </li>
+    }
+</ul>
