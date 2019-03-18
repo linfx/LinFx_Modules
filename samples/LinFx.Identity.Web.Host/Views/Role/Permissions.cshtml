@@ -1,70 +1,61 @@
-﻿@{
+﻿@using LinFx.Identity.Web.Models.ManageViewModels
+@model PermissionsViewModel
+@{
     ViewData["Title"] = "角色权限";
 }
 
 <h1>@ViewData["Title"]</h1>
-<div id="app" class="row">
-    <table class="table table-striped table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>模块</th>
-                <th>权限</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="group in items.permissionGroups">
-                <td>{{group.displayName}}</td>
-                <td>
-                    <label v-for="item in group.permissions">
-                        <input type='checkbox' v-model="item.isGranted" />
-                        <span>{{item.displayName}}</span>
-                    </label>
-                </td>
-            </tr>
-        </tbody>
-        <tr>
-            <td colspan="2">
-                <button type="button" class="btn" v-on:click="onSave">保存</button>
-            </td>
-        </tr>
-    </table>
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="form-horizontal" role="form">
+            <div class="form-group">
+                <ul>
+                    @for (int x = 0; x < Model.Groups.Count; x++)
+                    {
+                        <li>
+                            <label>
+                                <input type='checkbox' asp-for="@Model.Groups[x].IsGranted" />
+                                <input asp-for="@Model.Groups[x].Name" />
+                                <span>@Model.Groups[x].Name</span>
+                            </label>
+                            <ul>
+                                @for (int y = 0; y < Model.Groups[x].Permissions.Count; y++)
+                                {
+                                    <li>
+                                        <label>
+                                            <input type='checkbox' asp-for="@Model.Groups[x].Permissions[y].IsGranted" />
+                                            <input asp-for="@Model.Groups[x].Permissions[y].Name" />
+                                            <span>@Model.Groups[x].Permissions[y].DisplayName</span>
+                                        </label>
+                                        <ul>
+                                            @for (int z = 0; z < Model.Groups[x].Permissions[y].Children.Count; z++)
+                                            {
+                                                <li>
+                                                    <label>
+                                                        <input type='checkbox' asp-for="@Model.Groups[x].Permissions[y].Children[z].IsGranted" />
+                                                        <input asp-for="@Model.Groups[x].Permissions[y].Children[z].Name" />
+                                                        <span>@Model.Groups[x].Permissions[y].Children[z].DisplayName</span>
+                                                    </label>
+                                                </li>
+                                            }
+
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" class="btn btn-sm">保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 @section Scripts {
-    <script type="text/javascript">
-        var app = new Vue({
-            el: '#app',
-            data: {
-                items: []
-            },
-            created: function () {
-                this.onGet();
-            },
-            methods: {
-                onGet: function () {
-                    $this = this;
-                    $.getJSON('/Role/GetPermissions/@ViewBag.Id', function (data) {
-                        $this.items = data;
-                    });
-                },
-                onSave: function () {
-                    $.ajax({
-                        type: "POST",
-                        url: "/Role/Permissions/@ViewBag.Id",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify(this.items),
-                        dataType: "json",
-                        success: function (message) {
-                            if (message > 0) {
-                                alert("请求已提交！我们会尽快与您取得联系");
-                            }
-                        },
-                        error: function (message) {
-                            $("#request-process-patent").html("提交数据失败！");
-                        }
-                    });
-                }
-            }
-        });
-    </script>
+    <partial name="_ValidationScriptsPartial" />
 }

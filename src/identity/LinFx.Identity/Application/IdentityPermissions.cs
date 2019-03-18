@@ -4,6 +4,7 @@
     {
         public const string GroupName = "Identity";
 
+
         public static class Roles
         {
             public const string Default = GroupName + ".Roles";
@@ -14,6 +15,9 @@
             public const string Details = Default + ".Details";
         }
 
+        /// <summary>
+        /// 角色管理
+        /// </summary>
         public static class Users
         {
             public const string Default = GroupName + ".Users";
@@ -45,5 +49,16 @@
                 Users.Details,
             };
         }
+
+
+    }
+
+
+
+    public class menu<T>
+    {
+        public string name { get; set; }
+
+        public string Action { get; set; }
     }
 }

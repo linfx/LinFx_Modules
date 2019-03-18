@@ -80,7 +80,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\account\LinFx.Account.UI\LinFx.Account.UI.csproj" />
-    <ProjectReference Include="..\..\src\identity\LinFx.Identity.UI\LinFx.Identity.UI.csproj" />
     <ProjectReference Include="..\..\src\identity\LinFx.Identity.Web\LinFx.Identity.Web.csproj" />
   </ItemGroup>
 
