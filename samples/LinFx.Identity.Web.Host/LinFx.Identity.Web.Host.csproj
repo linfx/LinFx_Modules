@@ -12,29 +12,29 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Role\Create.cshtml" />
-    <Content Remove="Views\Role\Details.cshtml" />
-    <Content Remove="Views\Role\Edit.cshtml" />
-    <Content Remove="Views\Role\Index.cshtml" />
-    <Content Remove="Views\Role\Permissions.cshtml" />
+    <Content Remove="Views\Roles\Create.cshtml" />
+    <Content Remove="Views\Roles\Details.cshtml" />
+    <Content Remove="Views\Roles\Edit.cshtml" />
+    <Content Remove="Views\Roles\Index.cshtml" />
+    <Content Remove="Views\Roles\Permissions.cshtml" />
     <Content Remove="Views\Shared\Error.cshtml" />
     <Content Remove="Views\Shared\_CookieConsentPartial.cshtml" />
     <Content Remove="Views\Shared\_Layout.cshtml" />
     <Content Remove="Views\Shared\_LoginPartial.cshtml" />
     <Content Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
-    <Content Remove="Views\User\Details.cshtml" />
-    <Content Remove="Views\User\Edit.cshtml" />
-    <Content Remove="Views\User\Index.cshtml" />
+    <Content Remove="Views\Users\Details.cshtml" />
+    <Content Remove="Views\Users\Edit.cshtml" />
+    <Content Remove="Views\Users\Index.cshtml" />
     <Content Remove="Views\_ViewImports.cshtml" />
     <Content Remove="Views\_ViewStart.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Views\Role\Permissions.cshtml" />
-    <EmbeddedResource Include="Views\Role\Create.cshtml" />
-    <EmbeddedResource Include="Views\Role\Details.cshtml" />
-    <EmbeddedResource Include="Views\Role\Edit.cshtml" />
-    <EmbeddedResource Include="Views\Role\Index.cshtml" />
+    <EmbeddedResource Include="Views\Roles\Permissions.cshtml" />
+    <EmbeddedResource Include="Views\Roles\Create.cshtml" />
+    <EmbeddedResource Include="Views\Roles\Details.cshtml" />
+    <EmbeddedResource Include="Views\Roles\Edit.cshtml" />
+    <EmbeddedResource Include="Views\Roles\Index.cshtml" />
     <EmbeddedResource Include="Views\_ViewImports.cshtml" />
     <EmbeddedResource Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
@@ -55,13 +55,13 @@
     <None Include="Views\Shared\_ValidationScriptsPartial.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Views\User\Details.cshtml">
+    <None Include="Views\Users\Details.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Views\User\Edit.cshtml">
+    <None Include="Views\Users\Edit.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Views\User\Index.cshtml">
+    <None Include="Views\Users\Index.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

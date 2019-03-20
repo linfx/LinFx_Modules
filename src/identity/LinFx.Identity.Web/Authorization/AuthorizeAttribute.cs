@@ -23,7 +23,7 @@ namespace LinFx.Identity.Authorization
             var policyName = $"{IdentityPermissions.GroupName}.{ctrl.ControllerName}.{ctrl.ActionName}";
             var claimValues = policyName.Split(new char[] { '.' }, StringSplitOptions.None);
             var authorizationService = context.HttpContext.RequestServices.GetRequiredService<IAuthorizationService>();
-            var authorizationResult = await authorizationService.AuthorizeAsync(context.HttpContext.User, null, new ClaimsAuthorizationRequirement($"{claimValues[0]}.{claimValues[1]}", new string[] { policyName }));
+            var authorizationResult = await authorizationService.AuthorizeAsync(context.HttpContext.User, null, new ClaimsAuthorizationRequirement(claimValues[0], new[] { policyName }));
             if (!authorizationResult.Succeeded)
             {
                 context.Result = new ForbidResult();

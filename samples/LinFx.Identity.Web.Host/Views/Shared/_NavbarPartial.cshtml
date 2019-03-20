@@ -1,24 +1,36 @@
 ﻿@using LinFx.UI.Navigation
 @inject IMenuManager _menuManager
-@{ 
-    var mainMenu = await _menuManager.GetAsync(StandardMenus.Main);
+@{
+    var menus = await _menuManager.GetAllAsync();
 }
 
-<ul class="navbar-nav flex-grow-1">
-
-    <li>
-        @mainMenu.Name
-    
-        <ul>
-            @foreach (var menu in mainMenu.Items)
+<ul>
+    @foreach (var menu in menus)
+    {
+        <li class="nav-item">
+            @menu.DisplayName 
+            @if (!User.HasClaim(p => p.Value == menu.Name))
             {
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="@menu.Url">@menu.DisplayName</a>
-                </li>
+                <span>[没权限]</span>
             }
-        </ul>
-
-    </li>
-
-
+            <ul>
+                @foreach (var item in menu.Items)
+                {
+                    if (User.HasClaim(p => p.Value == item.Name))
+                    {
+                        <li>
+                            <a class="nav-link text-dark" href="@item.Url">@item.DisplayName</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a class="nav-link text-dark" href="@item.Url">@item.DisplayName   [没权限]</a>
+                       
+                        </li>
+                    }
+                }
+            </ul>
+        </li>
+    }
 </ul>

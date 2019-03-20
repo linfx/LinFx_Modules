@@ -5,7 +5,7 @@ namespace LinFx.Identity.EntityFrameworkCore
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole>
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

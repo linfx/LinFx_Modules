@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using IdentityServer4.Validation;
 using LinFx.Identity.Domain.Models;
 using LinFx.Identity.EntityFrameworkCore;
@@ -26,65 +27,65 @@ namespace IdentityService.Host
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddDbContext<ApplicationDbContext>(options => 
-                options
-                    //.ConfigureWarnings(b => b.Log(CoreEventId.ManyServiceProvidersCreatedWarning))
-                    .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                    sql => sql.MigrationsAssembly(migrationsAssembly)));
 
             //Identity
-            services.AddIdentityCore<ApplicationUser>()
-                 .AddRoles<ApplicationRole>()
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
                  .AddEntityFrameworkStores<ApplicationDbContext>()
-                 .AddSignInManager()
                  .AddDefaultTokenProviders();
 
             //IdentityServer4
             services.AddIdentityServer()
-                //.AddAspNetIdentity<ApplicationUser>()
-                .AddSecretValidator<PlainTextSharedSecretValidator>()
-                //.AddMySigningCredential(_config["Authentication:JwtBearer:SecurityKey"])
                 .AddDeveloperSigningCredential()
+                .AddAspNetIdentity<ApplicationUser>()
+                //.AddTestUsers(Config.GetUsers())
+                .AddSecretValidator<PlainTextSharedSecretValidator>()
+                // this adds the config data from DB (clients, resources)
                 .AddConfigurationStore(options =>
                 {
-                    options.ConfigureDbContext = builder => builder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), sqlOptions =>
-                        {
-                            //sqlOptions.MigrationsAssembly(migrationsAssembly);
-                            //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-                            sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-                        });
+                    options.ConfigureDbContext = builder =>
+                        builder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                            sql => sql.MigrationsAssembly(migrationsAssembly));
                 })
+                // this adds the operational data from DB (codes, tokens, consents)
                 .AddOperationalStore(options =>
                 {
-                    options.ConfigureDbContext = builder => builder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), sqlOptions =>
-                        {
-                            //sqlOptions.MigrationsAssembly(migrationsAssembly);
-                            //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-                            sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-                        });
+                    options.ConfigureDbContext = builder =>
+                        builder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                            sql => sql.MigrationsAssembly(migrationsAssembly));
+
+                    // this enables automatic token cleanup. this is optional.
+                    options.EnableTokenCleanup = true;
+                    options.TokenCleanupInterval = 30;
                 });
+
 
             //认证
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                //options.Audience = configuration["JwtBearer:Audience"];
-                //options.Authority = configuration["JwtBearer:Authority"];
-                options.RequireHttpsMetadata = false;
-            })
-            .AddIdentityCookies(options => { }); ;
+                //options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            });
+            //.AddJwtBearer(options =>
+            //{
+            //    //options.Audience = configuration["JwtBearer:Audience"];
+            //    //options.Authority = configuration["JwtBearer:Authority"];
+            //    options.RequireHttpsMetadata = false;
+            //})
+            //.AddIdentityCookies(options => { }); ;
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+            //    options.CheckConsentNeeded = context => true;
+            //    options.MinimumSameSitePolicy = SameSiteMode.None;
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -98,22 +99,13 @@ namespace IdentityService.Host
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseCookiePolicy();
-
             app.UseIdentityServer();
-            app.UseAuthentication();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

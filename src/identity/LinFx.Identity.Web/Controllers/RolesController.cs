@@ -1,26 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using LinFx.Identity.Authorization;
 using LinFx.Identity.Domain.Models;
 using LinFx.Identity.Web.Models.ManageViewModels;
 using LinFx.Security.Authorization.Permissions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Web.Controllers
 {
-    //[Authorize]
-    public class RoleController : Controller
+    [Authorize]
+    public class RolesController : Controller
     {
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IPermissionDefinitionManager _permissionDefinitionManager;
 
-        public RoleController(
+        public RolesController(
             RoleManager<ApplicationRole> roleManager,
             UserManager<ApplicationUser> userManager,
             IPermissionDefinitionManager permissionDefinitionManager)
@@ -31,9 +29,11 @@ namespace Identity.Web.Controllers
         }
 
         // GET: Role
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var items = _roleManager.Roles;
+            var items = await _roleManager.Roles
+                .ToListAsync();
+
             return View(items);
         }
 
@@ -52,11 +52,28 @@ namespace Identity.Web.Controllers
         // POST: Role/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(ApplicationRoleViewModel input)
         {
             try
             {
-                // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    var role = new ApplicationRole();
+
+                    if (await TryUpdateModelAsync(role))
+                    {
+
+                        var result = await _roleManager.CreateAsync(role);
+                        if (result.Succeeded)
+                        {
+                            return RedirectToAction(nameof(Index));
+                        }
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
 
                 return RedirectToAction(nameof(Index));
             }
@@ -87,13 +104,13 @@ namespace Identity.Web.Controllers
             if (ModelState.IsValid)
             {
                 var roleToUpdate = await _roleManager.FindByIdAsync(id);
+
                 if (await TryUpdateModelAsync(roleToUpdate))
                 {
                     await _roleManager.SetRoleNameAsync(roleToUpdate, input.Name);
                     var result = await _roleManager.UpdateAsync(roleToUpdate);
                     if (result.Succeeded)
                     {
-                        //return LocalRedirect(returnUrl);
                         return RedirectToAction(nameof(Index));
                     }
                     foreach (var error in result.Errors)
@@ -105,26 +122,15 @@ namespace Identity.Web.Controllers
             return View();
         }
 
-        // GET: Role/Delete/5
-        public IActionResult Delete(string id)
+        // Get: Role/Delete/5
+        public async Task<IActionResult> Delete(string id)
         {
-            return View();
-        }
-
-        // POST: Role/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id, IFormCollection collection)
-        {
-            try
+            var role = await _roleManager.FindByIdAsync(id);
+            if (role != null)
             {
-                // TODO: Add delete logic here
-                return RedirectToAction(nameof(Index));
+                var result = await _roleManager.DeleteAsync(role);
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Role/Permissions/5

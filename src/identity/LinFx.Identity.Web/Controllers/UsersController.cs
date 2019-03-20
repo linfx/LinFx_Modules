@@ -1,22 +1,24 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using LinFx.Application.Models;
 using LinFx.Identity.Authorization;
 using LinFx.Identity.Domain.Models;
 using LinFx.Identity.Web.Models.ManageViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using static LinFx.Identity.Web.Models.ManageViewModels.ApplicationUserEditModel;
 
 namespace Identity.Web.Controllers
 {
-    //[Authorize]
-    public class UserController : Controller
+    [Authorize]
+    public class UsersController : Controller
     {
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserController(
+        public UsersController(
             RoleManager<ApplicationRole> roleManager,
             UserManager<ApplicationUser> userManager)
         {
@@ -25,9 +27,16 @@ namespace Identity.Web.Controllers
         }
 
         // GET: User
-        public ActionResult Index()
+        public async Task<IActionResult> Index(int page = 1, int limit = 10)
         {
-            var items = _userManager.Users;
+            var count = await _userManager.Users.LongCountAsync();
+
+            var items = await _userManager.Users
+                .PageBy(page, limit)
+                .ToListAsync();
+
+            var result = new PagedResult<ApplicationUser>(count, items);
+
             return View(items);
         }
 
@@ -35,14 +44,6 @@ namespace Identity.Web.Controllers
         public async Task<ActionResult> Details(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
-            //await _userManager.AddClaimAsync(user, new Claim(Permissions.User.Default, Permissions.User.Index));
-
-            //var role = new ApplicationRole("user");
-            //await _roleManager.CreateAsync(role);
-            //role = await _roleManager.FindByNameAsync(role.Name);
-            //await _roleManager.AddClaimAsync(role, new Claim(Permissions.User.Default, Permissions.User.Index));
-            //await _userManager.AddToRoleAsync(user, role.Name);
-
             return View(user);
         }
 
@@ -61,7 +62,7 @@ namespace Identity.Web.Controllers
             {
                 // TODO: Add insert logic here
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
             catch
             {
@@ -80,8 +81,10 @@ namespace Identity.Web.Controllers
                 User = new ApplicationUserViewModel
                 {
                     Id = user.Id,
+                    ConcurrencyStamp = user.ConcurrencyStamp,
                     Name = user.UserName,
                     Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
                 }
             };
 
@@ -101,14 +104,14 @@ namespace Identity.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, ApplicationUserEditModel input)
         {
-            try
+            if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByIdAsync(id);
 
-                await _userManager.UpdateAsync(new ApplicationUser
-                {
-                    PhoneNumber = input.User.PhoneNumber
-                });
+                //TryUpdateModelAsync(user);
+                user.PhoneNumber = input.User.PhoneNumber;
+
+                await _userManager.UpdateAsync(user);
 
                 foreach (var role in input.Roles)
                 {
@@ -118,35 +121,20 @@ namespace Identity.Web.Controllers
                         await _userManager.RemoveFromRoleAsync(user, role.Name);
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: User/Delete/5
-        public ActionResult Delete(int id)
-        {
             return View();
         }
 
-        // POST: User/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        // GET: User/Delete/5
+        public async Task<IActionResult> Delete(string id)
         {
-            try
+            var user = await _userManager.FindByIdAsync(id);
+            if(user != null)
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
+                var result = await _userManager.DeleteAsync(user);
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }

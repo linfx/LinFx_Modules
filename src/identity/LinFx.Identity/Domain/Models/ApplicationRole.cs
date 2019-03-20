@@ -10,5 +10,15 @@ namespace LinFx.Identity.Domain.Models
         public ApplicationRole() { }
 
         public ApplicationRole(string roleName) : base(roleName) { }
+
+        /// <summary>
+        /// A default role is automatically assigned to a new user
+        /// </summary>
+        public virtual bool IsDefault { get; set; }
+
+        /// <summary>
+        /// A static role can not be deleted/renamed
+        /// </summary>
+        public virtual bool IsStatic { get; set; }
     }
 }
