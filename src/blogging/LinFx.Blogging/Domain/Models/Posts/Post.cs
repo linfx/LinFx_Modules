@@ -1,8 +1,6 @@
 ﻿using LinFx.Extensions.Auditing;
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace LinFx.Blogging.Domain.Models
 {
@@ -51,6 +49,10 @@ namespace LinFx.Blogging.Domain.Models
         /// </summary>
         public virtual ICollection<PostTag> Tags { get; protected set; }
 
+        /// <summary>
+        /// 阅读数增长
+        /// </summary>
+        /// <returns></returns>
         public virtual Post IncreaseReadCount()
         {
             ReadCount++;
@@ -66,9 +68,13 @@ namespace LinFx.Blogging.Domain.Models
             Tags.Add(new PostTag(Id, tagId));
         }
 
-        //public virtual void RemoveTag(Guid tagId)
-        //{
-        //    Tags.RemoveAt(t => t.TagId == tagId);
-        //}
+        /// <summary>
+        /// 移除标签
+        /// </summary>
+        /// <param name="tagId"></param>
+        public virtual void RemoveTag(Guid tagId)
+        {
+            //Tags.RemoveAt(t => t.TagId == tagId);
+        }
     }
 }
