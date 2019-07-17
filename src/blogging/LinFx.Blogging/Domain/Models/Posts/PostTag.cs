@@ -4,7 +4,7 @@ using System;
 namespace LinFx.Blogging.Domain.Models
 {
     /// <summary>
-    /// 帖子标签
+    /// 标签
     /// </summary>
     public class PostTag : CreationAuditedEntity
     {
@@ -29,6 +29,10 @@ namespace LinFx.Blogging.Domain.Models
             TagId = tagId;
         }
 
+        /// <summary>
+        /// 获取主键
+        /// </summary>
+        /// <returns></returns>
         public override object[] GetKeys()
         {
             return new object[] { PostId, TagId };
