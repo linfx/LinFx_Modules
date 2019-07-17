@@ -49,7 +49,11 @@ namespace Identity.Web.Controllers
             return View();
         }
 
-        // POST: Role/Create
+        /// <summary>
+        /// 新增
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ApplicationRoleViewModel input)

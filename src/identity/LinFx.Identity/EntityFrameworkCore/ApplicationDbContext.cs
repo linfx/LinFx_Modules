@@ -1,18 +1,49 @@
-﻿using LinFx.Identity.Domain.Models;
+﻿using LinFx.Extensions.Auditing;
+using LinFx.Identity.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace LinFx.Identity.EntityFrameworkCore
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+        private readonly IAuditPropertySetter _auditPropertySetter = new AuditPropertySetter();
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+        }
+
+        /// <summary>
+        /// 租户
+        /// </summary>
+        public DbSet<Tenant> Tenants { get; set; }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            OnBeforeSaveChanges();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        protected virtual void OnBeforeSaveChanges()
+        {
+            foreach (var entry in ChangeTracker.Entries().ToList())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        _auditPropertySetter.SetCreationProperties(entry.Entity);
+                        break;
+                    case EntityState.Modified:
+                        _auditPropertySetter.SetModificationProperties(entry.Entity);
+                        break;
+                    case EntityState.Deleted:
+                        _auditPropertySetter.SetDeletionProperties(entry.Entity);
+                        break;
+                }
+            }
         }
     }
 }

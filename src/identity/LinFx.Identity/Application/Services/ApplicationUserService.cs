@@ -1,10 +1,8 @@
-﻿using LinFx.Application.Abstractions;
-using LinFx.Identity.Domain.Models;
+﻿using LinFx.Identity.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace LinFx.Identity.Application.Services
@@ -23,7 +21,5 @@ namespace LinFx.Identity.Application.Services
         {
             return _userManager.Users.ToListAsync();
         }
-
-
     }
 }

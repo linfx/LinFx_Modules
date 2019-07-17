@@ -39,10 +39,11 @@ namespace LinFx.Account.UI.Pages.Account
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
             await _signInManager.SignOutAsync();
-            _logger.LogInformation("User logged out.");
+            _logger.LogDebug("User logged out.");
             if (returnUrl != null)
             {
-                return LocalRedirect(returnUrl);
+                //return LocalRedirect(returnUrl);
+                return Redirect(returnUrl);
             }
             else
             {

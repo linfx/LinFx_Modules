@@ -7,11 +7,13 @@
   <ItemGroup>
     <Compile Remove="Pages\Account\Lockout.cshtml.cs" />
     <Compile Remove="Pages\Account\LoginWith2fa.cshtml.cs" />
+    <Compile Remove="Pages\Account\Logout.cshtml.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Remove="Pages\Account\Lockout.cshtml" />
     <Content Remove="Pages\Account\LoginWith2fa.cshtml" />
+    <Content Remove="Pages\Account\Logout.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

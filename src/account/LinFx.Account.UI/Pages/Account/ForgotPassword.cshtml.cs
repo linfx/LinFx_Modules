@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 using LinFx.Identity.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace LinFx.Account.UI.Pages.Account
 {
@@ -18,7 +14,7 @@ namespace LinFx.Account.UI.Pages.Account
 
         public ForgotPasswordModel(
             UserManager<ApplicationUser> userManager)
-            //IEmailSender emailSender)
+        //IEmailSender emailSender)
         {
             _userManager = userManager;
             //_emailSender = emailSender;

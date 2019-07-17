@@ -43,7 +43,7 @@ namespace IdentityService.Host
             //IdentityServer4
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
-                .AddAspNetIdentity<ApplicationUser>()
+                //.AddAspNetIdentity<ApplicationUser>()
                 //.AddTestUsers(Config.GetUsers())
                 .AddSecretValidator<PlainTextSharedSecretValidator>()
                 // this adds the config data from DB (clients, resources)

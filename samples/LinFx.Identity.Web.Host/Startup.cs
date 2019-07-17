@@ -2,9 +2,7 @@
 using LinFx.Identity.Domain.Models;
 using LinFx.Identity.EntityFrameworkCore;
 using LinFx.Identity.Web.Host.Menus;
-using LinFx.Security.Authorization.Permissions;
 using LinFx.UI.Navigation;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -65,18 +63,6 @@ namespace LinFx.Identity.Web.Host
                 });
 
             //认证
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //})
-            //.AddJwtBearer(options =>
-            //{
-            //    //options.Audience = configuration["JwtBearer:Audience"];
-            //    //options.Authority = configuration["JwtBearer:Authority"];
-            //    options.RequireHttpsMetadata = false;
-            //});
-
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = IdentityConstants.ApplicationScheme;
