@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Quickstart\**" />
+    <Content Remove="Quickstart\**" />
+    <EmbeddedResource Remove="Quickstart\**" />
+    <None Remove="Quickstart\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IdentityServer4" Version="3.0.0-preview3.4" />
+    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="3.0.0-preview3.4" />
+    <PackageReference Include="IdentityServer4.EntityFramework" Version="3.0.0-preview3.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.0.0-preview7.19362.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\identity\LinFx.Extensions.Identity\LinFx.Extensions.Identity.csproj" />
+  </ItemGroup>
+
+</Project>

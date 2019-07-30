@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LinFx.Blogging.Application.Services
+namespace LinFx.Extensions.Blogging.Application.Services
 {
     public class TagService
     {

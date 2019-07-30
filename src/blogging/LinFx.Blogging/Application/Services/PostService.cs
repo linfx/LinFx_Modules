@@ -1,12 +1,12 @@
 ﻿using LinFx.Application.Models;
-using LinFx.Blogging.EntityFrameworkCore;
+using LinFx.Extensions.Blogging.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace LinFx.Blogging.Application.Services
+namespace LinFx.Extensions.Blogging.Application.Services
 {
     public class PostService
     {

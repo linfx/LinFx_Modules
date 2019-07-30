@@ -1,11 +1,11 @@
 ﻿using LinFx.Application.Models;
-using LinFx.Blogging.Domain.Models;
-using LinFx.Blogging.EntityFrameworkCore;
+using LinFx.Extensions.Blogging.Domain.Models;
+using LinFx.Extensions.Blogging.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 
-namespace LinFx.Blogging.Application.Services
+namespace LinFx.Extensions.Blogging.Application.Services
 {
     public class BlogService
     {

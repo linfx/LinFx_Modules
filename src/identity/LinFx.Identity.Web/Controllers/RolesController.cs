@@ -1,16 +1,19 @@
-﻿using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using LinFx.Identity.Authorization;
+﻿using LinFx.Identity.Authorization;
 using LinFx.Identity.Domain.Models;
 using LinFx.Identity.Web.Models.ManageViewModels;
 using LinFx.Security.Authorization.Permissions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Identity.Web.Controllers
 {
+    /// <summary>
+    /// 角色管理
+    /// </summary>
     [Authorize]
     public class RolesController : Controller
     {
@@ -28,7 +31,10 @@ namespace Identity.Web.Controllers
             _permissionDefinitionManager = permissionDefinitionManager;
         }
 
-        // GET: Role
+        /// <summary>
+        /// 列表
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Index()
         {
             var items = await _roleManager.Roles
@@ -37,20 +43,28 @@ namespace Identity.Web.Controllers
             return View(items);
         }
 
-        // GET: Role/Details/5
+        /// <summary>
+        /// 明细
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Role/Create
+
+        /// <summary>
+        /// 创建
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Create()
         {
             return View();
         }
 
         /// <summary>
-        /// 新增
+        /// 创建
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -87,7 +101,11 @@ namespace Identity.Web.Controllers
             }
         }
 
-        // GET: Role/Edit/5
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Edit(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);
@@ -100,7 +118,12 @@ namespace Identity.Web.Controllers
             return View(model);
         }
 
-        // POST: Role/Edit/5
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, ApplicationRoleViewModel input)
@@ -126,7 +149,11 @@ namespace Identity.Web.Controllers
             return View();
         }
 
-        // Get: Role/Delete/5
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Delete(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);

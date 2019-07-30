@@ -1,8 +1,9 @@
-﻿using LinFx.Extensions.Auditing;
+﻿using LinFx.Domain.Models.Auditing;
+using LinFx.Extensions.Auditing;
 using System;
 using System.Collections.Generic;
 
-namespace LinFx.Blogging.Domain.Models
+namespace LinFx.Extensions.Blogging.Domain.Models
 {
     /// <summary>
     /// 帖子

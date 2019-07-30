@@ -1,0 +1,14 @@
+<Project>
+
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Version>0.1.0</Version>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/linfx/LinFx_Modules</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/linfx/LinFx_Modules/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/linfx/LinFx_Modules</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>

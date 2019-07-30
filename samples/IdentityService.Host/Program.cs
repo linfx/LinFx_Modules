@@ -1,8 +1,5 @@
-﻿using IdentityServer4.EntityFramework.DbContexts;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace IdentityService.Host
 {
@@ -10,21 +7,14 @@ namespace IdentityService.Host
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build()
-                .MigrateDbContext<PersistedGrantDbContext>((_, __) => { })
-                .MigrateDbContext<ConfigurationDbContext>((context, services) =>
-                {
-                    var configuration = services.GetService<IConfiguration>();
-
-                    new ConfigurationDbContextSeed()
-                        .SeedAsync(context, configuration)
-                        .Wait();
-                })
-                .Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }

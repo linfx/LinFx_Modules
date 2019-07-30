@@ -1,7 +1,7 @@
 ﻿using LinFx.Domain.Models;
 using System;
 
-namespace LinFx.Blogging.Domain.Models
+namespace LinFx.Extensions.Blogging.Domain.Models
 {
     /// <summary>
     /// 博主

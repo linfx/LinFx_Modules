@@ -1,6 +1,6 @@
-﻿using LinFx.Blogging.Domain.Models;
+﻿using LinFx.Extensions.Blogging.Domain.Models;
 
-namespace LinFx.Blogging.Application.Services
+namespace LinFx.Extensions.Blogging.Application.Services
 {
     public class PostWithDetails : Post
     {

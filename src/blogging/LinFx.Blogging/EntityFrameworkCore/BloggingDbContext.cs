@@ -1,14 +1,23 @@
-﻿using LinFx.Blogging.Domain.Models;
+﻿using LinFx.Extensions.Blogging.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace LinFx.Blogging.EntityFrameworkCore
+namespace LinFx.Extensions.Blogging.EntityFrameworkCore
 {
     public class BloggingDbContext : Extensions.EntityFrameworkCore.DbContext
     {
+        /// <summary>
+        /// 用户
+        /// </summary>
         public DbSet<BlogUser> Users { get; set; }
 
+        /// <summary>
+        /// 博客
+        /// </summary>
         public DbSet<Blog> Blogs { get; set; }
 
+        /// <summary>
+        /// 标签
+        /// </summary>
         public DbSet<Tag> Tags { get; set; }
 
         public DbSet<Post> Posts { get; set; }

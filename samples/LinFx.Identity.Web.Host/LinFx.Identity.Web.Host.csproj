@@ -81,6 +81,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\account\LinFx.Account.UI\LinFx.Account.UI.csproj" />
     <ProjectReference Include="..\..\src\identity\LinFx.Identity.Web\LinFx.Identity.Web.csproj" />
+    <ProjectReference Include="..\..\src\tenant-management\LinFx.Extensions.TenantManagement.Api\LinFx.Extensions.TenantManagement.HttpApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>

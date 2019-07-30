@@ -1,0 +1,1 @@
+﻿add-migration Config -context ConfigurationDbContext

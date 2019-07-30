@@ -36,7 +36,7 @@ namespace LinFx.Identity.Web.Host
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
             //Identity
             services.AddIdentityCore<ApplicationUser>()
@@ -74,7 +74,7 @@ namespace LinFx.Identity.Web.Host
                 .AddMvcLocalization()
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddApplicationPart(Assembly.Load("LinFx.Identity.Web"))
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using LinFx.Application.Models;
+﻿using LinFx.Application.Models;
 using LinFx.Identity.Authorization;
 using LinFx.Identity.Domain.Models;
 using LinFx.Identity.Web.Models.ManageViewModels;
@@ -8,10 +6,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 using static LinFx.Identity.Web.Models.ManageViewModels.ApplicationUserEditModel;
 
 namespace Identity.Web.Controllers
 {
+    /// <summary>
+    /// 用户管理
+    /// </summary>
     [Authorize]
     public class UsersController : Controller
     {
@@ -26,7 +29,12 @@ namespace Identity.Web.Controllers
             _userManager = userManager;
         }
 
-        // GET: User
+        /// <summary>
+        /// 列表
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Index(int page = 1, int limit = 10)
         {
             var count = await _userManager.Users.LongCountAsync();
@@ -37,7 +45,7 @@ namespace Identity.Web.Controllers
 
             var result = new PagedResult<ApplicationUser>(count, items);
 
-            return View(items);
+            return View(result);
         }
 
         // GET: User/Details/5
@@ -130,7 +138,7 @@ namespace Identity.Web.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
-            if(user != null)
+            if (user != null)
             {
                 var result = await _userManager.DeleteAsync(user);
             }

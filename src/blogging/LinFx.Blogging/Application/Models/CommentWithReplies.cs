@@ -1,4 +1,4 @@
-﻿namespace LinFx.Blogging.Application.Services
+﻿namespace LinFx.Extensions.Blogging.Application.Services
 {
     public class CommentWithReplies
     {
