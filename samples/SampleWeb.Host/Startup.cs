@@ -1,5 +1,9 @@
+using LinFx.Extensions.Identity.Application;
+using LinFx.Extensions.TenantManagement.EntityFrameworkCore;
+using LinFx.Extensions.UI.Navigation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,15 +23,28 @@ namespace SampleWeb.Host
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<TenantManagementDbContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddLinFxTenantManagement();
+
+            //Permissions
+            services.AddSingleton<IdentityPermissionDefinitionProvider>();
+
+            //Menus
+            services.AddSingleton<IMenuManager, MenuManager>();
+            services.Configure<NavigationOptions>(o =>
+            {
+                o.MenuContributors.Add(new SampleWebMenuContributor());
+                o.MenuContributors.Add(new SampleWeb2MenuContributor());
+            });
+
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "SampleWeb", Version = "v1" });
                 options.DocInclusionPredicate((docName, description) => true);
                 options.CustomSchemaIds(type => type.FullName);
             });
-
-
-            services.AddLinFxTenantManagement();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -47,7 +64,7 @@ namespace SampleWeb.Host
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();

@@ -2,5 +2,6 @@
 {
     public class TenantInput
     {
+        public string Filter { get; set; }
     }
 }

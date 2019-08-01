@@ -12,7 +12,7 @@ namespace LinFx.Extensions.TenantManagement.HttpApi
     /// </summary>
     [ApiController]
     [Route("api/multi-tenancy/[controller]")]
-    public class TenantController : Controller
+    public class TenantController : ControllerBase
     {
         private readonly ITenantService _service;
 

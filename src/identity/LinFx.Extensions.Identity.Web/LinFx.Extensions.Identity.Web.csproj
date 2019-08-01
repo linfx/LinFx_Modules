@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Pages\Identity\Roles\Create.cshtml" />
+    <None Remove="Pages\Identity\Roles\Edit.cshtml" />
+    <None Remove="Pages\Identity\Roles\Index.cshtml" />
+    <None Remove="Pages\Identity\Roles\Permissions.cshtml" />
+    <None Remove="Pages\Identity\Users\Create.cshtml" />
+    <None Remove="Pages\Identity\Users\Index.cshtml" />
+    <None Remove="Pages\_ViewImports.cshtml" />
+    <None Remove="Pages\_ViewStart.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Pages\Identity\Roles\Create.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Pages\Identity\Roles\Edit.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Pages\Identity\Roles\Index.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Pages\Identity\Roles\Permissions.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Pages\Identity\Users\Create.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Pages\Identity\Users\Index.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Pages\_ViewImports.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Pages\_ViewStart.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\permission-management\LinFx.Extensions.PermissionManagement\LinFx.Extensions.PermissionManagement.csproj" />
+    <ProjectReference Include="..\LinFx.Extensions.Identity.HttpApi\LinFx.Extensions.Identity.HttpApi.csproj" />
+  </ItemGroup>
+
+</Project>

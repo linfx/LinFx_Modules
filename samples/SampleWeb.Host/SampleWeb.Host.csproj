@@ -5,7 +5,49 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Roles\Create.cshtml" />
+    <Content Remove="Views\Roles\Details.cshtml" />
+    <Content Remove="Views\Roles\Edit.cshtml" />
+    <Content Remove="Views\Roles\Index.cshtml" />
+    <Content Remove="Views\Roles\Permissions.cshtml" />
+    <Content Remove="Views\Shared\_LoginPartial.cshtml" />
+    <Content Remove="Views\Users\Details.cshtml" />
+    <Content Remove="Views\Users\Edit.cshtml" />
+    <Content Remove="Views\Users\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Roles\Create.cshtml" />
+    <EmbeddedResource Include="Views\Roles\Details.cshtml" />
+    <EmbeddedResource Include="Views\Roles\Edit.cshtml" />
+    <EmbeddedResource Include="Views\Roles\Index.cshtml" />
+    <EmbeddedResource Include="Views\Roles\Permissions.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Shared\_LoginPartial.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Views\Users\Details.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Views\Users\Edit.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Views\Users\Index.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0-preview7.19362.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0-preview7.19362.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0-preview7-19378-04" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.0.0-preview7.19362.6" />
   </ItemGroup>
 
   <ItemGroup>

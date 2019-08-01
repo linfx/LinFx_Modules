@@ -4,6 +4,10 @@ using LinFx.Extensions.TenantManagement.Application.Models;
 using LinFx.Extensions.TenantManagement.Application.Modles;
 using LinFx.Extensions.TenantManagement.Domain;
 using LinFx.Extensions.TenantManagement.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LinFx.Extensions.TenantManagement.Application
@@ -15,14 +19,22 @@ namespace LinFx.Extensions.TenantManagement.Application
     {
         private readonly TenantManagementDbContext _context;
 
-        //public TenantService(TenantManagementDbContext context)
-        //{
-        //    _context = context;
-        //}
-
-        public Task<PagedResult<TenantDto>> GetListAsync(TenantInput input)
+        public TenantService(TenantManagementDbContext context)
         {
-            throw new System.NotImplementedException();
+            _context = context;
+        }
+
+        public async Task<PagedResult<TenantDto>> GetListAsync(TenantInput input)
+        {
+            var count = await _context.Tenants.CountAsync();
+            var items = await _context.Tenants
+                .WhereIf(!input.Filter.IsNullOrWhiteSpace(), u =>
+                        u.Name.Contains(input.Filter))
+                //.OrderBy(input.Sorting)
+                .PageBy(1, 10)
+                .ToListAsync();
+
+            return new PagedResult<TenantDto>(count, ObjectMapper.Map<List<Tenant>, List<TenantDto>>(items));
         }
 
         public async Task<TenantDto> GetAsync(string id)
@@ -30,19 +42,32 @@ namespace LinFx.Extensions.TenantManagement.Application
             return ObjectMapper.Map<Tenant, TenantDto>(await _context.Tenants.FindAsync(id));
         }
 
-        public Task<TenantDto> CreateAsync(TenantCreateDto input)
+        public async Task<TenantDto> CreateAsync(TenantCreateDto input)
         {
-            throw new System.NotImplementedException();
+            var item = ObjectMapper.Map<TenantCreateDto, Tenant>(input);
+            item.Id = LinFx.Utils.IDUtils.GenerateId().ToString();
+            _context.Add(item);
+            await _context.SaveChangesAsync(); 
+            return ObjectMapper.Map<Tenant, TenantDto>(item);
         }
 
-        public Task<TenantDto> UpdateAsync(string id, TenantUpdateDto input)
+        public async Task<TenantDto> UpdateAsync(string id, TenantUpdateDto input)
         {
-            throw new System.NotImplementedException();
+            var item = await _context.Tenants.FindAsync(id);
+            if(item == null)
+                return default;
+
+            ObjectMapper.Map(input, item);
+            _context.Update(item);
+            await _context.SaveChangesAsync();
+            return ObjectMapper.Map<Tenant, TenantDto>(item);
         }
 
-        public Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id)
         {
-            throw new System.NotImplementedException();
+            var item = await _context.Tenants.FindAsync(id);
+            _context.Tenants.Remove(item);
+            await _context.SaveChangesAsync();
         }
     }
 }

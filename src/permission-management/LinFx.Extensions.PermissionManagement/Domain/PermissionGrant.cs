@@ -2,7 +2,7 @@
 using LinFx.Extensions.MultiTenancy;
 using System;
 
-namespace LinFx.PermissionManagement
+namespace LinFx.Extensions.PermissionManagement
 {
     public class PermissionGrant : Entity<Guid>, IMultiTenant
     {

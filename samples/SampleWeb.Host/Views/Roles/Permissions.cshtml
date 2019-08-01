@@ -1,0 +1,61 @@
+﻿@using LinFx.Identity.Web.Models.ManageViewModels
+@model PermissionsViewModel
+@{
+    ViewData["Title"] = "角色权限";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="form-horizontal" role="form">
+            <div class="form-group">
+                <ul>
+                    @for (int x = 0; x < Model.Groups.Count; x++)
+                    {
+                        <li>
+                            <label>
+                                <input type='checkbox' asp-for="@Model.Groups[x].IsGranted" />
+                                <input asp-for="@Model.Groups[x].Name" />
+                                <span>@Model.Groups[x].Name</span>
+                            </label>
+                            <ul>
+                                @for (int y = 0; y < Model.Groups[x].Permissions.Count; y++)
+                                {
+                                    <li>
+                                        <label>
+                                            <input type='checkbox' asp-for="@Model.Groups[x].Permissions[y].IsGranted" />
+                                            <input asp-for="@Model.Groups[x].Permissions[y].Name" />
+                                            <span>@Model.Groups[x].Permissions[y].DisplayName</span>
+                                        </label>
+                                        <ul>
+                                            @for (int z = 0; z < Model.Groups[x].Permissions[y].Children.Count; z++)
+                                            {
+                                                <li>
+                                                    <label>
+                                                        <input type='checkbox' asp-for="@Model.Groups[x].Permissions[y].Children[z].IsGranted" />
+                                                        <input asp-for="@Model.Groups[x].Permissions[y].Children[z].Name" />
+                                                        <span>@Model.Groups[x].Permissions[y].Children[z].DisplayName</span>
+                                                    </label>
+                                                </li>
+                                            }
+
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" class="btn btn-sm">保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
