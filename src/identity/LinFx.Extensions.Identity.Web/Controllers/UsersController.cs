@@ -18,12 +18,12 @@ namespace Identity.Web.Controllers
     [Authorize]
     public class UsersController : Controller
     {
-        private readonly RoleManager<ApplicationRole> _roleManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
         public UsersController(
-            RoleManager<ApplicationRole> roleManager,
-            UserManager<ApplicationUser> userManager)
+            RoleManager<IdentityRole> roleManager,
+            UserManager<IdentityUser> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -43,7 +43,7 @@ namespace Identity.Web.Controllers
                 .PageBy(page, limit)
                 .ToListAsync();
 
-            var result = new PagedResult<ApplicationUser>(count, items);
+            var result = new PagedResult<IdentityUser>(count, items);
 
             return View(result);
         }

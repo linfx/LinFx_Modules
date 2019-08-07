@@ -6,8 +6,12 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddLinFxIdentity(this IServiceCollection services)
         {
-            services.AddTransient<IdentityRoleService>();
+            //services.AddTransient<IdentityRoleService>();
             services.AddTransient<IdentityUserService>();
+
+            //Permissions
+            services.AddSingleton<IdentityPermissionDefinitionProvider>();
+
             return services;
         }
     }

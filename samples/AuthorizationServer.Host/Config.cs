@@ -33,7 +33,7 @@ namespace AuthorizationServer.Host
                     ClientName = "Client Credentials Client",
 
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
+                    ClientSecrets = { new Secret("123456`".Sha256()) },
 
                     AllowedScopes = { "api1" }
                 },

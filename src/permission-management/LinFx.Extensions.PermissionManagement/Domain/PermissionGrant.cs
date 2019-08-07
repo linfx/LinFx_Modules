@@ -4,7 +4,7 @@ using System;
 
 namespace LinFx.Extensions.PermissionManagement
 {
-    public class PermissionGrant : Entity<Guid>, IMultiTenant
+    public class PermissionGrant : Entity<string>, IMultiTenant
     {
         public virtual Guid? TenantId { get; protected set; }
 
@@ -20,7 +20,7 @@ namespace LinFx.Extensions.PermissionManagement
         protected PermissionGrant() { }
 
         public PermissionGrant(
-            Guid id,
+            string id,
             [NotNull] string name,
             [NotNull] string providerName,
             [NotNull] string providerKey,

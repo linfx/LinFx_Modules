@@ -1,4 +1,5 @@
-using LinFx.Extensions.Identity.Application;
+using LinFx.Extensions.Identity.EntityFrameworkCore;
+using LinFx.Extensions.PermissionManagement.EntityFrameworkCore;
 using LinFx.Extensions.TenantManagement.EntityFrameworkCore;
 using LinFx.Extensions.UI.Navigation;
 using Microsoft.AspNetCore.Builder;
@@ -23,19 +24,24 @@ namespace SampleWeb.Host
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<IdentityDbContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<PermissionManagementDbContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddDbContext<TenantManagementDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddLinFxIdentity();
+            services.AddLinFxPermissionManagement();
             services.AddLinFxTenantManagement();
-
-            //Permissions
-            services.AddSingleton<IdentityPermissionDefinitionProvider>();
 
             //Menus
             services.AddSingleton<IMenuManager, MenuManager>();
             services.Configure<NavigationOptions>(o =>
             {
-                o.MenuContributors.Add(new SampleWebMenuContributor());
+                o.MenuContributors.Add(new Menus());
                 o.MenuContributors.Add(new SampleWeb2MenuContributor());
             });
 

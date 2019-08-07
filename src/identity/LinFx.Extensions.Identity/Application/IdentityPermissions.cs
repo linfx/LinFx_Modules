@@ -10,7 +10,7 @@
         /// <summary>
         /// 用户权限项
         /// </summary>
-        public static class User
+        public static class Users
         {
             public const string Default = GroupName + ".Users";
             public const string Index = Default + ".Index";
@@ -23,7 +23,7 @@
         /// <summary>
         /// 角色权限项
         /// </summary>
-        public static class Role
+        public static class Roles
         {
             public const string Default = GroupName + ".Roles";
             public const string Index = Default + ".Index";

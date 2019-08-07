@@ -40,10 +40,10 @@ namespace AuthorizationServer.Host
                 options.Events.RaiseSuccessEvents = true;
             })
                 //.AddAspNetIdentity<IdentityUser>();
-                .AddTestUsers(TestUsers.Users)
                 .AddInMemoryApiResources(Config.GetApis())
                 .AddInMemoryClients(Config.GetClients())
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                .AddTestUsers(TestUsers.Users)
                 .AddDeveloperSigningCredential();
                 //.AddConfigurationStore(options =>
                 //{

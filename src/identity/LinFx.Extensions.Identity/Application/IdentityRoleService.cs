@@ -1,21 +1,36 @@
 ﻿using LinFx.Application.Models;
 using LinFx.Extensions.Identity.Application.Models;
+using LinFx.Extensions.ObjectMapping;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading.Tasks;
 
 namespace LinFx.Extensions.Identity.Application
 {
-    public class IdentityRoleService
+    public class IdentityRoleService<TRole> where TRole : class
     {
-        public Task DeleteAsync(string id)
+        private readonly RoleManager<TRole> _roleManager;
+
+        public IdentityRoleService(RoleManager<TRole> roleManager)
         {
-            throw new NotImplementedException();
+            _roleManager = roleManager;
         }
 
-        public Task<IdentityRoleDto> GetAsync(string id)
+        public async Task DeleteAsync(string id)
         {
-            var item = new IdentityRoleDto();
-            return Task.FromResult(item);
+            var role = await _roleManager.FindByIdAsync(id);
+            if (role == null)
+                return;
+
+            await _roleManager.DeleteAsync(role);
+        }
+
+        public async Task<IdentityRoleDto> GetAsync(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+            if (role == null)
+                return default;
+            return ObjectMapper.Map<TRole, IdentityRoleDto>(role);
         }
 
         public Task<IdentityRoleDto> UpdateAsync(string id, IdentityRoleUpdateDto input)

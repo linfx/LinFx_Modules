@@ -6,7 +6,7 @@ namespace LinFx.Extensions.Identity.EntityFrameworkCore
 {
     public class IdentityDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
     {
-        public IdentityDbContext(DbContextOptions options) : base(options) { }
+        public IdentityDbContext(DbContextOptions<IdentityDbContext> options) : base(options) { }
     }
 
     /// <summary>

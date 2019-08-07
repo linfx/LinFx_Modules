@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace LinFx.Extensions.PermissionManagement.HttpApi
 {
+    /// <summary>
+    /// 权限管理
+    /// </summary>
     [ApiController]
     [Route("api/permission/[controller]")]
     public class PermissionController : Controller
@@ -15,12 +18,25 @@ namespace LinFx.Extensions.PermissionManagement.HttpApi
             _permissionService = permissionAppService;
         }
 
+        /// <summary>
+        /// 获取权限
+        /// </summary>
+        /// <param name="providerName"></param>
+        /// <param name="providerKey"></param>
+        /// <returns></returns>
         [HttpGet]
         public Task<PermissionListResult> GetAsync(string providerName, string providerKey)
         {
             return _permissionService.GetAsync(providerName, providerKey);
         }
 
+        /// <summary>
+        /// 更新权限
+        /// </summary>
+        /// <param name="providerName"></param>
+        /// <param name="providerKey"></param>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpPost]
         public Task UpdateAsync(string providerName, string providerKey, UpdatePermissionDto input)
         {

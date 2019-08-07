@@ -1,4 +1,3 @@
-using LinFx.Identity.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,11 +8,11 @@ namespace LinFx.Account.UI.Pages.Account
 {
     public class ForgotPasswordModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
         //private readonly IEmailSender _emailSender;
 
         public ForgotPasswordModel(
-            UserManager<ApplicationUser> userManager)
+            UserManager<IdentityUser> userManager)
         //IEmailSender emailSender)
         {
             _userManager = userManager;

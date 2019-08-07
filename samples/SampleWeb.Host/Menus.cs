@@ -4,14 +4,14 @@ using System.Threading.Tasks;
 
 namespace SampleWeb
 {
-    public class SampleWebMenuContributor : IMenuContributor
+    public class Menus : IMenuContributor
     {
         public Task ConfigureMenuAsync(MenuConfigurationContext context)
         {
-            context.Menu.Name = "Identity";
-            context.Menu.DisplayName = "导航一";
-            context.Menu.Items.Add(new ApplicationMenuItem(IdentityPermissions.Role.Default, "Menu:Role", "/Roles"));
-            context.Menu.Items.Add(new ApplicationMenuItem(IdentityPermissions.User.Default, "Menu:User", "/Users"));
+            context.Menu.Name = "System";
+            context.Menu.DisplayName = "系统管理";
+            context.Menu.Items.Add(new ApplicationMenuItem(IdentityPermissions.User.Default, "用户管理", "/Users"));
+            context.Menu.Items.Add(new ApplicationMenuItem(IdentityPermissions.Role.Default, "角色管理", "/Roles"));
             return Task.CompletedTask;
         }
     }

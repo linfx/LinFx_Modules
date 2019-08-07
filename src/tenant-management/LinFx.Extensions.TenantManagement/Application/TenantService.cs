@@ -4,6 +4,7 @@ using LinFx.Extensions.TenantManagement.Application.Models;
 using LinFx.Extensions.TenantManagement.Application.Modles;
 using LinFx.Extensions.TenantManagement.Domain;
 using LinFx.Extensions.TenantManagement.EntityFrameworkCore;
+using LinFx.Utils;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -45,7 +46,7 @@ namespace LinFx.Extensions.TenantManagement.Application
         public async Task<TenantDto> CreateAsync(TenantCreateDto input)
         {
             var item = ObjectMapper.Map<TenantCreateDto, Tenant>(input);
-            item.Id = LinFx.Utils.IDUtils.GenerateId().ToString();
+            item.Id = IDUtils.NewId().ToString();
             _context.Add(item);
             await _context.SaveChangesAsync(); 
             return ObjectMapper.Map<Tenant, TenantDto>(item);

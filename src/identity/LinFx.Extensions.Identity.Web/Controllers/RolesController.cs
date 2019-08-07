@@ -1,5 +1,4 @@
 ﻿using LinFx.Extensions.Identity.Authorization;
-using LinFx.Extensions.Identity.Domain.Models;
 using LinFx.Extensions.Identity.Web.Models.ManageViewModels;
 using LinFx.Security.Authorization.Permissions;
 using Microsoft.AspNetCore.Identity;
@@ -17,13 +16,13 @@ namespace Identity.Web.Controllers
     [Authorize]
     public class RolesController : Controller
     {
-        private readonly RoleManager<ApplicationRole> _roleManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly IPermissionDefinitionManager _permissionDefinitionManager;
 
         public RolesController(
-            RoleManager<ApplicationRole> roleManager,
-            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            UserManager<IdentityUser> userManager,
             IPermissionDefinitionManager permissionDefinitionManager)
         {
             _roleManager = roleManager;
@@ -76,7 +75,7 @@ namespace Identity.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var role = new ApplicationRole();
+                    var role = new IdentityRole();
 
                     if (await TryUpdateModelAsync(role))
                     {

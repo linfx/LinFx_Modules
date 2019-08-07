@@ -1,5 +1,3 @@
-using System;
-
 namespace SampleWeb.Host.Models
 {
     public class ErrorViewModel

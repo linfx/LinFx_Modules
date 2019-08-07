@@ -1,23 +1,23 @@
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using LinFx.Identity.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using IdentityUser = LinFx.Extensions.Identity.Domain.IdentityUser;
 
 namespace LinFx.Account.UI.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         //private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger)
         {
             _userManager = userManager;
@@ -59,7 +59,7 @@ namespace LinFx.Account.UI.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser
+                var user = new IdentityUser
                 {
                     UserName = Input.Email,
                     Email = Input.Email,
@@ -90,7 +90,7 @@ namespace LinFx.Account.UI.Pages.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-            
+
             // If we got this far, something failed, redisplay form
             return Page();
         }

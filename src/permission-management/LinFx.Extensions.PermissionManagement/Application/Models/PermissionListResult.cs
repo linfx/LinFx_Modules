@@ -6,5 +6,6 @@ namespace LinFx.Extensions.PermissionManagement.Application.Models
 {
     public class PermissionListResult
     {
+        public object Groups { get; internal set; }
     }
 }

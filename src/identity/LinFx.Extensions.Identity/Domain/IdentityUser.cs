@@ -5,6 +5,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LinFx.Extensions.Identity.Domain
 {
+    /// <summary>
+    /// 用户
+    /// </summary>
     public class IdentityUser : Microsoft.AspNetCore.Identity.IdentityUser, IMultiTenant, IHasCreationTime, IHasModificationTime
     {
         /// <summary>

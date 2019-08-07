@@ -1,17 +1,31 @@
 ﻿using LinFx.Extensions.MultiTenancy;
 using LinFx.Security.Authorization.Permissions;
-using System;
+using LinFx.Utils;
 using System.Threading.Tasks;
 
 namespace LinFx.Extensions.PermissionManagement
 {
     public abstract class PermissionManagementProvider : IPermissionManagementProvider
     {
+        /// <summary>
+        /// 名称
+        /// </summary>
         public abstract string Name { get; }
 
         protected IPermissionGrantRepository PermissionGrantRepository { get; }
 
+        /// <summary>
+        /// 当前租户
+        /// </summary>
         protected ICurrentTenant CurrentTenant { get; }
+
+        protected PermissionManagementProvider(
+            IPermissionGrantRepository permissionGrantRepository,
+            ICurrentTenant currentTenant)
+        {
+            PermissionGrantRepository = permissionGrantRepository;
+            CurrentTenant = currentTenant;
+        }
 
         public virtual async Task<PermissionValueProviderGrantInfo> CheckAsync(string name, string providerName, string providerKey)
         {
@@ -49,7 +63,7 @@ namespace LinFx.Extensions.PermissionManagement
 
             await PermissionGrantRepository.InsertAsync(
                 new PermissionGrant(
-                    Guid.NewGuid(),
+                    IDUtils.NewId().ToString(),
                     name,
                     Name,
                     providerKey,
