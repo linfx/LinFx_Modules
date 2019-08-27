@@ -1,7 +1,12 @@
-﻿namespace LinFx.Extensions.TenantManagement.Application.Models
+﻿using LinFx.Application.Models;
+
+namespace LinFx.Extensions.TenantManagement.Application.Models
 {
-    public class TenantInput
+    public class TenantInput : PagedAndSortedResultRequest
     {
+        /// <summary>
+        /// 过滤条件
+        /// </summary>
         public string Filter { get; set; }
     }
 }

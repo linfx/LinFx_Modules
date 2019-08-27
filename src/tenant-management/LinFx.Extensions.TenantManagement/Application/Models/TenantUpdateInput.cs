@@ -2,13 +2,13 @@
 
 namespace LinFx.Extensions.TenantManagement.Application.Models
 {
-    public class TenantCreateDto
+    public class TenantUpdateInput
     {
         /// <summary>
         /// 名称
         /// </summary>
         [Required]
         [StringLength(200)]
-        public virtual string Name { get; protected set; }
+        public virtual string Name { get; set; }
     }
 }

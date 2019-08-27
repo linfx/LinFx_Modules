@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LinFx" Version="4.2.0" />
+    <ProjectReference Include="..\..\..\..\LinFx\src\LinFx\LinFx.csproj" />
   </ItemGroup>
 
 </Project>

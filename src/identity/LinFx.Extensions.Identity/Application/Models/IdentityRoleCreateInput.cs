@@ -1,6 +1,6 @@
 ﻿namespace LinFx.Extensions.Identity.Application.Models
 {
-    public class IdentityUserUpdateDto
+    public class IdentityRoleCreateInput
     {
     }
 }

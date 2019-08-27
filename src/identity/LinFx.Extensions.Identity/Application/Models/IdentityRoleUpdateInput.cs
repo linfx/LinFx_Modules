@@ -2,7 +2,7 @@
 
 namespace LinFx.Extensions.Identity.Application.Models
 {
-    public class IdentityRoleUpdateDto
+    public class IdentityRoleUpdateInput
     {
         [Required]
         public string Name { get; set; }

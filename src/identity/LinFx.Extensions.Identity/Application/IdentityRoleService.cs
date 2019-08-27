@@ -33,7 +33,7 @@ namespace LinFx.Extensions.Identity.Application
             return ObjectMapper.Map<TRole, IdentityRoleDto>(role);
         }
 
-        public Task<IdentityRoleDto> UpdateAsync(string id, IdentityRoleUpdateDto input)
+        public Task<IdentityRoleDto> UpdateAsync(string id, IdentityRoleUpdateInput input)
         {
             var item = new IdentityRoleDto();
             return Task.FromResult(item);

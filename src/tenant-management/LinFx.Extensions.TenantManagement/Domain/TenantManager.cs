@@ -1,26 +1,35 @@
-﻿using LinFx.Utils;
-using System;
+﻿using LinFx.Extensions.TenantManagement.EntityFrameworkCore;
+using LinFx.Utils;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace LinFx.Extensions.TenantManagement.Domain
 {
+    [Service]
     public class TenantManager
     {
-        //public async Task<Tenant> CreateAsync(string name)
-        //{
-        //    Check.NotNull(name, nameof(name));
+        private readonly TenantManagementDbContext _context;
 
-        //    await ValidateNameAsync(name);
-        //    return new Tenant(IDUtils.GenerateId().ToString(), name);
-        //}
+        public TenantManager(TenantManagementDbContext context)
+        {
+            _context = context;
+        }
 
-        //protected virtual async Task ValidateNameAsync(string name, Guid? expectedId = null)
-        //{
-        //    var tenant = await _tenantRepository.FindByNameAsync(name);
-        //    if (tenant != null && tenant.Id != expectedId)
-        //    {
-        //        throw new UserFriendlyException("Duplicate tenancy name: " + name); //TODO: A domain exception would be better..?
-        //    }
-        //}
+        public async Task<Tenant> CreateAsync(string name)
+        {
+            Check.NotNull(name, nameof(name));
+
+            await ValidateNameAsync(name);
+            return new Tenant(IDUtils.NewId().ToString(), name);
+        }
+
+        protected virtual async Task ValidateNameAsync(string name, string expectedId = null)
+        {
+            var tenant = await _context.Tenants.FirstOrDefaultAsync(p => p.Name == name);
+            if (tenant != null && tenant.Id != expectedId)
+            {
+                throw new UserFriendlyException("Duplicate tenancy name: " + name); //TODO: A domain exception would be better..?
+            }
+        }
     }
 }

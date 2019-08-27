@@ -9,10 +9,18 @@ namespace LinFx.Extensions.TenantManagement.Domain
     public class Tenant : FullAuditedAggregateRoot<string>
     {
         /// <summary>
-        /// 名称
+        /// 租户名称
         /// </summary>
         [Required]
         [StringLength(200)]
-        public virtual string Name { get; protected set; }
+        public virtual string Name { get; set; }
+
+        public Tenant() { }
+
+        public Tenant(string id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
     }
 }

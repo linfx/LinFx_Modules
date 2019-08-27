@@ -1,4 +1,4 @@
-﻿namespace Identity.Application
+﻿namespace LinFx.Extensions.Identity.Domain
 {
     public static class RoleDefine
     {

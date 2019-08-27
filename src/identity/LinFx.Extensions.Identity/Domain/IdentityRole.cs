@@ -1,5 +1,4 @@
 ﻿using LinFx.Extensions.MultiTenancy;
-using System;
 
 namespace LinFx.Extensions.Identity.Domain
 {
@@ -11,7 +10,7 @@ namespace LinFx.Extensions.Identity.Domain
         /// <summary>
         /// 租户ID
         /// </summary>
-        public virtual Guid? TenantId { get; set; }
+        public virtual string TenantId { get; set; }
 
         public IdentityRole() { }
 

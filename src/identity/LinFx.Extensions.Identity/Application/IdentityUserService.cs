@@ -39,7 +39,7 @@ namespace LinFx.Extensions.Identity.Application
             return ObjectMapper.Map<IdentityUser, IdentityUserDto>(await _context.Users.FindAsync(id));
         }
 
-        public Task<IdentityUserDto> UpdateAsync(string id, IdentityUserUpdateDto input)
+        public Task<IdentityUserDto> UpdateAsync(string id, IdentityUserUpdateInput input)
         {
             throw new NotImplementedException();
         }
