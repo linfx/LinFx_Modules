@@ -20,10 +20,16 @@ namespace LinFx.Extensions.Blogging.EntityFrameworkCore
         /// </summary>
         public DbSet<Tag> Tags { get; set; }
 
+        /// <summary>
+        /// 帖子
+        /// </summary>
         public DbSet<Post> Posts { get; set; }
 
         public DbSet<PostTag> PostTags { get; set; }
 
+        /// <summary>
+        /// 评论
+        /// </summary>
         public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
