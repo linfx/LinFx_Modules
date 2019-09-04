@@ -1,4 +1,6 @@
-﻿namespace LinFx.Extensions.TenantManagement.Application.Models
+﻿using System;
+
+namespace LinFx.Extensions.TenantManagement.Application.Models
 {
     public class TenantDto
     {
@@ -11,31 +13,10 @@
         /// 名称
         /// </summary>
         public string Name { get; set; }
-    }
 
-    public class TenantWithAccountDto : TenantDto
-    {
         /// <summary>
-        /// 默认租户管理员
+        /// 创建时间
         /// </summary>
-        public AccountModel Account { get; set; }
-
-        public class AccountModel
-        {
-            /// <summary>
-            /// 账号
-            /// </summary>
-            public string UserName { get; set; }
-
-            /// <summary>
-            /// 密码
-            /// </summary>
-            public string Password { get; set; }
-
-            /// <summary>
-            /// 角色
-            /// </summary>
-            public string[] Role { get; set; }
-        }
+        public DateTimeOffset CreationTime { get; set; }
     }
 }

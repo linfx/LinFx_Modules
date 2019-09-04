@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
-    <Version>0.1.1</Version>
+    <Version>0.1.5</Version>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/linfx/LinFx_Modules</PackageProjectUrl>
@@ -11,5 +11,9 @@
     <RepositoryUrl>https://github.com/linfx/LinFx_Modules</RepositoryUrl>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LinFx" Version="4.2.5" />
+  </ItemGroup>
 
 </Project>

@@ -5,12 +5,6 @@ namespace LinFx.Extensions.Identity.Application.Models
     public class IdentityUserUpdateInput
     {
         /// <summary>
-        /// ID
-        /// </summary>
-        [Display(Name = "ID")]
-        public virtual string Id { get; set; }
-
-        /// <summary>
         /// 姓名
         /// </summary>
         [StringLength(100)]

@@ -1,4 +1,5 @@
 ﻿using LinFx.Application;
+using LinFx.Extensions.DependencyInjection;
 using LinFx.Extensions.TenantManagement.Application.Models;
 using LinFx.Extensions.TenantManagement.Domain;
 using LinFx.Extensions.TenantManagement.EntityFrameworkCore;
