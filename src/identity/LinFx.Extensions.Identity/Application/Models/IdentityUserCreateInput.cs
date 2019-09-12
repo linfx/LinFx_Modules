@@ -38,6 +38,7 @@ namespace LinFx.Extensions.Identity.Application.Models
         /// 手机
         /// </summary>
         [Required(ErrorMessage = "{0}不能为空")]
+        [Phone]
         [Display(Name = "手机")]
         public virtual string PhoneNumber { get; set; }
     }

@@ -1,6 +1,5 @@
 ﻿using LinFx.Application.Models;
 using LinFx.Extensions.Identity.Application.Models;
-using LinFx.Extensions.ObjectMapping;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading.Tasks;
@@ -30,7 +29,8 @@ namespace LinFx.Extensions.Identity.Application
             var role = await _roleManager.FindByIdAsync(id);
             if (role == null)
                 return default;
-            return ObjectMapper.Map<TRole, IdentityRoleDto>(role);
+
+            return role.MapTo<IdentityRoleDto>();
         }
 
         public Task<IdentityRoleDto> UpdateAsync(string id, IdentityRoleUpdateInput input)

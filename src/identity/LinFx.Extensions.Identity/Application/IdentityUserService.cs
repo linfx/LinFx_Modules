@@ -1,8 +1,6 @@
 ﻿using LinFx.Application.Models;
 using LinFx.Extensions.Identity.Application.Models;
-using LinFx.Extensions.Identity.Domain;
 using LinFx.Extensions.Identity.EntityFrameworkCore;
-using LinFx.Extensions.ObjectMapping;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -28,15 +26,19 @@ namespace LinFx.Extensions.Identity.Application
                         u.UserName.Contains(input.Filter) ||
                         u.Email.Contains(input.Filter))
                 //.OrderBy(input.Sorting)
-                .PageBy(1, 10)
+                .PageBy(input)
                 .ToListAsync();
 
-            return new PagedResult<IdentityUserDto>(count, ObjectMapper.Map<List<IdentityUser>, List<IdentityUserDto>>(items));
+            return new PagedResult<IdentityUserDto>(count, items.MapTo<IdentityUserDto[]>());
         }
 
         public async Task<IdentityUserDto> GetAsync(string id)
         {
-            return ObjectMapper.Map<IdentityUser, IdentityUserDto>(await _context.Users.FindAsync(id));
+            var item = await _context.Users.FindAsync(id);
+            if (item == null)
+                throw new UserFriendlyException($"对象[{id}]不存在");
+
+            return item.MapTo<IdentityUserDto>();
         }
 
         public Task<IdentityUserDto> UpdateAsync(string id, IdentityUserUpdateInput input)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace LinFx.Extensions.Identity.Application.Models
 {
@@ -48,6 +49,16 @@ namespace LinFx.Extensions.Identity.Application.Models
         /// 开启锁定功能
         /// </summary>
         public virtual bool LockoutEnabled { get; set; }
+
+        /// <summary>
+        /// 创建者
+        /// </summary>
+        public string CreatorId { get; set; }
+
+        /// <summary>
+        /// 最后修改者
+        /// </summary>
+        public string LastModifierId { get; set; }
 
         /// <summary>
         /// 创建时间
