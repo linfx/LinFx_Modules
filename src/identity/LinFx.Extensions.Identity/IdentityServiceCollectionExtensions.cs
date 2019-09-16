@@ -10,11 +10,10 @@ namespace Microsoft.Extensions.DependencyInjection
             where TUser : class
             where TRole : class
         {
-            //services.AddTransient<IdentityRoleService>();
-            fx.Services.AddTransient<IdentityUserService>();
-            fx.Services.AddSingleton<IdentityPermissionDefinitionProvider>();
-
-            fx.Services.AddIdentity<TUser, TRole>(options);
+            fx.Services
+                .AddTransient<IdentityUserService>()
+                .AddSingleton<IdentityPermissionDefinitionProvider>()
+                .AddIdentity<TUser, TRole>(options);
 
             return fx;
         }

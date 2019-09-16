@@ -16,7 +16,7 @@ namespace LinFx.Extensions.Identity.EntityFrameworkCore
     /// <summary>
     /// Base class for the Entity Framework database context used for identity.
     /// </summary>
-    public class IdentityDbContext<TUser, TRole> : IdentityDbContext<TUser, TRole, string>
+    public class IdentityDbContext<TUser, TRole> : IdentityDbContext<TUser, TRole, string, IdentityUserClaim, IdentityUserRole, IdentityUserLogin, IdentityRoleClaim, IdentityUserToken>
         where TUser : IdentityUser
         where TRole : IdentityRole
     {
