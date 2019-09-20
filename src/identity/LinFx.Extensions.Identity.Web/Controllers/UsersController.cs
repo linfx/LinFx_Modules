@@ -1,11 +1,8 @@
-﻿using LinFx.Application.Models;
-using LinFx.Extensions.Identity.Authorization;
-using LinFx.Extensions.Identity.Domain.Models;
+﻿using LinFx.Extensions.Identity.Authorization;
 using LinFx.Extensions.Identity.Web.Models.ManageViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using static LinFx.Extensions.Identity.Web.Models.ManageViewModels.ApplicationUserEditModel;

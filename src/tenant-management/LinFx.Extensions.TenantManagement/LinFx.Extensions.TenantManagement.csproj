@@ -6,4 +6,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\LinFx\src\LinFx\LinFx.csproj" />
+  </ItemGroup>
+
 </Project>

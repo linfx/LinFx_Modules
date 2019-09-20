@@ -4,7 +4,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.1.9</Version>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\LinFx\src\LinFx\LinFx.csproj" />
+  </ItemGroup>
+  
 </Project>

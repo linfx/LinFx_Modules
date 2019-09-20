@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LinFx.Extensions.Identity.EntityFrameworkCore
 {
-    public class IdentityDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
+    public class IdentityDbContext : IdentityDbContext<IdentityUser, IdentityRole>
     {
         public IdentityDbContext(DbContextOptions<IdentityDbContext> options) : base(options) { }
     }
@@ -37,6 +37,8 @@ namespace LinFx.Extensions.Identity.EntityFrameworkCore
             {
                 b.Property(u => u.TenantId).HasMaxLength(32);
             });
+
+            ConfigureTable(builder);
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -62,6 +64,17 @@ namespace LinFx.Extensions.Identity.EntityFrameworkCore
                         break;
                 }
             }
+        }
+
+        protected virtual void ConfigureTable(ModelBuilder builder)
+        {
+            builder.Entity<TUser>().ToTable(TableConsts.IdentityUsers);
+            builder.Entity<TRole>().ToTable(TableConsts.IdentityRoles);
+            builder.Entity<IdentityUserRole>().ToTable(TableConsts.IdentityUserRoles);
+            builder.Entity<IdentityRoleClaim>().ToTable(TableConsts.IdentityRoleClaims);
+            builder.Entity<IdentityUserLogin>().ToTable(TableConsts.IdentityUserLogins);
+            builder.Entity<IdentityUserClaim>().ToTable(TableConsts.IdentityUserClaims);
+            builder.Entity<IdentityUserToken>().ToTable(TableConsts.IdentityUserTokens);
         }
     }
 }

@@ -17,9 +17,6 @@ namespace LinFx.Extensions.TenantManagement.Application
         {
         }
 
-        protected TenantManagementDbContext Db
-        {
-            get { return (TenantManagementDbContext)_db; }
-        }
+        protected TenantManagementDbContext Db => (TenantManagementDbContext)_db;
     }
 }

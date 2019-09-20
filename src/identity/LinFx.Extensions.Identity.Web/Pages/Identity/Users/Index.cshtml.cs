@@ -1,14 +1,11 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using LinFx.Extensions.Identity.Application;
-using LinFx.Extensions.Identity.Application.Services;
-using LinFx.Extensions.Identity.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LinFx.Extensions.Identity.UI.Pages.Identity.Users
 {
@@ -20,7 +17,7 @@ namespace LinFx.Extensions.Identity.UI.Pages.Identity.Users
         private readonly ILogger<IndexModel> _logger;
 
         public IndexModel(
-            UserManager<ApplicationUser> userManager, 
+            UserManager<ApplicationUser> userManager,
             ApplicationUserService applicationUserService,
             ILogger<IndexModel> logger)
         {

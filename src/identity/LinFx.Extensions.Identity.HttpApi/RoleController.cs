@@ -61,7 +61,7 @@ namespace LinFx.Extensions.Identity.HttpApi
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public virtual Task<IdentityRoleDto> UpdateAsync(string id, IdentityRoleUpdateDto input)
+        public virtual Task<IdentityRoleDto> UpdateAsync(string id, IdentityRoleUpdateInput input)
         {
             return _roleService.UpdateAsync(id, input);
         }

@@ -1,5 +1,5 @@
-﻿using Identity.Application;
-using LinFx.Extensions.Identity.Application;
+﻿using LinFx.Extensions.Identity.Application;
+using LinFx.Extensions.Identity.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +16,7 @@ namespace LinFx.Extensions.Identity.Authorization
     {
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            if(context.HttpContext.User.IsInRole(RoleDefine.Admin))
+            if (context.HttpContext.User.IsInRole(RoleDefine.Admin))
                 return;
 
             var ctrl = context.ActionDescriptor as ControllerActionDescriptor;

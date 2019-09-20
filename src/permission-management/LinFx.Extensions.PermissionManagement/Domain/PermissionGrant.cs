@@ -6,7 +6,7 @@ namespace LinFx.Extensions.PermissionManagement
 {
     public class PermissionGrant : Entity<string>, IMultiTenant
     {
-        public virtual Guid? TenantId { get; protected set; }
+        public virtual string TenantId { get; protected set; }
 
         [NotNull]
         public virtual string Name { get; protected set; }
@@ -24,7 +24,7 @@ namespace LinFx.Extensions.PermissionManagement
             [NotNull] string name,
             [NotNull] string providerName,
             [NotNull] string providerKey,
-            Guid? tenantId = null)
+            string tenantId = null)
         {
             Check.NotNull(name, nameof(name));
 

@@ -1,6 +1,7 @@
 ﻿using LinFx.Domain.Models;
 using LinFx.Extensions.Auditing;
 using LinFx.Extensions.MultiTenancy;
+using LinFx.Utils;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,7 +10,21 @@ namespace LinFx.Extensions.Identity.Domain
     /// <summary>
     /// 用户
     /// </summary>
-    public class IdentityUser : Microsoft.AspNetCore.Identity.IdentityUser, IEntity<string>, IFullAuditedObject, IMultiTenant
+    public class IdentityUser : IdentityUser<string>
+    {
+        public IdentityUser()
+        {
+            Id = IDUtils.NewId().ToString();
+            SecurityStamp = Guid.NewGuid().ToString();
+        }
+    }
+
+    /// <summary>
+    /// 用户
+    /// </summary>
+    /// <typeparam name="TKey">The type used from the primary key for the user.</typeparam>
+    public class IdentityUser<TKey> : Microsoft.AspNetCore.Identity.IdentityUser<TKey>, IEntity<TKey>, IFullAuditedObject, IMultiTenant
+        where TKey : IEquatable<TKey>
     {
         /// <summary>
         /// 租户ID

@@ -18,7 +18,7 @@ namespace LinFx.Extensions.PermissionManagement.Domain
             string providerName,
             string providerKey,
             IEnumerable<string> grantedPermissions,
-            Guid? tenantId = null)
+            string tenantId = default)
         {
             foreach (var permissionName in grantedPermissions)
             {
