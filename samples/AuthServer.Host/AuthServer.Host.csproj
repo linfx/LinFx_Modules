@@ -6,17 +6,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="jwt.pfx" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="AspNet.Security.OAuth.GitHub" Version="2.0.1" />
-		<PackageReference Include="AspNet.Security.OAuth.Weibo" Version="2.0.1" />
+		<PackageReference Include="AspNet.Security.OAuth.GitHub" Version="2.1.0" />
+		<PackageReference Include="AspNet.Security.OAuth.Weibo" Version="2.1.0" />
 		<PackageReference Include="AspNetCore.Authentication.WeChat" Version="2.0.1" />
 		<PackageReference Include="NWebsec.AspNetCore.Middleware" Version="2.0.0" />
-		<PackageReference Include="Sendgrid" Version="9.10.0" />
-		<PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
-		<PackageReference Include="Serilog.Settings.Configuration" Version="3.0.1" />
+		<PackageReference Include="Sendgrid" Version="9.12.0" />
+		<PackageReference Include="Serilog.AspNetCore" Version="3.0.0" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
 		<PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.1.3-dev-00236" />
 		<PackageReference Include="Unicorn.AspNetCore.Authentication.QQ" Version="2.0.1.1" />
@@ -27,12 +23,6 @@
 		<ProjectReference Include="..\..\src\identity\LinFx.Extensions.Identity.IdentityServer\LinFx.Extensions.Identity.IdentityServer.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Content Include="jwt.pfx">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	</ItemGroup>
-
-	<ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="http://json.schemastore.org/asmdef" /></VisualStudio></ProjectExtensions>
+	<ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
