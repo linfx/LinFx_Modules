@@ -1,17 +1,12 @@
-// Copyright (c) .NET Foundation. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
-using System;
-using IdentityServer4.Stores;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer.Authentication;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
+using System;
 
 namespace Microsoft.AspNetCore.Authentication
 {
@@ -21,7 +16,6 @@ namespace Microsoft.AspNetCore.Authentication
     public static class AuthenticationBuilderExtensions
     {
         private const string IdentityServerJwtNameSuffix = "API";
-
         private static readonly PathString DefaultIdentityUIPathPrefix = new PathString("/Identity");
 
         /// <summary>
@@ -33,8 +27,7 @@ namespace Microsoft.AspNetCore.Authentication
         {
             var services = builder.Services;
             services.TryAddSingleton<IIdentityServerJwtDescriptor, IdentityServerJwtDescriptor>();
-            services.TryAddEnumerable(ServiceDescriptor
-                .Transient<IConfigureOptions<JwtBearerOptions>, IdentityServerJwtBearerOptionsConfiguration>(JwtBearerOptionsFactory));
+            services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<JwtBearerOptions>, IdentityServerJwtBearerOptionsConfiguration>(JwtBearerOptionsFactory));
 
             services.AddAuthentication(IdentityServerJwtConstants.IdentityServerJwtScheme)
                 .AddPolicyScheme(IdentityServerJwtConstants.IdentityServerJwtScheme, null, options =>
@@ -45,17 +38,15 @@ namespace Microsoft.AspNetCore.Authentication
                 })
                 .AddJwtBearer(IdentityServerJwtConstants.IdentityServerJwtBearerScheme, null, o => { });
 
-
             return builder;
 
-            IdentityServerJwtBearerOptionsConfiguration JwtBearerOptionsFactory(IServiceProvider sp)
+            static IdentityServerJwtBearerOptionsConfiguration JwtBearerOptionsFactory(IServiceProvider sp)
             {
                 var schemeName = IdentityServerJwtConstants.IdentityServerJwtBearerScheme;
 
                 var localApiDescriptor = sp.GetRequiredService<IIdentityServerJwtDescriptor>();
                 //var hostingEnvironment = sp.GetRequiredService<IWebHostEnvironment>();
                 //var apiName = hostingEnvironment.ApplicationName + IdentityServerJwtNameSuffix;
-
                 var apiName = IdentityServerJwtNameSuffix;
 
                 return new IdentityServerJwtBearerOptionsConfiguration(schemeName, apiName, localApiDescriptor);

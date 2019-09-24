@@ -1,17 +1,25 @@
-﻿using AuthorizationServer.Host.Models;
+﻿using AuthServer.Host.ViewModels.Home;
+using IdentityServer4.Services;
+using LinFx.Extensions.Identity.IdentityServer.Extensions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Diagnostics;
+using System;
+using System.Threading.Tasks;
 
-namespace AuthorizationServer.Host.Controllers
+namespace AuthServer.Host.Controllers
 {
+    /// <summary>
+    /// 首页
+    /// </summary>
+    [SecurityHeaders]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IIdentityServerInteractionService _interaction;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IIdentityServerInteractionService interaction)
         {
-            _logger = logger;
+            _interaction = interaction;
         }
 
         public IActionResult Index()
@@ -19,15 +27,37 @@ namespace AuthorizationServer.Host.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        /// <summary>
+        /// 设置语言
+        /// </summary>
+        /// <param name="culture"></param>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult SetLanguage(string culture, string returnUrl)
         {
-            return View();
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+            return LocalRedirect(returnUrl);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        /// <summary>
+        /// Shows the error page
+        /// </summary>
+        public async Task<IActionResult> Error(string errorId)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var vm = new ErrorViewModel();
+
+            var message = await _interaction.GetErrorContextAsync(errorId);
+            if (message != null)
+            {
+                vm.Error = message;
+            }
+
+            return View("Error", vm);
         }
     }
 }

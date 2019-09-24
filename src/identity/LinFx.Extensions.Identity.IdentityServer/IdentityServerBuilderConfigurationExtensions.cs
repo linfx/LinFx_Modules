@@ -1,15 +1,8 @@
-﻿// Copyright (c) .NET Foundation. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using IdentityServer4.Configuration;
+﻿using IdentityServer4.Configuration;
 using IdentityServer4.EntityFramework.Interfaces;
 using IdentityServer4.Hosting;
 using IdentityServer4.Models;
 using IdentityServer4.Stores;
-using IdentityServer4.Validation;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer.Configuration;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -32,8 +28,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TContext">The <typeparamref name="TContext"/> type.</typeparam>
         /// <param name="builder">The <see cref="IIdentityServerBuilder"/>.</param>
         /// <returns>The <see cref="IIdentityServerBuilder"/>.</returns>
-        public static IIdentityServerBuilder AddApiAuthorization<TUser, TContext>(
-            this IIdentityServerBuilder builder) where TUser : class
+        public static IIdentityServerBuilder AddApiAuthorization<TUser, TContext>(this IIdentityServerBuilder builder)
+            where TUser : class
             where TContext : DbContext, IPersistedGrantDbContext
         {
             builder.AddApiAuthorization<TUser, TContext>(o => { });
@@ -49,18 +45,15 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="configure">The <see cref="Action{ApplicationsOptions}"/>
         /// to configure the <see cref="ApiAuthorizationOptions"/>.</param>
         /// <returns>The <see cref="IIdentityServerBuilder"/>.</returns>
-        public static IIdentityServerBuilder AddApiAuthorization<TUser, TContext>(
-            this IIdentityServerBuilder builder,
-            Action<ApiAuthorizationOptions> configure)
-                where TUser : class
-                where TContext : DbContext, IPersistedGrantDbContext
+        public static IIdentityServerBuilder AddApiAuthorization<TUser, TContext>(this IIdentityServerBuilder builder, Action<ApiAuthorizationOptions> configure)
+            where TUser : class
+            where TContext : DbContext, IPersistedGrantDbContext
         {
             if (configure == null)
-            {
                 throw new ArgumentNullException(nameof(configure));
-            }
 
-            builder.AddAspNetIdentity<TUser>()
+            builder
+                .AddAspNetIdentity<TUser>()
                 .AddOperationalStore<TContext>()
                 .ConfigureReplacedServices()
                 .AddIdentityResources()
@@ -79,8 +72,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="builder">The <see cref="IIdentityServerBuilder"/>.</param>
         /// <returns>The <see cref="IIdentityServerBuilder"/>.</returns>
-        public static IIdentityServerBuilder AddApiResources(
-            this IIdentityServerBuilder builder) => builder.AddApiResources(configuration: null);
+        public static IIdentityServerBuilder AddApiResources(this IIdentityServerBuilder builder) => builder.AddApiResources(configuration: null);
 
         /// <summary>
         /// Adds API resources from the given <paramref name="configuration"/> instance.
@@ -88,9 +80,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="builder">The <see cref="IIdentityServerBuilder"/>.</param>
         /// <param name="configuration">The <see cref="IConfiguration"/> instance containing the API definitions.</param>
         /// <returns>The <see cref="IIdentityServerBuilder"/>.</returns>
-        public static IIdentityServerBuilder AddApiResources(
-            this IIdentityServerBuilder builder,
-            IConfiguration configuration)
+        public static IIdentityServerBuilder AddApiResources(this IIdentityServerBuilder builder, IConfiguration configuration)
         {
             builder.ConfigureReplacedServices();
             builder.AddInMemoryApiResources(Enumerable.Empty<ApiResource>());
@@ -120,8 +110,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="builder">The <see cref="IIdentityServerBuilder"/>.</param>
         /// <returns>The <see cref="IIdentityServerBuilder"/>.</returns>
-        public static IIdentityServerBuilder AddIdentityResources(
-            this IIdentityServerBuilder builder) => builder.AddIdentityResources(configuration: null);
+        public static IIdentityServerBuilder AddIdentityResources(this IIdentityServerBuilder builder) => builder.AddIdentityResources(configuration: null);
 
         /// <summary>
         /// Adds identity resources from the given <paramref name="configuration"/> instance.
@@ -129,19 +118,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="builder">The <see cref="IIdentityServerBuilder"/>.</param>
         /// <param name="configuration">The <see cref="IConfiguration"/> instance containing the API definitions.</param>
         /// <returns>The <see cref="IIdentityServerBuilder"/>.</returns>
-        public static IIdentityServerBuilder AddIdentityResources(
-            this IIdentityServerBuilder builder,
-            IConfiguration configuration)
+        public static IIdentityServerBuilder AddIdentityResources(this IIdentityServerBuilder builder, IConfiguration configuration)
         {
             builder.ConfigureReplacedServices();
             builder.AddInMemoryIdentityResources(Enumerable.Empty<IdentityResource>());
-            builder.Services.TryAddEnumerable(
-                ServiceDescriptor.Singleton<IConfigureOptions<ApiAuthorizationOptions>, ConfigureIdentityResources>(sp =>
-                {
-                    var logger = sp.GetRequiredService<ILogger<ConfigureIdentityResources>>();
-                    var effectiveConfig = configuration ?? sp.GetRequiredService<IConfiguration>().GetSection("IdentityServer:Identity");
-                    return new ConfigureIdentityResources(effectiveConfig, logger);
-                }));
+            builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IConfigureOptions<ApiAuthorizationOptions>, ConfigureIdentityResources>(sp =>
+            {
+                var logger = sp.GetRequiredService<ILogger<ConfigureIdentityResources>>();
+                var effectiveConfig = configuration ?? sp.GetRequiredService<IConfiguration>().GetSection("IdentityServer:Identity");
+                return new ConfigureIdentityResources(effectiveConfig, logger);
+            }));
 
             // We take over the setup for the identity resources as Identity Server registers the enumerable as a singleton
             // and that prevents normal composition.
@@ -160,8 +146,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="builder">The <see cref="IIdentityServerBuilder"/>.</param>
         /// <returns>The <see cref="IIdentityServerBuilder"/>.</returns>
-        public static IIdentityServerBuilder AddClients(
-            this IIdentityServerBuilder builder) => builder.AddClients(configuration: null);
+        public static IIdentityServerBuilder AddClients(this IIdentityServerBuilder builder) => builder.AddClients(configuration: null);
 
         /// <summary>
         /// Adds clients from the given <paramref name="configuration"/> instance.
@@ -169,23 +154,18 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="builder">The <see cref="IIdentityServerBuilder"/>.</param>
         /// <param name="configuration">The <see cref="IConfiguration"/> instance containing the client definitions.</param>
         /// <returns>The <see cref="IIdentityServerBuilder"/>.</returns>
-        public static IIdentityServerBuilder AddClients(
-            this IIdentityServerBuilder builder,
-            IConfiguration configuration)
+        public static IIdentityServerBuilder AddClients(this IIdentityServerBuilder builder, IConfiguration configuration)
         {
             builder.ConfigureReplacedServices();
             builder.AddInMemoryClients(Enumerable.Empty<Client>());
 
-            builder.Services.TryAddEnumerable(
-                ServiceDescriptor.Singleton<IPostConfigureOptions<ApiAuthorizationOptions>, ConfigureClientScopes>());
-
-            builder.Services.TryAddEnumerable(
-                ServiceDescriptor.Singleton<IConfigureOptions<ApiAuthorizationOptions>, ConfigureClients>(sp =>
-                 {
-                     var logger = sp.GetRequiredService<ILogger<ConfigureClients>>();
-                     var effectiveConfig = configuration ?? sp.GetRequiredService<IConfiguration>().GetSection("IdentityServer:Clients");
-                     return new ConfigureClients(effectiveConfig, logger);
-                 }));
+            builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureOptions<ApiAuthorizationOptions>, ConfigureClientScopes>());
+            builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IConfigureOptions<ApiAuthorizationOptions>, ConfigureClients>(sp =>
+            {
+                var logger = sp.GetRequiredService<ILogger<ConfigureClients>>();
+                var effectiveConfig = configuration ?? sp.GetRequiredService<IConfiguration>().GetSection("IdentityServer:Clients");
+                return new ConfigureClients(effectiveConfig, logger);
+            }));
 
             // We take over the setup for the clients as Identity Server registers the enumerable as a singleton and that prevents normal composition.
             builder.Services.AddSingleton<IEnumerable<Client>>(sp =>
@@ -203,8 +183,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="builder">The <see cref="IIdentityServerBuilder"/>.</param>
         /// <returns>The <see cref="IIdentityServerBuilder"/>.</returns>
-        public static IIdentityServerBuilder AddSigningCredentials(
-            this IIdentityServerBuilder builder) => builder.AddSigningCredentials(configuration: null);
+        public static IIdentityServerBuilder AddSigningCredentials(this IIdentityServerBuilder builder) => builder.AddSigningCredentials(configuration: null);
 
         /// <summary>
         /// Adds a signing key from the given <paramref name="configuration"/> instance.
@@ -212,18 +191,15 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="builder">The <see cref="IIdentityServerBuilder"/>.</param>
         /// <param name="configuration">The <see cref="IConfiguration"/>.</param>
         /// <returns>The <see cref="IIdentityServerBuilder"/>.</returns>
-        public static IIdentityServerBuilder AddSigningCredentials(
-            this IIdentityServerBuilder builder,
-            IConfiguration configuration)
+        public static IIdentityServerBuilder AddSigningCredentials(this IIdentityServerBuilder builder, IConfiguration configuration)
         {
             builder.ConfigureReplacedServices();
-            builder.Services.TryAddEnumerable(
-                ServiceDescriptor.Singleton<IConfigureOptions<ApiAuthorizationOptions>, ConfigureSigningCredentials>(sp =>
-                {
-                    var logger = sp.GetRequiredService<ILogger<ConfigureSigningCredentials>>();
-                    var effectiveConfig = configuration ?? sp.GetRequiredService<IConfiguration>().GetSection("IdentityServer:Key");
-                    return new ConfigureSigningCredentials(effectiveConfig, logger);
-                }));
+            builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IConfigureOptions<ApiAuthorizationOptions>, ConfigureSigningCredentials>(sp =>
+            {
+                var logger = sp.GetRequiredService<ILogger<ConfigureSigningCredentials>>();
+                var effectiveConfig = configuration ?? sp.GetRequiredService<IConfiguration>().GetSection("IdentityServer:Key");
+                return new ConfigureSigningCredentials(effectiveConfig, logger);
+            }));
 
             // We take over the setup for the credentials store as Identity Server registers a singleton
             builder.Services.AddSingleton<ISigningCredentialStore>(sp =>
@@ -258,12 +234,12 @@ namespace Microsoft.Extensions.DependencyInjection
             // We don't have a better way to replace the end session endpoint as far as we know other than looking the descriptor up
             // on the container and replacing the instance. This is due to the fact that we chain on AddIdentityServer which configures the
             // list of endpoints by default.
-            var endSessionEndpointDescriptor = builder.Services
-                            .Single(s => s.ImplementationInstance is Endpoint e &&
-                                    string.Equals(e.Name, "Endsession", StringComparison.OrdinalIgnoreCase) &&
-                                    string.Equals("/connect/endsession", e.Path, StringComparison.OrdinalIgnoreCase));
+            //var endSessionEndpointDescriptor = builder.Services
+            //                .Single(s => s.ImplementationInstance is Endpoint e &&
+            //                        string.Equals(e.Name, "Endsession", StringComparison.OrdinalIgnoreCase) &&
+            //                        string.Equals("/connect/endsession", e.Path, StringComparison.OrdinalIgnoreCase));
 
-            builder.Services.Remove(endSessionEndpointDescriptor);
+            //builder.Services.Remove(endSessionEndpointDescriptor);
             //builder.AddEndpoint<AutoRedirectEndSessionEndpoint>("EndSession", "/connect/endsession");
         }
     }

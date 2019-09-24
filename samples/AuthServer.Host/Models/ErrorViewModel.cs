@@ -1,6 +1,6 @@
 using System;
 
-namespace AuthorizationServer.Host.Models
+namespace Identity.Web.Models
 {
     public class ErrorViewModel
     {

@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace AuthorizationServer.Host
+namespace AuthServer.Host
 {
     public class Program
     {

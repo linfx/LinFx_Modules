@@ -1,7 +1,9 @@
-﻿using IdentityServer4.Models;
+﻿using IdentityModel;
+using IdentityServer4;
+using IdentityServer4.Models;
 using System.Collections.Generic;
 
-namespace AuthorizationServer.Host
+namespace AuthServer.Host
 {
     public static class Config
     {
@@ -18,7 +20,24 @@ namespace AuthorizationServer.Host
         {
             return new ApiResource[]
             {
-                new ApiResource("api1", "My API #1")
+                new ApiResource
+                {
+                    Name = "uhome",
+                    UserClaims =
+                    {
+                        JwtClaimTypes.Id,
+                        JwtClaimTypes.Name,
+                        JwtClaimTypes.Role,
+                        LinFx.Security.Claims.ClaimTypes.TenantId,
+                    },
+                    Scopes =
+                    {
+                        new Scope{ Name = "uhome" },
+                        new Scope{ Name = "uhome.rke" },
+                        new Scope{ Name = "uhome.o2o" },
+                        new Scope{ Name = "uhome.park" },
+                    }
+                }
             };
         }
 
@@ -26,59 +45,60 @@ namespace AuthorizationServer.Host
         {
             return new[]
             {
-                // client credentials flow client
                 new Client
                 {
-                    ClientId = "client",
-                    ClientName = "Client Credentials Client",
-
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets = { new Secret("123456`".Sha256()) },
-
-                    AllowedScopes = { "api1" }
-                },
-
-                // MVC client using hybrid flow
-                new Client
-                {
-                    ClientId = "mvc",
-                    ClientName = "MVC Client",
-
-                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
-                    ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
-
-                    RedirectUris = { "http://localhost:5001/signin-oidc" },
-                    FrontChannelLogoutUri = "http://localhost:5001/signout-oidc",
-                    PostLogoutRedirectUris = { "http://localhost:5001/signout-callback-oidc" },
-
-                    AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "api1" }
-                },
-
-                // SPA client using code flow + pkce
-                new Client
-                {
-                    ClientId = "spa",
-                    ClientName = "SPA Client",
-                    ClientUri = "http://identityserver.io",
-
-                    AllowedGrantTypes = GrantTypes.Code,
+                    ClientId = "uhome.web",
                     RequirePkce = true,
                     RequireClientSecret = false,
+                    RequireConsent = false,
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.OfflineAccess,
+                        "uhome", "uhome.rke", "uhome.o2o", "uhome.park"
+                    },
 
                     RedirectUris =
                     {
-                        "http://localhost:5002/index.html",
-                        "http://localhost:5002/callback.html",
-                        "http://localhost:5002/silent.html",
-                        "http://localhost:5002/popup.html",
+                        "http://10.0.1.222",
+                        "http://10.0.1.222/index.html",
+                        "http://10.0.1.222/callback.html",
+                        "http://10.0.1.222/silent.html",
+                        "http://10.0.1.222/popup.html",
                     },
+                    PostLogoutRedirectUris = { "http://10.0.1.222/index.html" },
+                    AllowedCorsOrigins = { "http://10.0.1.222" },
+                },
 
-                    PostLogoutRedirectUris = { "http://localhost:5002/index.html" },
-                    AllowedCorsOrigins = { "http://localhost:5002" },
+                new Client
+                {
+                    ClientId = "uhome.rke",
+                    ClientSecrets = { new Secret("123456".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.OfflineAccess,
+                        "uhome", "uhome.rke", "uhome.o2o", "uhome.park"
+                    }
+                },
 
-                    AllowedScopes = { "openid", "profile", "api1" }
-                }
+                new Client
+                {
+                    ClientId = "uhome.o2o",
+                    ClientSecrets = { new Secret("123456".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.OfflineAccess,
+                        "uhome", "uhome.rke", "uhome.o2o", "uhome.park"
+                    }
+                },
             };
         }
     }
