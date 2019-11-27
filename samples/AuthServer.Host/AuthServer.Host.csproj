@@ -19,7 +19,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\LinFx\src\LinFx\LinFx.csproj" />
 		<ProjectReference Include="..\..\src\identity\LinFx.Extensions.Identity.IdentityServer\LinFx.Extensions.Identity.IdentityServer.csproj" />
 	</ItemGroup>
 

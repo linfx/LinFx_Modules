@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LinFx.Extensions.Identity.EntityFrameworkCore
+namespace LinFx.Extensions.Identity.Data
 {
     public class IdentityDbContext : IdentityDbContext<IdentityUser, IdentityRole>
     {
@@ -28,17 +28,17 @@ namespace LinFx.Extensions.Identity.EntityFrameworkCore
         {
             base.OnModelCreating(builder);
 
+            ConfigureTable(builder);
+
             builder.Entity<TUser>(b =>
             {
-                b.Property(u => u.TenantId).HasMaxLength(32);
+                b.Property(u => u.Id).HasMaxLength(50);
             });
 
             builder.Entity<TRole>(b =>
             {
-                b.Property(u => u.TenantId).HasMaxLength(32);
+                b.Property(u => u.Id).HasMaxLength(50);
             });
-
-            ConfigureTable(builder);
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

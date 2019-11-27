@@ -1,4 +1,5 @@
-﻿using LinFx.Application.Models;
+﻿using LinFx.Application.Abstractions;
+using LinFx.Application.Models;
 using LinFx.Extensions.TenantManagement.Application;
 using LinFx.Extensions.TenantManagement.Application.Models;
 using Microsoft.AspNetCore.Mvc;

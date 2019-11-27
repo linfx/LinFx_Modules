@@ -24,7 +24,6 @@ namespace LinFx.Extensions.Identity.IdentityServer.Extensions
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="configuration"></param>
-        /// <param name="logger"></param>
         /// <returns></returns>
         public static IIdentityServerBuilder AddCustomSigningCredential(this IIdentityServerBuilder builder, IConfiguration configuration)
         {
@@ -140,7 +139,7 @@ namespace LinFx.Extensions.Identity.IdentityServer.Extensions
             return builder;
         }
 
-        internal static void AddTransientDecorator<TService, TImplementation>(this IServiceCollection services)
+        public static void AddTransientDecorator<TService, TImplementation>(this IServiceCollection services)
             where TService : class
             where TImplementation : class, TService
         {

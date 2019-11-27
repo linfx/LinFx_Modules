@@ -1,4 +1,4 @@
-﻿using LinFx.Extensions.TenantManagement.EntityFrameworkCore;
+﻿using LinFx.Extensions.TenantManagement.Data;
 using LinFx.Utils;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;

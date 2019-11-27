@@ -1,8 +1,8 @@
 ﻿using LinFx.Extensions.TenantManagement.Domain;
 using Microsoft.EntityFrameworkCore;
-using DbContext = LinFx.Extensions.EntityFrameworkCore.DbContext;
+using DbContext = LinFx.Data.DbContext;
 
-namespace LinFx.Extensions.TenantManagement.EntityFrameworkCore
+namespace LinFx.Extensions.TenantManagement.Data
 {
     public class TenantManagementDbContext : DbContext
     {
@@ -17,10 +17,7 @@ namespace LinFx.Extensions.TenantManagement.EntityFrameworkCore
             builder.Entity<Tenant>(b =>
             {
                 b.HasKey(p => p.Id);
-                b.Property(p => p.Id).HasMaxLength(32);
-                b.Property(p => p.CreatorId).HasMaxLength(32);
-                b.Property(p => p.LastModifierId).HasMaxLength(32);
-                b.Property(p => p.DeleterId).HasMaxLength(32);
+                b.Property(p => p.Id).HasMaxLength(50);
             });
         }
     }

@@ -1,5 +1,5 @@
 ﻿using LinFx.Extensions.MultiTenancy;
-using LinFx.Extensions.TenantManagement.EntityFrameworkCore;
+using LinFx.Extensions.TenantManagement.Data;
 using System.Threading.Tasks;
 
 namespace LinFx.Extensions.TenantManagement.Domain

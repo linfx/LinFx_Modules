@@ -1,6 +1,6 @@
 ﻿using LinFx.Application.Models;
 using LinFx.Extensions.Identity.Application.Models;
-using LinFx.Extensions.Identity.EntityFrameworkCore;
+using LinFx.Extensions.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace LinFx.Extensions.Identity.Application
                 .WhereIf(!input.Filter.IsNullOrWhiteSpace(), u =>
                         u.UserName.Contains(input.Filter) ||
                         u.Email.Contains(input.Filter))
-                //.OrderBy(input.Sorting)
+                .OrderBy(input.Sorting)
                 .PageBy(input)
                 .ToListAsync();
 

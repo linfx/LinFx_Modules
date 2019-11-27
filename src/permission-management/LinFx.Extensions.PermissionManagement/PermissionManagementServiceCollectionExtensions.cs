@@ -1,7 +1,6 @@
 ﻿using LinFx.Extensions.PermissionManagement;
 using LinFx.Extensions.PermissionManagement.Application;
 using LinFx.Security.Authorization.Permissions;
-using Microsoft.AspNetCore.Http;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

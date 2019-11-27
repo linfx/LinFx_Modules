@@ -11,7 +11,7 @@ namespace LinFx.Extensions.Identity.HttpApi
     /// </summary>
     [ApiController]
     [Route("api/identity/[controller]")]
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
         private readonly IdentityUserService _userService;
 

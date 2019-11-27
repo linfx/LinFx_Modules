@@ -29,6 +29,7 @@ namespace LinFx.Extensions.Identity.Domain
         /// <summary>
         /// 租户ID
         /// </summary>
+        [StringLength(50)]
         public string TenantId { set; get; }
 
         /// <summary>
@@ -40,11 +41,13 @@ namespace LinFx.Extensions.Identity.Domain
         /// <summary>
         /// 创建者
         /// </summary>
+        [StringLength(50)]
         public string CreatorId { get; set; }
 
         /// <summary>
         /// 最后修改者
         /// </summary>
+        [StringLength(50)]
         public string LastModifierId { get; set; }
 
         /// <summary>
@@ -65,6 +68,7 @@ namespace LinFx.Extensions.Identity.Domain
         /// <summary>
         /// 删除者
         /// </summary>
+        [StringLength(50)]
         public string DeleterId { get; set; }
 
         /// <summary>

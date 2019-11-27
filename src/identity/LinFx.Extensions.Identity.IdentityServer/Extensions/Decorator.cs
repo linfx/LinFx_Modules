@@ -2,7 +2,7 @@
 
 namespace LinFx.Extensions.IdentityServer.AspNetIdentity
 {
-    internal class Decorator<TService>
+    public class Decorator<TService>
     {
         public TService Instance { get; set; }
 
@@ -12,15 +12,14 @@ namespace LinFx.Extensions.IdentityServer.AspNetIdentity
         }
     }
 
-    internal class Decorator<TService, TImpl> : Decorator<TService>
-        where TImpl : class, TService
+    public class Decorator<TService, TImpl> : Decorator<TService> where TImpl : class, TService
     {
         public Decorator(TImpl instance) : base(instance)
         {
         }
     }
 
-    internal class DisposableDecorator<TService> : Decorator<TService>, IDisposable
+    public class DisposableDecorator<TService> : Decorator<TService>, IDisposable
     {
         public DisposableDecorator(TService instance) : base(instance)
         {

@@ -12,7 +12,7 @@ namespace LinFx.Extensions.Identity.HttpApi
     /// </summary>
     [ApiController]
     [Route("api/identity/[controller]")]
-    public class RoleController : Controller
+    public class RoleController : ControllerBase
     {
         private readonly IdentityRoleService<IdentityRole> _roleService;
 

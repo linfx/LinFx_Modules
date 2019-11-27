@@ -1,4 +1,4 @@
-﻿namespace LinFx.Extensions.Identity.EntityFrameworkCore
+﻿namespace LinFx.Extensions.Identity.Data
 {
     public static class TableConsts
     {

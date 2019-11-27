@@ -1,18 +1,17 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using IdentityModel;
+﻿using IdentityModel;
 using LinFx.Extensions.MultiTenancy;
+using Microsoft.AspNetCore.Identity;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace LinFx.Extensions.IdentityServer.AspNetIdentity
 {
-    internal class UserClaimsFactory<TUser> : IUserClaimsPrincipalFactory<TUser>
+    public class UserClaimsFactory<TUser> : IUserClaimsPrincipalFactory<TUser>
         where TUser : class
     {
-        private readonly Decorator<IUserClaimsPrincipalFactory<TUser>> _inner;
-        private UserManager<TUser> _userManager;
+        protected readonly Decorator<IUserClaimsPrincipalFactory<TUser>> _inner;
+        protected UserManager<TUser> _userManager;
 
         public UserClaimsFactory(Decorator<IUserClaimsPrincipalFactory<TUser>> inner, UserManager<TUser> userManager)
         {
@@ -20,7 +19,7 @@ namespace LinFx.Extensions.IdentityServer.AspNetIdentity
             _userManager = userManager;
         }
 
-        public async Task<ClaimsPrincipal> CreateAsync(TUser user)
+        public virtual async Task<ClaimsPrincipal> CreateAsync(TUser user)
         {
             var principal = await _inner.Instance.CreateAsync(user);
             var identity = principal.Identities.First();
@@ -39,7 +38,7 @@ namespace LinFx.Extensions.IdentityServer.AspNetIdentity
                 identity.AddClaim(new Claim(JwtClaimTypes.PreferredUserName, username));
             }
 
-            if (!identity.HasClaim(x=>x.Type == JwtClaimTypes.Name))
+            if (!identity.HasClaim(x => x.Type == JwtClaimTypes.Name))
             {
                 identity.AddClaim(new Claim(JwtClaimTypes.Name, username));
             }
