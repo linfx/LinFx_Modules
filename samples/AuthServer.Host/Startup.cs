@@ -1,12 +1,12 @@
-﻿using IdentityServer4.EntityFramework.DbContexts;
+﻿using AuthServer.Host.Helpers;
+using IdentityServer4.EntityFramework.DbContexts;
+using LinFx.Extensions.Identity.Data;
 using LinFx.Extensions.Identity.Domain;
-using LinFx.Extensions.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using AuthServer.Host.Helpers;
 
 namespace AuthServer.Host
 {
@@ -34,7 +34,7 @@ namespace AuthServer.Host
                 .AddEmail(options =>
                 {
                     options.Host = "133";
-                    options.Login = "admin";
+                    //options.Login = "admin";
                     options.Password = "123456";
                 });
 

@@ -1,4 +1,4 @@
-﻿using LinFx.Extensions.PermissionManagement.EntityFrameworkCore;
+﻿using LinFx.Extensions.PermissionManagement.Data;
 using LinFx.Security.Authorization.Permissions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;

@@ -39,5 +39,10 @@ namespace AuthServer.Host.Services
                 _logger.LogError($"Response with code {response.StatusCode} and body {errorMessage} after sending email: {email}, subject: {subject}");
             }
         }
+
+        public Task SendEmailAsync(string email, string subject, string message, bool isHtml = false)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

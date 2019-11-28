@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using DbContext = LinFx.Data.DbContext;
 
-namespace LinFx.Extensions.PermissionManagement.EntityFrameworkCore
+namespace LinFx.Extensions.PermissionManagement.Data
 {
-    public class PermissionManagementDbContext : Extensions.EntityFrameworkCore.DbContext
+    public class PermissionManagementDbContext : DbContext
     {
         public PermissionManagementDbContext(DbContextOptions<PermissionManagementDbContext> options) : base(options) { }
 

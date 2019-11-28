@@ -10,5 +10,9 @@
     <PackageReference Include="LinFx" Version="4.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\LinFx\src\LinFx\LinFx.csproj" />
+  </ItemGroup>
   
 </Project>

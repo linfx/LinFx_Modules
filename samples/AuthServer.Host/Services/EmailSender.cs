@@ -19,5 +19,10 @@ namespace AuthServer.Host.Services
 
             return Task.FromResult(0);
         }
+
+        public Task SendEmailAsync(string email, string subject, string message, bool isHtml = false)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
