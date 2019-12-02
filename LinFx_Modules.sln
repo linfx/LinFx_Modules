@@ -5,33 +5,33 @@ VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{10EF18E9-13A3-4F79-9183-5DFC1AC405DD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Extensions.Blogging", "src\blogging\LinFx.Blogging\LinFx.Extensions.Blogging.csproj", "{4FA6D400-051D-4DEE-A456-8DB53EE58E4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Module.Blogging", "src\blogging\LinFx.Blogging\LinFx.Module.Blogging.csproj", "{4FA6D400-051D-4DEE-A456-8DB53EE58E4E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Identity.Web.Host", "samples\LinFx.Identity.Web.Host\LinFx.Identity.Web.Host.csproj", "{8D078A4D-9B16-488A-B782-0CB4929FD613}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Extensions.TenantManagement", "src\tenant-management\LinFx.Extensions.TenantManagement\LinFx.Extensions.TenantManagement.csproj", "{8C405ACC-4315-4093-BE11-887B5390695F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Module.TenantManagement", "src\tenant-management\LinFx.Extensions.TenantManagement\LinFx.Module.TenantManagement.csproj", "{8C405ACC-4315-4093-BE11-887B5390695F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Extensions.PermissionManagement", "src\permission-management\LinFx.Extensions.PermissionManagement\LinFx.Extensions.PermissionManagement.csproj", "{198CF534-93DB-4211-8ED1-7D0DE794C7AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Module.PermissionManagement", "src\permission-management\LinFx.Extensions.PermissionManagement\LinFx.Module.PermissionManagement.csproj", "{198CF534-93DB-4211-8ED1-7D0DE794C7AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Extensions.Identity", "src\identity\LinFx.Extensions.Identity\LinFx.Extensions.Identity.csproj", "{BC9CA94A-0823-40BD-B1DD-37305AFCD874}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Module.Identity", "src\identity\LinFx.Extensions.Identity\LinFx.Module.Identity.csproj", "{BC9CA94A-0823-40BD-B1DD-37305AFCD874}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityService.Host", "samples\IdentityService.Host\IdentityService.Host.csproj", "{7B782A78-BC3E-4F98-9BBF-12FC46E213BA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Extensions.PermissionManagement.HttpApi", "src\permission-management\LinFx.Extensions.PermissionManagement.HttpApi\LinFx.Extensions.PermissionManagement.HttpApi.csproj", "{0168F73E-F6E8-4D71-97D2-15CBE3FE6430}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Module.PermissionManagement.HttpApi", "src\permission-management\LinFx.Extensions.PermissionManagement.HttpApi\LinFx.Module.PermissionManagement.HttpApi.csproj", "{0168F73E-F6E8-4D71-97D2-15CBE3FE6430}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Extensions.Identity.HttpApi", "src\identity\LinFx.Extensions.Identity.HttpApi\LinFx.Extensions.Identity.HttpApi.csproj", "{0AF6E41A-EC1A-451D-8DBE-E82D0065F82E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Module.Identity.HttpApi", "src\identity\LinFx.Extensions.Identity.HttpApi\LinFx.Module.Identity.HttpApi.csproj", "{0AF6E41A-EC1A-451D-8DBE-E82D0065F82E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Extensions.TenantManagement.HttpApi", "src\tenant-management\LinFx.Extensions.TenantManagement.HttpApi\LinFx.Extensions.TenantManagement.HttpApi.csproj", "{0DDEDAF9-1D60-4352-AF59-47D3BD2FD74D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Module.TenantManagement.HttpApi", "src\tenant-management\LinFx.Extensions.TenantManagement.HttpApi\LinFx.Module.TenantManagement.HttpApi.csproj", "{0DDEDAF9-1D60-4352-AF59-47D3BD2FD74D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWeb.Host", "samples\SampleWeb.Host\SampleWeb.Host.csproj", "{35247CE5-9A86-41E0-9BBA-8B0E6AC6ED46}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Extensions.Identity.Web", "src\identity\LinFx.Extensions.Identity.Web\LinFx.Extensions.Identity.Web.csproj", "{0E310432-71AE-4E25-82B3-B4F1A4E3BA87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Module.Identity.Web", "src\identity\LinFx.Extensions.Identity.Web\LinFx.Module.Identity.Web.csproj", "{0E310432-71AE-4E25-82B3-B4F1A4E3BA87}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Extensions.Account.UI", "src\account\LinFx.Extensions.Account.UI\LinFx.Extensions.Account.UI.csproj", "{8F0EA478-10EC-4FD3-A7A8-5A8B64D5F921}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Module.Account.UI", "src\account\LinFx.Extensions.Account.UI\LinFx.Module.Account.UI.csproj", "{8F0EA478-10EC-4FD3-A7A8-5A8B64D5F921}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Extensions.Blogging.HttpApi", "src\blogging\LinFx.Extensions.Blogging.HttpApi\LinFx.Extensions.Blogging.HttpApi.csproj", "{E25E2F00-6BE2-47CF-8DF3-7328276A179F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Module.Blogging.HttpApi", "src\blogging\LinFx.Extensions.Blogging.HttpApi\LinFx.Module.Blogging.HttpApi.csproj", "{E25E2F00-6BE2-47CF-8DF3-7328276A179F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Extensions.Identity.IdentityServer", "src\identity\LinFx.Extensions.Identity.IdentityServer\LinFx.Extensions.Identity.IdentityServer.csproj", "{64C79845-9782-4020-B212-FCE078F39118}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx.Module.Identity.IdentityServer", "src\identity\LinFx.Extensions.Identity.IdentityServer\LinFx.Module.Identity.IdentityServer.csproj", "{64C79845-9782-4020-B212-FCE078F39118}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx", "..\LinFx\src\LinFx\LinFx.csproj", "{8E68BEBF-04EE-4B63-8927-DC3443993823}"
 EndProject

@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\identity\LinFx.Extensions.Identity.HttpApi\LinFx.Extensions.Identity.HttpApi.csproj" />
+    <ProjectReference Include="..\..\src\identity\LinFx.Extensions.Identity.HttpApi\LinFx.Module.Identity.HttpApi.csproj" />
   </ItemGroup>
 
 </Project>

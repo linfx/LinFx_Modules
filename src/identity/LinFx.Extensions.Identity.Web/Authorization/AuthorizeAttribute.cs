@@ -1,5 +1,5 @@
-﻿using LinFx.Extensions.Identity.Application;
-using LinFx.Extensions.Identity.Domain;
+﻿using LinFx.Module.Identity.Data;
+using LinFx.Module.Identity.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;

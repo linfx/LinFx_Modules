@@ -1,6 +1,6 @@
 ﻿using LinFx.Application.Models;
-using LinFx.Extensions.Identity.Application;
-using LinFx.Extensions.Identity.Application.Models;
+using LinFx.Module.Identity.Services;
+using LinFx.Module.Identity.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -26,7 +26,7 @@ namespace LinFx.Extensions.Identity.HttpApi
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet]
-        public virtual Task<PagedResult<IdentityUserDto>> GetListAsync(IdentityUserInput input)
+        public virtual Task<PagedResult<IdentityUserResult>> GetListAsync(IdentityUserInput input)
         {
             return _userService.GetListAsync(input);
         }
@@ -37,7 +37,7 @@ namespace LinFx.Extensions.Identity.HttpApi
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public virtual Task<IdentityUserDto> GetAsync(string id)
+        public virtual Task<IdentityUserResult> GetAsync(string id)
         {
             return _userService.GetAsync(id);
         }
@@ -48,7 +48,7 @@ namespace LinFx.Extensions.Identity.HttpApi
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public virtual Task<IdentityUserDto> CreateAsync(IdentityUserInput input)
+        public virtual Task<IdentityUserResult> CreateAsync(IdentityUserInput input)
         {
             return _userService.CreateAsync(input);
         }
@@ -60,7 +60,7 @@ namespace LinFx.Extensions.Identity.HttpApi
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public virtual Task<IdentityUserDto> UpdateAsync(string id, IdentityUserUpdateInput input)
+        public virtual Task<IdentityUserResult> UpdateAsync(string id, IdentityUserUpdateInput input)
         {
             return _userService.UpdateAsync(id, input);
         }

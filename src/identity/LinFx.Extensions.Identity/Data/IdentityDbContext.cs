@@ -1,12 +1,12 @@
 ﻿using LinFx.Extensions.Auditing;
-using LinFx.Extensions.Identity.Domain;
+using LinFx.Module.Identity.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LinFx.Extensions.Identity.Data
+namespace LinFx.Module.Identity.Data
 {
     public class IdentityDbContext : IdentityDbContext<IdentityUser, IdentityRole>
     {

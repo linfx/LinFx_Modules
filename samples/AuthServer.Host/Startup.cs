@@ -1,7 +1,7 @@
 ﻿using AuthServer.Host.Helpers;
 using IdentityServer4.EntityFramework.DbContexts;
-using LinFx.Extensions.Identity.Data;
-using LinFx.Extensions.Identity.Domain;
+using LinFx.Module.Identity.Data;
+using LinFx.Module.Identity.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

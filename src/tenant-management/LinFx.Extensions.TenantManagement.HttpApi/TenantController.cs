@@ -1,10 +1,10 @@
 ﻿using LinFx.Application.Models;
-using LinFx.Extensions.TenantManagement.Application;
-using LinFx.Extensions.TenantManagement.Application.Models;
+using LinFx.Module.TenantManagement.Services;
+using LinFx.Module.TenantManagement.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace LinFx.Extensions.TenantManagement.HttpApi
+namespace LinFx.Module.TenantManagement.HttpApi
 {
     /// <summary>
     /// 租户Api
@@ -26,7 +26,7 @@ namespace LinFx.Extensions.TenantManagement.HttpApi
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet]
-        public virtual Task<PagedResult<TenantDto>> GetListAsync(TenantInput input)
+        public virtual Task<PagedResult<TenantResult>> GetListAsync(TenantInput input)
         {
             return _service.GetListAsync(input);
         }
@@ -37,7 +37,7 @@ namespace LinFx.Extensions.TenantManagement.HttpApi
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public virtual Task<TenantDto> GetAsync(string id)
+        public virtual Task<TenantResult> GetAsync(string id)
         {
             return _service.GetAsync(id);
         }
@@ -48,7 +48,7 @@ namespace LinFx.Extensions.TenantManagement.HttpApi
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public virtual Task<TenantDto> CreateAsync(TenantCreateInput input)
+        public virtual Task<TenantResult> CreateAsync(TenantCreateInput input)
         {
             return _service.CreateAsync(input);
         }
@@ -60,7 +60,7 @@ namespace LinFx.Extensions.TenantManagement.HttpApi
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public virtual Task<TenantDto> UpdateAsync(string id, TenantUpdateInput input)
+        public virtual Task<TenantResult> UpdateAsync(string id, TenantUpdateInput input)
         {
             return _service.UpdateAsync(id, input);
         }

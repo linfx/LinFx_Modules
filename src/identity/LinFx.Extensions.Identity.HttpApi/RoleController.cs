@@ -1,7 +1,7 @@
 ﻿using LinFx.Application.Models;
-using LinFx.Extensions.Identity.Application;
-using LinFx.Extensions.Identity.Application.Models;
-using LinFx.Extensions.Identity.Domain;
+using LinFx.Module.Identity.Models;
+using LinFx.Module.Identity.Services;
+using LinFx.Module.Identity.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -27,7 +27,7 @@ namespace LinFx.Extensions.Identity.HttpApi
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet]
-        public virtual Task<PagedResult<IdentityRoleDto>> GetListAsync(IdentityRoleInput input)
+        public virtual Task<PagedResult<IdentityRoleResult>> GetListAsync(IdentityRoleInput input)
         {
             return _roleService.GetList(input);
         }
@@ -38,7 +38,7 @@ namespace LinFx.Extensions.Identity.HttpApi
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public virtual async Task<IdentityRoleDto> GetAsync(string id)
+        public virtual async Task<IdentityRoleResult> GetAsync(string id)
         {
             return await _roleService.GetAsync(id);
         }
@@ -49,7 +49,7 @@ namespace LinFx.Extensions.Identity.HttpApi
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public virtual Task<IdentityUserDto> CreateAsync(IdentityUserInput input)
+        public virtual Task<IdentityUserResult> CreateAsync(IdentityUserInput input)
         {
             return _roleService.CreateAsync(input);
         }
@@ -61,7 +61,7 @@ namespace LinFx.Extensions.Identity.HttpApi
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public virtual Task<IdentityRoleDto> UpdateAsync(string id, IdentityRoleUpdateInput input)
+        public virtual Task<IdentityRoleResult> UpdateAsync(string id, IdentityRoleUpdateInput input)
         {
             return _roleService.UpdateAsync(id, input);
         }
