@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\permission-management\LinFx.Extensions.PermissionManagement\LinFx.Module.PermissionManagement.csproj" />
-    <ProjectReference Include="..\LinFx.Extensions.Identity.IdentityServer\LinFx.Module.Identity.IdentityServer.csproj" />
   </ItemGroup>
 
 </Project>
