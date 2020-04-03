@@ -1,6 +1,6 @@
 ﻿using LinFx.Application.Models;
-using LinFx.Module.Identity.Models;
-using LinFx.Module.Identity.Services;
+using LinFx.Extensions.Identity.Models;
+using LinFx.Extensions.Identity.Services;
 using LinFx.Module.Identity.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -14,9 +14,9 @@ namespace LinFx.Extensions.Identity.HttpApi
     [Route("api/identity/[controller]")]
     public class RoleController : ControllerBase
     {
-        private readonly IdentityRoleService<IdentityRole> _roleService;
+        private readonly RoleService<Role> _roleService;
 
-        public RoleController(IdentityRoleService<IdentityRole> roleService)
+        public RoleController(RoleService<Role> roleService)
         {
             _roleService = roleService;
         }

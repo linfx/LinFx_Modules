@@ -1,4 +1,6 @@
-using LinFx.Extensions.Identity.Application;
+using LinFx.Extensions.Identity.Models;
+using LinFx.Extensions.Identity.Permissions;
+using LinFx.Extensions.Identity.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,29 +14,29 @@ namespace LinFx.Extensions.Identity.UI.Pages.Identity.Users
     [Authorize(IdentityPermissions.Users.Default)]
     public class IndexModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ApplicationUserService _applicationUserService;
+        private readonly UserManager<User> _userManager;
+        private readonly UserService _userService;
         private readonly ILogger<IndexModel> _logger;
 
         public IndexModel(
-            UserManager<ApplicationUser> userManager,
-            ApplicationUserService applicationUserService,
+            UserManager<User> userManager,
+            UserService userService,
             ILogger<IndexModel> logger)
         {
             _userManager = userManager;
-            _applicationUserService = applicationUserService;
+            _userService = userService;
             _logger = logger;
         }
 
         public string ReturnUrl { get; set; }
 
         [BindProperty]
-        public ICollection<ApplicationUser> Items { get; set; }
+        public ICollection<User> Items { get; set; }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            Items = await _applicationUserService.GetListAsync();
+            //Items = await _userService.GetListAsync();
         }
     }
 }

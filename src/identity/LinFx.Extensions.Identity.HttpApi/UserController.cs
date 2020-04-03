@@ -1,5 +1,5 @@
 ﻿using LinFx.Application.Models;
-using LinFx.Module.Identity.Services;
+using LinFx.Extensions.Identity.Services;
 using LinFx.Module.Identity.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -13,9 +13,9 @@ namespace LinFx.Extensions.Identity.HttpApi
     [Route("api/identity/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IdentityUserService _userService;
+        private readonly UserService _userService;
 
-        public UserController(IdentityUserService userService)
+        public UserController(UserService userService)
         {
             _userService = userService;
         }

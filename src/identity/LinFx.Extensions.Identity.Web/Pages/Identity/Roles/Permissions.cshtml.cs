@@ -1,26 +1,24 @@
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using LinFx.Extensions.Identity.Application;
-using LinFx.Extensions.Identity.Domain.Models;
+using LinFx.Extensions.Identity.Models;
 using LinFx.Security.Authorization.Permissions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LinFx.Extensions.Identity.UI.Pages.Identity.Roles
 {
     public class PermissionsModel : PageModel
     {
-        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly ILogger<PermissionsModel> _logger;
         private readonly IPermissionDefinitionManager _permissionDefinitionManager;
 
         public PermissionsModel(
-            RoleManager<ApplicationRole> roleManager,
+            RoleManager<Role> roleManager,
             ILogger<PermissionsModel> logger,
             IPermissionDefinitionManager permissionDefinitionManager)
         {
@@ -89,7 +87,7 @@ namespace LinFx.Extensions.Identity.UI.Pages.Identity.Roles
 
             public string DisplayName { get; set; }
 
-            public List<PermissionGrantModel> Permissions { get; set; } 
+            public List<PermissionGrantModel> Permissions { get; set; }
         }
 
         public class PermissionGrantModel

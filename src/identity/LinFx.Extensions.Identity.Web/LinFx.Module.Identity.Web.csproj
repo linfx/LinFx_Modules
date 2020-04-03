@@ -12,15 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\**" />
-    <Compile Remove="Pages\**" />
-    <EmbeddedResource Remove="Controllers\**" />
-    <EmbeddedResource Remove="Pages\**" />
-    <None Remove="Controllers\**" />
-    <None Remove="Pages\**" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\LinFx\src\LinFx.Extensions.Identity\LinFx.Extensions.Identity.csproj" />
     <ProjectReference Include="..\..\permission-management\LinFx.Extensions.PermissionManagement\LinFx.Module.PermissionManagement.csproj" />
   </ItemGroup>
 

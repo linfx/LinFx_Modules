@@ -1,20 +1,20 @@
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using LinFx.Extensions.Identity.Domain.Models;
+using LinFx.Extensions.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace LinFx.Extensions.Identity.UI.Pages.Identity.Roles
 {
     public class EditModel : PageModel
     {
-        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly ILogger<EditModel> _logger;
 
         public EditModel(
-            RoleManager<ApplicationRole> roleManager,
+            RoleManager<Role> roleManager,
             ILogger<EditModel> logger)
         {
             _roleManager = roleManager;
@@ -53,7 +53,7 @@ namespace LinFx.Extensions.Identity.UI.Pages.Identity.Roles
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl ??= Url.Content("~/");
             if (ModelState.IsValid)
             {
                 var roleToUpdate = await _roleManager.FindByIdAsync(Input.Id);

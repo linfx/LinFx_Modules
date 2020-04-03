@@ -1,20 +1,20 @@
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using LinFx.Extensions.Identity.Domain.Models;
+using LinFx.Extensions.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace LinFx.Extensions.Identity.UI.Pages.Identity.Roles
 {
     public class CreateModel : PageModel
     {
-        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly ILogger<CreateModel> _logger;
 
         public CreateModel(
-            RoleManager<ApplicationRole> roleManager,
+            RoleManager<Role> roleManager,
             ILogger<CreateModel> logger)
         {
             _roleManager = roleManager;
@@ -41,10 +41,10 @@ namespace LinFx.Extensions.Identity.UI.Pages.Identity.Roles
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/Identity/Roles");
+            returnUrl ??= Url.Content("~/Identity/Roles");
             if (ModelState.IsValid)
             {
-                var role = new ApplicationRole
+                var role = new Role
                 {
                     Name = Input.Name
                 };

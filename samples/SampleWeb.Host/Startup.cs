@@ -1,7 +1,4 @@
-using LinFx.Extensions.Identity.EntityFrameworkCore;
-using LinFx.Extensions.PermissionManagement.EntityFrameworkCore;
-using LinFx.Extensions.TenantManagement.EntityFrameworkCore;
-using LinFx.Extensions.UI.Navigation;
+using LinFx.Extensions.Identity.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using SampleWeb.Host.Menus;
 
 namespace SampleWeb.Host
 {
@@ -27,23 +25,52 @@ namespace SampleWeb.Host
             services.AddDbContext<IdentityDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDbContext<PermissionManagementDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<PermissionManagementDbContext>(options =>
+            //    options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDbContext<TenantManagementDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<TenantManagementDbContext>(options =>
+            //    options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddLinFxIdentity();
-            services.AddLinFxPermissionManagement();
-            services.AddLinFxTenantManagement();
 
-            //Menus
-            services.AddSingleton<IMenuManager, MenuManager>();
-            services.Configure<NavigationOptions>(o =>
-            {
-                o.MenuContributors.Add(new Menus());
-                o.MenuContributors.Add(new SampleWeb2MenuContributor());
-            });
+            ////Identity
+            //services.AddIdentityCore<User>()
+            //     .AddRoles<Role>()
+            //     .AddEntityFrameworkStores<IdentityDbContext>()
+            //     .AddSignInManager()
+            //    .AddDefaultTokenProviders();
+
+            services.AddLinFx()
+                .AddHttpContextPrincipalAccessor()
+                .AddNavigation(options =>
+                {
+                    options.MenuContributors.Add(new IdentityMenuContributor());
+                    options.MenuContributors.Add(new Identity2MenuContributor());
+                });
+
+            ////Permissions
+            //services.AddSingleton<IdentityPermissionDefinitionProvider>();
+
+            //services.AddLinFx()
+            //    .AddAuthorization(o =>
+            //    {
+            //        o.Permissions.DefinitionProviders.Add<IdentityPermissionDefinitionProvider>();
+            //    });
+
+            ////хож╓
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultScheme = IdentityConstants.ApplicationScheme;
+            //    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+            //})
+            //.AddIdentityCookies(options => { });
+
+            //services.AddControllersWithViews()
+            //    .AddMvcLocalization()
+            //    .AddApplicationPart(Assembly.Load("LinFx.Module.Account.UI"))
+            //    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
+
+            services.AddControllersWithViews();
+            services.AddRazorPages();
 
             services.AddSwaggerGen(options =>
             {
@@ -51,9 +78,6 @@ namespace SampleWeb.Host
                 options.DocInclusionPredicate((docName, description) => true);
                 options.CustomSchemaIds(type => type.FullName);
             });
-
-            services.AddControllersWithViews();
-            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,9 +96,7 @@ namespace SampleWeb.Host
 
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.UseSwagger();

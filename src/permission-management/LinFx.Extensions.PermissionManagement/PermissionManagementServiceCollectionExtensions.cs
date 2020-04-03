@@ -6,7 +6,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class PermissionManagementServiceCollectionExtensions
     {
-        public static IServiceCollection AddLinFxPermissionManagement(this IServiceCollection services)
+        public static IServiceCollection AddPermissionManagement(this IServiceCollection services)
         {
             services.AddTransient<IPermissionService, PermissionService>();
             services.AddSingleton<PermissionManager>();

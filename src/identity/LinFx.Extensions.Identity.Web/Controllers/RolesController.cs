@@ -1,5 +1,5 @@
 ﻿using LinFx.Extensions.Identity.Authorization;
-using LinFx.Extensions.Identity.Web.Models.ManageViewModels;
+using LinFx.Extensions.Identity.Models;
 using LinFx.Security.Authorization.Permissions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,13 +16,13 @@ namespace Identity.Web.Controllers
     [Authorize]
     public class RolesController : Controller
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<Role> _roleManager;
+        private readonly UserManager<User> _userManager;
         private readonly IPermissionDefinitionManager _permissionDefinitionManager;
 
         public RolesController(
-            RoleManager<IdentityRole> roleManager,
-            UserManager<IdentityUser> userManager,
+            RoleManager<Role> roleManager,
+            UserManager<User> userManager,
             IPermissionDefinitionManager permissionDefinitionManager)
         {
             _roleManager = roleManager;
@@ -62,43 +62,43 @@ namespace Identity.Web.Controllers
             return View();
         }
 
-        /// <summary>
-        /// 创建
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ApplicationRoleViewModel input)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var role = new IdentityRole();
+        ///// <summary>
+        ///// 创建
+        ///// </summary>
+        ///// <param name="input"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create(RoleViewModel input)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            var role = new IdentityRole();
 
-                    if (await TryUpdateModelAsync(role))
-                    {
+        //            if (await TryUpdateModelAsync(role))
+        //            {
 
-                        var result = await _roleManager.CreateAsync(role);
-                        if (result.Succeeded)
-                        {
-                            return RedirectToAction(nameof(Index));
-                        }
-                        foreach (var error in result.Errors)
-                        {
-                            ModelState.AddModelError(string.Empty, error.Description);
-                        }
-                    }
-                }
+        //                var result = await _roleManager.CreateAsync(role);
+        //                if (result.Succeeded)
+        //                {
+        //                    return RedirectToAction(nameof(Index));
+        //                }
+        //                foreach (var error in result.Errors)
+        //                {
+        //                    ModelState.AddModelError(string.Empty, error.Description);
+        //                }
+        //            }
+        //        }
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
         /// <summary>
         /// 修改
@@ -117,36 +117,36 @@ namespace Identity.Web.Controllers
             return View(model);
         }
 
-        /// <summary>
-        /// 修改
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, ApplicationRoleViewModel input)
-        {
-            if (ModelState.IsValid)
-            {
-                var roleToUpdate = await _roleManager.FindByIdAsync(id);
+        ///// <summary>
+        ///// 修改
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <param name="input"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(string id, ApplicationRoleViewModel input)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var roleToUpdate = await _roleManager.FindByIdAsync(id);
 
-                if (await TryUpdateModelAsync(roleToUpdate))
-                {
-                    await _roleManager.SetRoleNameAsync(roleToUpdate, input.Name);
-                    var result = await _roleManager.UpdateAsync(roleToUpdate);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-                }
-            }
-            return View();
-        }
+        //        if (await TryUpdateModelAsync(roleToUpdate))
+        //        {
+        //            await _roleManager.SetRoleNameAsync(roleToUpdate, input.Name);
+        //            var result = await _roleManager.UpdateAsync(roleToUpdate);
+        //            if (result.Succeeded)
+        //            {
+        //                return RedirectToAction(nameof(Index));
+        //            }
+        //            foreach (var error in result.Errors)
+        //            {
+        //                ModelState.AddModelError(string.Empty, error.Description);
+        //            }
+        //        }
+        //    }
+        //    return View();
+        //}
 
         /// <summary>
         /// 删除
