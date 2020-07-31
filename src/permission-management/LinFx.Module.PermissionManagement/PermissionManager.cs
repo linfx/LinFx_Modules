@@ -1,5 +1,4 @@
-﻿using LinFx.Extensions.MultiTenancy;
-using LinFx.Security.Authorization.Permissions;
+﻿using LinFx.Extensions.Authorization.Permissions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
@@ -9,9 +8,15 @@ using System.Threading.Tasks;
 
 namespace LinFx.Extensions.PermissionManagement
 {
+    /// <summary>
+    /// 权限管理器
+    /// </summary>
+    [Service(ServiceLifetime.Singleton)]
     public class PermissionManager
     {
         //protected IPermissionGrantRepository PermissionGrantRepository { get; }
+
+        private readonly Lazy<List<IPermissionManagementProvider>> _lazyProviders;
 
         protected IPermissionDefinitionManager PermissionDefinitionManager { get; }
 
@@ -19,7 +24,6 @@ namespace LinFx.Extensions.PermissionManagement
 
         protected IReadOnlyList<IPermissionManagementProvider> ManagementProviders => _lazyProviders.Value;
 
-        private readonly Lazy<List<IPermissionManagementProvider>> _lazyProviders;
 
         protected PermissionManagementOptions Options { get; }
 

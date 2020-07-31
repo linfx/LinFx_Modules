@@ -1,6 +1,6 @@
-﻿using LinFx.Extensions.PermissionManagement;
+﻿using LinFx.Extensions.Authorization.Permissions;
+using LinFx.Extensions.PermissionManagement;
 using LinFx.Extensions.PermissionManagement.Application;
-using LinFx.Security.Authorization.Permissions;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

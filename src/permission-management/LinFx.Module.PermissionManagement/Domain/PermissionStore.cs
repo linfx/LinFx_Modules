@@ -1,10 +1,10 @@
-﻿using LinFx.Extensions.PermissionManagement.Data;
-using LinFx.Security.Authorization.Permissions;
+﻿using LinFx.Extensions.Authorization.Permissions;
+using LinFx.Extensions.PermissionManagement.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Threading.Tasks;
 
-namespace LinFx.Extensions.PermissionManagement
+namespace LinFx.Extensions.PermissionManagement.Domain
 {
     public class PermissionStore : IPermissionStore
     {

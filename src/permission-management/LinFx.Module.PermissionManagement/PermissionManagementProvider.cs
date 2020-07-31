@@ -1,5 +1,6 @@
-﻿using LinFx.Extensions.MultiTenancy;
-using LinFx.Security.Authorization.Permissions;
+﻿using LinFx.Extensions.Authorization.Permissions;
+using LinFx.Extensions.MultiTenancy;
+using LinFx.Extensions.PermissionManagement.Domain;
 using LinFx.Utils;
 using System.Threading.Tasks;
 
@@ -30,9 +31,7 @@ namespace LinFx.Extensions.PermissionManagement
         public virtual async Task<PermissionValueProviderGrantInfo> CheckAsync(string name, string providerName, string providerKey)
         {
             if (providerName != Name)
-            {
                 return PermissionValueProviderGrantInfo.NonGranted;
-            }
 
             return new PermissionValueProviderGrantInfo(
                 await PermissionGrantRepository.FindAsync(name, providerName, providerKey) != null,
@@ -57,19 +56,9 @@ namespace LinFx.Extensions.PermissionManagement
         {
             var permissionGrant = await PermissionGrantRepository.FindAsync(name, Name, providerKey);
             if (permissionGrant != null)
-            {
                 return;
-            }
 
-            await PermissionGrantRepository.InsertAsync(
-                new PermissionGrant(
-                    IDUtils.NewId().ToString(),
-                    name,
-                    Name,
-                    providerKey,
-                    CurrentTenant.Id
-                )
-            );
+            await PermissionGrantRepository.InsertAsync(new PermissionGrant(IDUtils.NewId().ToString(), name, Name, providerKey, CurrentTenant.Id));
         }
 
         /// <summary>

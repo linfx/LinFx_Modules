@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\LinFx\src\LinFx.Extensions.Identity\LinFx.Extensions.Identity.csproj" />
-    <ProjectReference Include="..\..\permission-management\LinFx.Extensions.PermissionManagement\LinFx.Module.PermissionManagement.csproj" />
   </ItemGroup>
 
 </Project>

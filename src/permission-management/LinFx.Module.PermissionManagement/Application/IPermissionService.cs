@@ -1,7 +1,7 @@
 ﻿using LinFx.Extensions.PermissionManagement.Application.Models;
 using System.Threading.Tasks;
 
-namespace LinFx.Extensions.PermissionManagement
+namespace LinFx.Extensions.PermissionManagement.Application
 {
     public interface IPermissionService
     {

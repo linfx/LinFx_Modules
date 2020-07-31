@@ -1,9 +1,8 @@
-﻿using LinFx.Extensions.PermissionManagement.Application.Models;
+﻿using LinFx.Extensions.Authorization.Permissions;
+using LinFx.Extensions.PermissionManagement.Application.Models;
 using LinFx.Module.PermissionManagement.ViewModels;
-using LinFx.Security.Authorization.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

@@ -1,4 +1,5 @@
-﻿using LinFx.Extensions.PermissionManagement.Application.Models;
+﻿using LinFx.Extensions.PermissionManagement.Application;
+using LinFx.Extensions.PermissionManagement.Application.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace LinFx.Extensions.PermissionManagement.HttpApi
     /// 权限管理
     /// </summary>
     [ApiController]
-    [Route("api/permission/[controller]")]
+    [Route("api/permission")]
     public class PermissionController : ControllerBase
     {
         private readonly IPermissionService _permissionService;
