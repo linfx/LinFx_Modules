@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LinFx.Extensions.PermissionManagement.Domain
+namespace LinFx.Extensions.PermissionManagement
 {
     public class PermissionDataSeeder
     {
@@ -20,7 +20,7 @@ namespace LinFx.Extensions.PermissionManagement.Domain
                 if (await PermissionGrantRepository.FindAsync(permissionName, providerName, providerKey) != null)
                     continue;
 
-                await PermissionGrantRepository.InsertAsync(new PermissionGrant(IDUtils.NewId().ToString(), permissionName, providerName, providerKey, tenantId));
+                await PermissionGrantRepository.InsertAsync(new PermissionGrant(IDUtils.NewId(), permissionName, providerName, providerKey, tenantId));
             }
         }
     }

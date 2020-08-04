@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LinFx.Extensions.Identity.Permissions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SampleWeb.Host.Models;
 using System.Diagnostics;
@@ -28,6 +30,13 @@ namespace SampleWeb.Host.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpGet("update")]
+        [Authorize(IdentityPermissions.Roles.Update)]
+        public IActionResult Update()
+        {
+            return Ok("sucess");
         }
     }
 }

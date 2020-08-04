@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LinFx.Extensions.PermissionManagement.Domain
+namespace LinFx.Extensions.PermissionManagement
 {
+    /// <summary>
+    /// 权限授权仓储
+    /// </summary>
     public interface IPermissionGrantRepository
     {
         Task InsertAsync(PermissionGrant permissionGrant);

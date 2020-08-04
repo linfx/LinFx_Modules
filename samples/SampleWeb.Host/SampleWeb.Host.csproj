@@ -44,11 +44,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\LinFx\src\LinFx.Extensions.Identity\LinFx.Extensions.Identity.csproj" />
-    <ProjectReference Include="..\..\..\LinFx\src\LinFx\LinFx.csproj" />
-    <ProjectReference Include="..\..\src\account\LinFx.Extensions.Account.UI\LinFx.Module.Account.UI.csproj" />
-    <ProjectReference Include="..\..\src\identity\LinFx.Extensions.Identity.HttpApi\LinFx.Module.Identity.HttpApi.csproj" />
-    <ProjectReference Include="..\..\src\tenant-management\LinFx.Extensions.TenantManagement.HttpApi\LinFx.Module.TenantManagement.HttpApi.csproj" />
+    <ProjectReference Include="..\..\src\identity\LinFx.Extensions.Identity\LinFx.Extensions.Identity.csproj" />
+    <ProjectReference Include="..\..\src\permission-management\LinFx.Module.PermissionManagement\LinFx.Extensions.PermissionManagement.csproj" />
   </ItemGroup>
 
 </Project>

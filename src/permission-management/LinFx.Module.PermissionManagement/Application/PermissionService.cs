@@ -1,6 +1,5 @@
 ﻿using LinFx.Extensions.Authorization.Permissions;
 using LinFx.Extensions.PermissionManagement.Application.Models;
-using LinFx.Module.PermissionManagement.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;

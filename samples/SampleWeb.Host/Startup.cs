@@ -1,7 +1,5 @@
-using LinFx.Extensions.Identity.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,8 +20,8 @@ namespace SampleWeb.Host
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<IdentityDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<IdentityDbContext>(options =>
+            //    options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
             //services.AddDbContext<PermissionManagementDbContext>(options =>
             //    options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
@@ -41,6 +39,7 @@ namespace SampleWeb.Host
 
             services.AddLinFx()
                 .AddHttpContextPrincipalAccessor()
+                .AddAuthorization()
                 .AddNavigation(options =>
                 {
                     options.MenuContributors.Add(new IdentityMenuContributor());

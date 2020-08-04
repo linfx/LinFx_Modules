@@ -1,6 +1,5 @@
 ﻿using LinFx.Extensions.Authorization.Permissions;
 using LinFx.Extensions.MultiTenancy;
-using LinFx.Extensions.PermissionManagement.Domain;
 using LinFx.Utils;
 using System.Threading.Tasks;
 
@@ -13,6 +12,9 @@ namespace LinFx.Extensions.PermissionManagement
         /// </summary>
         public abstract string Name { get; }
 
+        /// <summary>
+        /// 权限授权仓储
+        /// </summary>
         protected IPermissionGrantRepository PermissionGrantRepository { get; }
 
         /// <summary>
@@ -58,7 +60,7 @@ namespace LinFx.Extensions.PermissionManagement
             if (permissionGrant != null)
                 return;
 
-            await PermissionGrantRepository.InsertAsync(new PermissionGrant(IDUtils.NewId().ToString(), name, Name, providerKey, CurrentTenant.Id));
+            await PermissionGrantRepository.InsertAsync(new PermissionGrant(IDUtils.NewId(), name, Name, providerKey, CurrentTenant.Id));
         }
 
         /// <summary>

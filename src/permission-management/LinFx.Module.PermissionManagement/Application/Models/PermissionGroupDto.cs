@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LinFx.Module.PermissionManagement.ViewModels
+namespace LinFx.Extensions.PermissionManagement.Application.Models
 {
     public class PermissionGroupDto
     {

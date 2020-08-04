@@ -40,13 +40,10 @@ namespace LinFx.Extensions.PermissionManagement
             PermissionDefinitionManager = permissionDefinitionManager;
             Options = options.Value;
 
-            _lazyProviders = new Lazy<List<IPermissionManagementProvider>>(
-                () => Options
+            _lazyProviders = new Lazy<List<IPermissionManagementProvider>>(() => Options
                     .ManagementProviders
                     .Select(c => serviceProvider.GetRequiredService(c) as IPermissionManagementProvider)
-                    .ToList(),
-                true
-            );
+                    .ToList(), true);
         }
 
         public async Task<PermissionWithGrantedProviders> GetAsync(string permissionName, string providerName, string providerKey)

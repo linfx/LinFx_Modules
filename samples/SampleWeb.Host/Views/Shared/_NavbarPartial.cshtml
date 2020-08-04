@@ -3,12 +3,11 @@
 @{
     var menus = await _menuManager.GetAllAsync();
 }
-
 <ul>
     @foreach (var menu in menus)
     {
         <li class="nav-item">
-            @menu.DisplayName 
+            @menu.DisplayName
             @if (!User.HasClaim(p => p.Value == menu.Name))
             {
                 <span>[没权限]</span>
@@ -26,7 +25,7 @@
                     {
                         <li>
                             <a class="nav-link text-dark" href="@item.Url">@item.DisplayName   [没权限]</a>
-                       
+
                         </li>
                     }
                 }
